@@ -2,7 +2,6 @@
 <!doctype html>
 <html lang="uk">
 <head>
-<base href="https://smm-ai-mariia-klepach.klepachmari.chatgpt.site/">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>МК SMM 1.0 · симулятор</title>
@@ -358,7 +357,8 @@ var CONFIG = {
   START: "",  // порожньо = проходити можна будь-коли (дні відкриваються по черзі після здачі)
   SUBMIT: [],  // заповнюється після підключення нового бота
   SYNC_URL: "https://script.google.com/macros/s/AKfycbyzfjeTMASVAqFFjNOp1K5sOrIgV8Y73qtJlAMMtpqTMhCtI9Id708eqyu1zTzlqWRp/exec",  // Google Apps Script: хмарне збереження прогресу
-AUTH_URL: "https://script.google.com/macros/s/AKfycbx5jFGBIu9YTLBq_9R3cW6q6XehW-njlVYl1IboLNjxMUUFjrhJ9RmVPUHkMX0Ta6nD/exec",  CHAT_URL: "https://t.me/smm_ai_mariia_klepach_bot?start=feedback",
+  AUTH_URL: "https://script.google.com/macros/s/AKfycbx5jFGBIu9YTLBq_9R3cW6q6XehW-njlVYl1IboLNjxMUUFjrhJ9RmVPUHkMX0Ta6nD/exec",  // підтвердження email кодом
+  CHAT_URL: "https://t.me/smm_ai_mariia_klepach_bot?start=feedback",
   MYLINK: "/simulator",  // буде замінено на посилання нового бота
   CALL_URL: "https://t.me/smm_ai_mariia_klepach_bot?start=feedback",
   ZOOM_TEXT: "Фінальний Zoom — дата і посилання надішле бот.",
@@ -1106,25 +1106,37 @@ function flushBeacon(){ if(!(S.key && syncOn() && SYNC.ready && SYNC.dirty)) ret
     }catch(e){}
     return null;
   }
- function api(payload){
-  var q = new URLSearchParams();
+  function api(payload){
+    var q = new URLSearchParams();
+    Object.keys(payload||{}).forEach(function(k){
+      if(payload[k]!==undefined && payload[k]!==null) q.set(k, String(payload[k]));
+    });
+    return fetch(CONFIG.AUTH_URL + "?" + q.toString() + "&t=" + Date.now(), {
+      method:"GET",
+      cache:"no-store"
+    }).then(function(r){return r.json();});
+  }
 
-  Object.keys(payload || {}).forEach(function(k){
-    if(payload[k] !== undefined && payload[k] !== null){
-      q.set(k, String(payload[k]));
+  var old=savedAuth();
+  if(old){
+    var em=normEmail(old.email);
+    if(typeof S!=="undefined" && S.key!==em){
+      /* Якщо це перша прив'язка старого локального прогресу — переносимо його на email.
+         Якщо на пристрої вже був інший персональний ключ — не змішуємо акаунти. */
+      var hadPersonalKey=!!S.key;
+      if(hadPersonalKey){
+        try{ flushBeacon(); }catch(e){}
+        S={name:"",track:"",about:"",f:{},done:{},view:"welcome"};
+        DF={}; try{ saveDF(); }catch(e){}
+      }
+      S.key=em; S.synced=false;
+      try{ STORE.setItem(KEY,JSON.stringify(S)); }catch(e){}
+      location.reload();
+      return;
     }
-  });
-
-  return fetch(
-    CONFIG.AUTH_URL + "?" + q.toString() + "&t=" + Date.now(),
-    {
-      method: "GET",
-      cache: "no-store"
-    }
-  ).then(function(r){
-    return r.json();
-  });
-}
+    gate.hidden=true;
+    return;
+  }
 
   gate.hidden=false;
   setTimeout(function(){emailEl.focus();},80);
