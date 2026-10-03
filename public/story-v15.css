@@ -1,0 +1,29 @@
+/* v15: more game-like rhythm without changing the established MK visual style. */
+.story-day{--day-accent:#d8ff72;position:relative}
+.story-day-2{--day-accent:#8ee7bf}.story-day-3{--day-accent:#ffd66e}.story-day-4{--day-accent:#8bd9f2}.story-day-5{--day-accent:#d8ff72}
+.story-daymark{display:grid;grid-template-columns:auto 1fr;gap:.9rem;align-items:center;margin:0 0 .35rem;padding:.9rem 1rem;border-radius:16px;background:#073b2b;color:#fff;border-left:8px solid var(--day-accent);box-shadow:0 10px 28px rgba(7,59,43,.13)}
+.story-daymark span{font-size:.78rem;font-weight:900;letter-spacing:.09em;color:var(--day-accent)}
+.story-daymark strong{font-size:1rem;line-height:1.35}
+.story-dayhead{border-bottom:1px solid #c5d9cb;margin-bottom:.75rem}
+.story-stagebar{border-left:5px solid var(--day-accent);box-shadow:0 7px 20px rgba(7,59,43,.07)}
+.story-screen{animation:storyReveal .28s ease-out both}
+.story-bubble{animation:bubbleIn .3s ease-out both}
+.story-bubble:nth-child(2){animation-delay:.06s}.story-bubble:nth-child(3){animation-delay:.12s}.story-bubble:nth-child(4){animation-delay:.18s}
+.story-answer-callout{padding:.9rem 1rem;border-radius:12px;background:#f3f8f4;border-left:4px solid #0a7750}
+.mc-choice-instruction{margin:0 0 .2rem!important;padding:.75rem .9rem;border-radius:12px;background:#fff7c9;color:#143f2a;font-size:.95rem!important}
+.mc-choice.right,.story-screen .mc-choice.right{background:#d8f8e7!important;border-color:#087852!important;color:#073b2b!important;box-shadow:inset 0 0 0 1px #087852}
+.mc-choice.wrong,.story-screen .mc-choice.wrong{background:#fff0e9!important;border-color:#b65132!important;color:#622611!important;box-shadow:inset 0 0 0 1px #b65132}
+.mc-choice.right::before{content:'✓ ';font-weight:900}.mc-choice.wrong::before{content:'× ';font-weight:900}
+.final-celebration{padding:2rem;border-radius:24px;background:linear-gradient(135deg,#073b2b,#0b6849);color:#fff;margin-bottom:1rem}
+.final-celebration p{color:#e4f4eb}.final-celebration .pill{background:#d8ff72;color:#173005}.final-celebration .gt{color:#d8ff72}
+.final-truth{border-top:7px solid #d8ff72}.final-skillgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.final-skillgrid article{padding:1.15rem;border-radius:15px;background:#edf7f0;border:1px solid #c1d9c9}.final-skillgrid b{color:#07513a}.final-skillgrid p{margin:.55rem 0 0}
+.final-next{background:#eff8f2}.final-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}.final-actions .btn{white-space:normal;text-align:center;line-height:1.35}
+@keyframes storyReveal{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+@keyframes bubbleIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.story-screen,.story-bubble{animation:none}}
+@media(max-width:720px){.story-daymark{grid-template-columns:1fr;gap:.25rem}.final-skillgrid,.final-actions{grid-template-columns:1fr}.final-celebration{padding:1.35rem;border-radius:18px}.story-dayhead{margin-top:.2rem}}
+.test-mode-banner{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin:0 0 1rem;padding:1rem 1.15rem;border-radius:16px;background:#fff4b8;border:1px solid #dec95a;color:#243d22}
+.test-mode-banner>div:first-child{display:grid;gap:.2rem}.test-mode-banner b{font-size:1rem}.test-mode-banner span{font-size:.9rem;line-height:1.45}.test-mode-banner .row{margin:0;flex-shrink:0}.test-mode-banner .btn{white-space:normal;text-align:center}
+.story-system-flow{padding:0;counter-reset:system}.story-system-flow li{list-style:none;counter-increment:system;display:grid;grid-template-columns:2.2rem 1fr;gap:.15rem .8rem;padding:1rem;border-radius:14px;background:#f0f7f2;border:1px solid #c7dbce}.story-system-flow li::before{content:counter(system);grid-row:1/3;display:grid;place-items:center;width:2.2rem;height:2.2rem;border-radius:50%;background:#073b2b;color:#d8ff72;font-weight:900}.story-system-flow li b,.story-system-flow li span{grid-column:2}.story-system-flow li span{font-size:.95rem;color:#406052;line-height:1.5}
+@media(max-width:760px){.test-mode-banner{align-items:stretch;flex-direction:column}.test-mode-banner .row{display:grid;grid-template-columns:1fr}.test-mode-banner .btn{max-width:none}}

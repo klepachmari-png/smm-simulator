@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Пакет матеріалів · МК SMM 1.0</title>
+<meta name="description" content="Фото і відео кав'ярні «Ранкова Лапка» для безкоштовного тижня курсу SMM + AI з нуля.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@500;600;700&family=Onest:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#06120D;--card:rgba(255,255,255,.045);--stroke:rgba(160,255,205,.14);--text:#EAF7F0;--muted:#9DB8AA;
+  --em:#17C979;--mint:#9CF5C8;--lime:#D8FF72;--teal:#3FE0D0;
+  --grad:linear-gradient(100deg,#9CF5C8 0%,#17C979 45%,#3FE0D0 100%);
+  --display:"Unbounded","Arial Black",system-ui,sans-serif;--body:"Onest","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);line-height:1.55;
+  background-image:radial-gradient(60rem 30rem at 85% -10%,rgba(23,201,121,.22),transparent 60%),radial-gradient(40rem 26rem at -10% 20%,rgba(63,224,208,.12),transparent 60%)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+header{padding:28px 0 8px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--text);text-decoration:none}
+.logo b{width:34px;height:34px;border-radius:11px;background:var(--grad);color:#04120B;display:grid;place-items:center;font-family:var(--display);font-size:.8rem}
+h1{font-family:var(--display);font-size:clamp(1.6rem,4.6vw,2.6rem);line-height:1.1;margin:22px 0 10px}
+h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font-family:var(--display);font-size:1.25rem;margin:40px 0 14px}
+.muted{color:var(--muted)}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;font:600 .95rem var(--body);padding:12px 18px;border-radius:999px;background:var(--em);color:#03140C;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--mint);border:1px solid var(--stroke)}
+.btn.sm{padding:8px 13px;font-size:.84rem}
+.btn[disabled]{opacity:.6;cursor:wait}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0 4px}
+.tip{border:1px dashed rgba(216,255,114,.4);background:rgba(216,255,114,.06);border-radius:18px;padding:14px 16px;font-size:.92rem;margin-top:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.item{background:var(--card);border:1px solid var(--stroke);border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
+.item img,.item video{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;background:#0A1C15}
+.item video{aspect-ratio:9/16}
+.item .in{padding:12px 14px;display:grid;gap:8px;flex:1}
+.item code{color:var(--lime);font-size:.85rem}
+.item p{margin:0;font-size:.9rem;color:var(--muted)}
+.item .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}
+footer{margin:48px 0 40px;font-size:.85rem;color:var(--muted);border-top:1px solid var(--stroke);padding-top:18px}
+footer a{color:var(--mint)}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#0E2A1E;border:1px solid var(--stroke);padding:10px 16px;border-radius:14px;font-size:.9rem;z-index:10}
+</style>
+<style>
+:root{--bg:#F5F7F5;--card:#FFFFFF;--stroke:#DCE5E0;--text:#0A1F17;--muted:#55665E;--em:#0F8A5F;--mint:#0B6B49;--lime:#0B6B49;--teal:#0F8A5F;--grad:none;
+  --display:"Geologica","Onest",system-ui,sans-serif;--body:"Onest","Segoe UI",system-ui,sans-serif}
+body{background:var(--bg);background-image:none;color:var(--text)}
+h1 span{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--em)}
+.logo b{background:#062A1F;color:#A8E0C5}
+.btn{background:var(--em);color:#fff}
+.btn.ghost{background:#fff;color:var(--text);border:1px solid var(--stroke)}
+.tip{border-color:rgba(15,138,95,.35);background:#E5F2EC}
+.item img,.item video{background:#E5F2EC}
+.toast{background:#062A1F;color:#fff}
+a{color:var(--em)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="logo" href="index.html"><b>МК</b><span>SMM + AI з нуля</span></a>
+    <a class="btn ghost sm" href="simulator.html">← До симулятора</a>
+  </header>
+
+  <h1>Пакет матеріалів <span>«Ранкова Лапка»</span></h1>
+  <p class="muted" style="max-width:62ch">Фото і відео для треку А безкоштовного тижня: кав'ярня, куди можна з собакою. Використовуйте їх для постів, добірок, аватара і першого відео Reels. Назви файлів збігаються з назвами в завданнях симулятора.</p>
+  <div class="bar">
+    <button class="btn" id="all" type="button">Завантажити все одним архівом</button>
+    <span class="muted" id="prog" style="font-size:.9rem"></span>
+  </div>
+  <div class="tip">На телефоні: натисніть «Завантажити» біля потрібного файлу. Якщо файл просто відкрився, утримуйте фото або відео і оберіть «Зберегти». Архів краще завантажувати з комп'ютера.</div>
+
+  <h2>Фото · photo_01 – photo_12</h2>
+  <div class="grid" id="photos"></div>
+
+  <h2>Відео · clip_01 – clip_05</h2>
+  <p class="muted" style="margin-top:-6px">Вертикальні 9:16, без музики. Музику ви додасте в CapCut або з бібліотеки Instagram.</p>
+  <div class="grid" id="clips"></div>
+
+  <footer>Навчальні фото створені спеціально для симулятора й зберігаються всередині папки сайту. «Ранкова Лапка» — вигаданий заклад для навчання.</footer>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+var PHOTOS = [
+  ["photo_01.jpg","media/photos/photo_01.jpg","Вхід до кав'ярні вранці й миска для собаки"],
+  ["photo_02.jpg","media/photos/photo_02.jpg","Бариста збиває молоко, руки крупно"],
+  ["photo_03.jpg","media/photos/photo_03.jpg","Капучино і круасан на дерев'яному столі"],
+  ["photo_04.jpg","media/photos/photo_04.jpg","Вітрина зі свіжою випічкою"],
+  ["photo_05.jpg","media/photos/photo_05.jpg","Сніданок: тости, яйця, салат і кава"],
+  ["photo_06.jpg","media/photos/photo_06.jpg","Собака чекає під столиком"],
+  ["photo_07.jpg","media/photos/photo_07.jpg","Собака п'є воду з миски"],
+  ["photo_08.jpg","media/photos/photo_08.jpg","Баночка зі смаколиками для собак на стійці"],
+  ["photo_09.jpg","media/photos/photo_09.jpg","Кава з собою біля вікна"],
+  ["photo_10.jpg","media/photos/photo_10.jpg","Столик біля вікна з ноутбуком"],
+  ["photo_11.jpg","media/photos/photo_11.jpg","Керамічні чашки на полицях"],
+  ["photo_12.jpg","media/photos/photo_12.jpg","Бариста подає випічку і каву"]
+];
+var CLIPS = [
+  ["clip_01.mp4","https://videos.pexels.com/video-files/8434015/8434015-hd_1080_2048_25fps.mp4","https://videos.pexels.com/video-files/8434015/8434015-sd_338_640_25fps.mp4","Собака п'є воду з миски"],
+  ["clip_02.mp4","https://videos.pexels.com/video-files/14916793/14916793-hd_1080_1920_30fps.mp4","https://videos.pexels.com/video-files/14916793/14916793-sd_360_640_30fps.mp4","Кава ллється в чашку, крупно"],
+  ["clip_03.mp4","https://videos.pexels.com/video-files/11190032/11190032-hd_1080_1920_24fps.mp4","https://videos.pexels.com/video-files/11190032/11190032-sd_360_640_24fps.mp4","Рука бере десерт з тарілки"],
+  ["clip_04.mp4","https://videos.pexels.com/video-files/27602831/12182359_1080_1920_60fps.mp4","https://videos.pexels.com/video-files/27602831/12182356_360_640_60fps.mp4","Собачка на повідці дивиться в камеру"],
+  ["clip_05.mp4","https://videos.pexels.com/video-files/3832274/3832274-hd_1080_2048_25fps.mp4","https://videos.pexels.com/video-files/3832274/3832274-sd_338_640_25fps.mp4","Кава з собою: кришечка і стаканчик в руці"]
+];
+function toast(t){ var e=document.getElementById("toast"); e.textContent=t; e.hidden=false; clearTimeout(toast.t); toast.t=setTimeout(function(){e.hidden=true;},3000); }
+function save(blob,name){ var u=URL.createObjectURL(blob); var a=document.createElement("a"); a.href=u; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){URL.revokeObjectURL(u);},5000); }
+function dl(url,name,btn){ if(btn){btn.disabled=true; btn.textContent="Завантажую…";}
+  fetch(url).then(function(r){ if(!r.ok) throw 0; return r.blob(); }).then(function(b){ save(b,name); toast("Збережено: "+name); })
+  .catch(function(){ window.open(url,"_blank"); toast("Файл відкрито — збережіть його вручну"); })
+  .finally(function(){ if(btn){btn.disabled=false; btn.textContent="Завантажити";} }); }
+function card(media,name,desc,url){ var d=document.createElement("div"); d.className="item";
+  d.innerHTML=media+'<div class="in"><code>'+name+'</code><p>'+desc+'</p><div class="row"><button type="button" class="btn sm">Завантажити</button><a class="btn ghost sm" href="'+url+'" target="_blank" rel="noopener">Відкрити</a></div></div>';
+  var b=d.querySelector("button"); b.addEventListener("click",function(){ dl(url,name,b); }); return d; }
+var ph=document.getElementById("photos"); PHOTOS.forEach(function(p){ ph.appendChild(card('<img loading="lazy" alt="'+p[2]+'" src="'+p[1]+'">',p[0],p[2],p[1])); });
+var cl=document.getElementById("clips"); CLIPS.forEach(function(c){ cl.appendChild(card('<video controls muted playsinline preload="metadata" src="'+c[2]+'#t=1"></video>',c[0],c[3],c[1])); });
+document.getElementById("all").addEventListener("click",function(){
+  var btn=this, prog=document.getElementById("prog"); if(!window.JSZip){ toast("Архів недоступний — завантажте файли по одному"); return; }
+  btn.disabled=true; var zip=new JSZip(), list=PHOTOS.map(function(p){return [p[0],p[1]];}).concat(CLIPS.map(function(c){return [c[0],c[1]];})), done=0;
+  prog.textContent="0 з "+list.length;
+  Promise.all(list.map(function(it){ return fetch(it[1]).then(function(r){return r.blob();}).then(function(b){ zip.file(it[0],b); done++; prog.textContent=done+" з "+list.length; }); }))
+  .then(function(){ prog.textContent="Пакую архів…"; return zip.generateAsync({type:"blob"}); })
+  .then(function(b){ save(b,"rankova-lapka-materialy.zip"); prog.textContent="Готово"; })
+  .catch(function(){ prog.textContent="Не вдалося — завантажте файли по одному"; })
+  .finally(function(){ btn.disabled=false; });
+});
+</script>
+</body>
+</html>

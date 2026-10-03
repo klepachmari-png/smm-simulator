@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>МК SMM 1.0 — Марія Клепач</title>
+<meta name="application-name" content="МК SMM 1.0">
+<meta name="apple-mobile-web-app-title" content="МК SMM 1.0">
+<meta name="description" content="МК SMM 1.0 — 66 уроків SMM, маркетингу та AI-автоматизації. Почни з безкоштовного п’ятиденного симулятора SMM-проєкту.">
+<link rel="canonical" href="https://smm-ai-mariia-klepach.klepachmari.chatgpt.site/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="МК SMM 1.0">
+<meta property="og:title" content="МК SMM 1.0 — Марія Клепач">
+<meta property="og:description" content="Соцмережі, які продають: маркетингова база, SMM і AI-автоматизація. Почни з безкоштовного п’ятиденного симулятора.">
+<meta property="og:url" content="https://smm-ai-mariia-klepach.klepachmari.chatgpt.site/">
+<meta property="og:image" content="https://smm-ai-mariia-klepach.klepachmari.chatgpt.site/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="МК SMM 1.0 — соцмережі, які продають">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="МК SMM 1.0 — Марія Клепач">
+<meta name="twitter:description" content="Маркетингова база, SMM і AI-автоматизація плюс безкоштовний п’ятиденний симулятор.">
+<meta name="twitter:image" content="https://smm-ai-mariia-klepach.klepachmari.chatgpt.site/og-cover.jpg">
+<meta name="theme-color" content="#062A1F">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;500;600;700;800&family=Onest:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#FFFFFF;
+  --soft:#F3F7F5;
+  --tint:#E5F2EC;
+  --line:#E1EAE5;
+  --text:#0A1F17;
+  --muted:#55665E;
+  --em:#0F8A5F;
+  --em-2:#0B6B49;
+  --deep:#062A1F;
+  --deep-2:#0B3B2C;
+  --pale:#A8E0C5;
+  --gold:#C9A86A;
+  --display:"Geologica","Onest",system-ui,sans-serif;
+  --body:"Onest","Segoe UI",system-ui,-apple-system,sans-serif;
+  --max:1200px;
+  --r:28px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.6;overflow-x:clip;-webkit-font-smoothing:antialiased}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+img{max-width:100%}
+a{color:inherit}
+p{margin:0}
+h1,h2,h3{font-family:var(--display);margin:0;letter-spacing:-.03em;line-height:1.05;text-wrap:balance;font-weight:700}
+h2{font-size:clamp(2rem,4.4vw,3.3rem)}
+h3{font-size:1.25rem;letter-spacing:-.015em;line-height:1.25;font-weight:600}
+.wrap{max-width:var(--max);margin-inline:auto;padding-inline:20px;position:relative}
+section{position:relative;padding-block:clamp(72px,9vw,120px)}
+.em{color:var(--em)}
+.muted{color:var(--muted)}
+.lead{font-size:1.15rem;color:var(--muted);max-width:60ch}
+.small{font-size:.88rem;color:var(--muted)}
+.head{display:grid;gap:18px;margin-bottom:48px;max-width:840px}
+.head.c{margin-inline:auto;text-align:center;justify-items:center}
+.tag{display:inline-flex;align-items:center;gap:8px;width:fit-content;padding:7px 14px;border-radius:999px;background:var(--tint);color:var(--em-2);font-size:.82rem;font-weight:600}
+.tag::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--em)}
+.dark .tag{background:rgba(255,255,255,.08);color:var(--pale)}
+.dark .tag::before{background:var(--pale)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:17px 30px;border-radius:999px;background:var(--em);color:#fff;font-weight:600;font-size:1.02rem;text-decoration:none;border:0;cursor:pointer;transition:transform .25s cubic-bezier(.2,.8,.2,1),background .2s,box-shadow .25s;box-shadow:0 14px 30px -14px rgba(15,138,95,.7)}
+.btn:hover{background:var(--em-2);transform:translateY(-2px)}
+.btn svg{width:20px;height:20px}
+.btn.light{background:#fff;color:var(--deep);box-shadow:none}
+.btn.light:hover{background:var(--tint)}
+.btn.line{background:transparent;color:var(--text);box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn.line:hover{box-shadow:inset 0 0 0 1.5px var(--text);background:transparent}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--em);outline-offset:3px}
+.dark{background:var(--deep);color:#EAF4EF}
+.dark .muted,.dark .lead{color:#A7BDB3}
+
+/* шапка */
+.top{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color .3s}
+.top.sc{border-color:var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:72px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--display);font-weight:700;letter-spacing:-.02em;white-space:nowrap}
+.logo b{width:36px;height:36px;border-radius:11px;background:var(--deep);color:var(--pale);display:grid;place-items:center;font-size:.8rem}
+.logo small{display:block;font-family:var(--body);font-weight:500;font-size:.72rem;color:var(--muted);letter-spacing:0;margin-top:2px}
+.nav{display:flex;gap:4px}
+.nav a{text-decoration:none;padding:9px 14px;border-radius:999px;font-size:.92rem;color:var(--muted);transition:background .2s,color .2s}
+.nav a:hover{background:var(--soft);color:var(--text)}
+.top .btn{padding:11px 20px;font-size:.9rem;box-shadow:none}
+@media (max-width:1000px){.nav{display:none}}
+@media (max-width:460px){.logo small{display:none}.top .btn{padding:10px 14px;font-size:.84rem}}
+
+/* HERO */
+.hero{padding-block:clamp(40px,6vw,72px) 0;text-align:center;overflow:hidden}
+.hero h1{font-size:clamp(2.2rem,5.6vw,4.5rem);font-weight:700;max-width:20ch;margin:18px auto 0;line-height:1.02}
+.course-title{display:block;font-size:1.12em;line-height:.92;letter-spacing:-.055em;margin-bottom:16px}.course-promise{display:block;font-size:.58em;line-height:1.15;letter-spacing:-.02em;font-weight:650}
+.rot{display:block;color:var(--em);min-height:2.1em}
+@media (max-width:900px){.rot{min-height:2.1em}}
+.rot .cur{display:inline-block;width:3px;height:.85em;background:var(--em);margin-left:4px;vertical-align:-.06em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.hero .lead{margin:24px auto 0;max-width:620px}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:32px}
+.when{display:inline-flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 14px;margin-top:20px;font-size:.9rem;color:var(--muted)}
+.cd{display:inline-flex;gap:6px}
+.cd span{min-width:46px;padding:6px 8px;border-radius:12px;background:var(--soft);border:1px solid var(--line);font-family:var(--display);font-weight:700;color:var(--text);font-variant-numeric:tabular-nums}
+.cd span i{font-style:normal;font-family:var(--body);font-weight:500;font-size:.7rem;color:var(--muted);margin-left:2px}
+
+/* віяло фото */
+.fan{position:relative;display:flex;justify-content:center;align-items:flex-end;gap:0;margin:56px auto 0;max-width:1100px;height:clamp(250px,30vw,380px)}
+.fc{position:relative;flex:none;width:clamp(150px,19vw,230px);aspect-ratio:3/4;border-radius:24px;overflow:hidden;background:linear-gradient(160deg,#13996A,#0B5A3F);box-shadow:0 30px 50px -28px rgba(6,42,31,.6);margin-inline:-10px;transform:translateY(var(--y,0)) rotate(var(--r,0));transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.fc:nth-child(1){--r:-9deg;--y:28px;background:linear-gradient(160deg,#0B3B2C,#062A1F)}
+.fc:nth-child(2){--r:-4.5deg;--y:8px}
+.fc:nth-child(3){--r:0deg;--y:0;z-index:2;background:linear-gradient(160deg,#E5F2EC,#BFE3D1)}
+.fc:nth-child(4){--r:4.5deg;--y:8px}
+.fc:nth-child(5){--r:9deg;--y:28px;background:linear-gradient(160deg,#0B3B2C,#062A1F)}
+.fc img{position:absolute;left:50%;bottom:0;height:92%;width:auto;max-width:none;transform:translateX(-50%)}
+.fc b{position:absolute;left:10px;right:10px;bottom:10px;z-index:2;padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.94);color:var(--deep);font-size:.78rem;font-weight:600;text-align:left;line-height:1.25}
+.fc b small{display:block;color:var(--em);font-weight:700;font-size:.68rem;letter-spacing:.04em;text-transform:uppercase}
+@media (hover:hover){.fc:hover{transform:translateY(-14px) rotate(0deg) scale(1.04);z-index:5}}
+@media (prefers-reduced-motion: no-preference){.fan.pre .fc{transform:translateY(80px) rotate(0) scale(.9);opacity:0}.fan .fc{transition:transform .9s cubic-bezier(.2,.8,.2,1),opacity .6s}.fan .fc:nth-child(2){transition-delay:.08s}.fan .fc:nth-child(3){transition-delay:.16s}.fan .fc:nth-child(4){transition-delay:.24s}.fan .fc:nth-child(5){transition-delay:.32s}}
+@media (max-width:700px){.fan{height:auto;overflow-x:auto;justify-content:flex-start;padding:20px 20px 34px;margin-inline:-20px;scroll-snap-type:x mandatory;gap:12px;align-items:stretch}.fc{margin:0;width:62vw;scroll-snap-align:center;--r:0deg!important;--y:0!important}.fan::-webkit-scrollbar{display:none}}
+
+/* стрічка фактів */
+.trust{border-block:1px solid var(--line);overflow:hidden;margin-top:56px;background:#fff}
+.trust .row{display:inline-flex;gap:14px;padding-block:16px;white-space:nowrap;animation:mq 40s linear infinite}
+.trust span{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:999px;background:var(--soft);font-weight:600;font-size:.95rem}
+.trust span i{width:22px;height:22px;border-radius:50%;background:var(--em);color:#fff;display:grid;place-items:center;font-style:normal;font-size:.7rem}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* тиждень */
+.week{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+@media (max-width:940px){.week{grid-template-columns:1fr}}
+.week>*{min-width:0}
+.days{display:grid;gap:10px;margin-top:8px}
+.d{display:grid;grid-template-columns:52px 1fr;gap:16px;align-items:center;padding:16px 18px;border-radius:20px;background:var(--soft);border:1px solid var(--line);transition:transform .25s,background .25s}
+.d:hover{transform:translateX(6px);background:var(--tint)}
+.d em{font-style:normal;width:52px;height:52px;border-radius:16px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;font-family:var(--display);font-weight:700;color:var(--em)}
+.d b{display:block;font-weight:600}
+.d span{font-size:.9rem;color:var(--muted)}
+.d.z{background:var(--deep);border-color:var(--deep);color:#EAF4EF}
+.d.z em{background:var(--em);border-color:var(--em);color:#fff}
+.d.z span{color:#A7BDB3}
+/* телефон */
+.phone{position:relative;justify-self:center;width:min(100%,330px);aspect-ratio:9/18.5;border-radius:46px;background:#0A1F17;padding:12px;box-shadow:0 50px 80px -40px rgba(6,42,31,.7),inset 0 0 0 2px #1d3a2f}
+@media (prefers-reduced-motion: no-preference){.phone{animation:fl 7s ease-in-out infinite}}
+@keyframes fl{50%{transform:translateY(-12px) rotate(-1deg)}}
+.screen{height:100%;border-radius:36px;overflow:hidden;background:#F5F7F5;display:flex;flex-direction:column;font-size:.72rem}
+.scr-top{padding:30px 16px 10px;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-family:var(--display);font-size:.8rem}
+.scr-top i{width:60px;height:5px;border-radius:9px;background:var(--line);position:relative;overflow:hidden}
+.scr-top i::after{content:"";position:absolute;inset:0 60% 0 0;background:var(--em);border-radius:9px}
+.scr-h{padding:4px 16px 10px}
+.scr-h b{display:block;font-family:var(--display);font-size:1.15rem;letter-spacing:-.02em;line-height:1.1}
+.scr-h span{color:var(--muted)}
+.scr-l{display:grid;gap:7px;padding:0 12px}
+.scr-l div{display:flex;align-items:center;gap:10px;padding:10px;border-radius:14px;background:#fff;border:1px solid var(--line)}
+.scr-l div em{font-style:normal;font-family:var(--display);font-weight:700;color:var(--em);width:22px}
+.scr-l div b{flex:1;font-weight:600;line-height:1.2}
+.scr-l div s{text-decoration:none;font-size:.62rem;padding:3px 7px;border-radius:999px;background:var(--tint);color:var(--em-2);font-weight:700}
+.scr-l .on{background:var(--deep);border-color:var(--deep);color:#fff}
+.scr-l .on em{color:var(--pale)}
+.scr-l .on s{background:var(--pale);color:var(--deep)}
+.scr-l .off{opacity:.5}
+.chip{position:absolute;z-index:3;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:16px;background:#fff;box-shadow:0 20px 40px -20px rgba(6,42,31,.5);font-size:.82rem;font-weight:600;white-space:nowrap}
+.chip i{width:30px;height:30px;border-radius:10px;background:var(--tint);color:var(--em);display:grid;place-items:center;font-style:normal}
+.chip.c1{left:-16%;top:7%}
+.chip.c2{right:-14%;top:56%}
+@media (prefers-reduced-motion: no-preference){.chip{animation:fl 6s ease-in-out infinite}.chip.c2{animation-delay:-3s}}
+@media (max-width:520px){.chip.c1{left:-4%}.chip.c2{right:-4%}}
+.tracks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:56px}
+@media (max-width:900px){.tracks{grid-template-columns:1fr}}
+.tr{padding:28px;border-radius:var(--r);border:1px solid var(--line);display:grid;gap:10px;align-content:start}
+.tr small{font-weight:700;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--em)}
+.tr.a{background:var(--tint);border-color:var(--tint)}
+
+/* bento */
+.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.b{position:relative;overflow:hidden;border-radius:var(--r);padding:30px;background:var(--soft);display:grid;gap:12px;align-content:start;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+@media (hover:hover){.b:hover{transform:translateY(-6px);box-shadow:0 30px 50px -30px rgba(6,42,31,.4)}}
+.b.w3{grid-column:span 3}.b.w2{grid-column:span 2}.b.w4{grid-column:span 4}
+@media (max-width:900px){.bento{grid-template-columns:1fr 1fr}.b.w3,.b.w2,.b.w4{grid-column:span 1}.b.full{grid-column:1/-1}}
+@media (max-width:600px){.bento{grid-template-columns:1fr}}
+.b.dk{background:var(--deep);color:#EAF4EF}.b.dk .muted{color:#A7BDB3}
+.b.em2{background:var(--em);color:#fff}.b.em2 .muted{color:rgba(255,255,255,.82)}
+.b.tn{background:var(--tint)}
+.b h3{font-size:1.45rem}
+.ic{width:52px;height:52px;border-radius:16px;background:#fff;color:var(--em);display:grid;place-items:center;box-shadow:0 10px 20px -14px rgba(6,42,31,.4)}
+.ic svg{width:26px;height:26px}
+.b.dk .ic{background:rgba(255,255,255,.08);color:var(--pale);box-shadow:none}
+.b.em2 .ic{background:rgba(255,255,255,.15);color:#fff;box-shadow:none}
+.b ul{margin:4px 0 0;padding:0;list-style:none;display:grid;gap:8px}
+.b li{position:relative;padding-left:26px}
+.b li::before{content:"";position:absolute;left:0;top:.45em;width:14px;height:14px;border-radius:50%;background:var(--em);box-shadow:inset 0 0 0 4px var(--tint)}
+.b.dk li::before{background:var(--pale);box-shadow:inset 0 0 0 4px var(--deep-2)}
+.b .pic{position:absolute;left:50%;bottom:0;height:290px;width:auto;max-width:94%;object-fit:contain;transform:translateX(-50%);pointer-events:none}
+.b.has-pic{min-height:540px;padding:30px 30px 310px}
+.b.has-pic h3,.b.has-pic ul,.b.has-pic .ic{position:relative;z-index:2}
+@media (max-width:1100px) and (min-width:601px){.b.has-pic{min-height:590px;padding-bottom:300px}.b .pic{height:285px}}
+@media (max-width:600px){.b.has-pic{min-height:0;padding:30px 30px 270px}.b .pic{height:255px;max-width:100%}}
+.ba{display:flex;flex-direction:column;gap:6px;margin-top:4px;font-size:.92rem}
+.ba s{color:var(--muted);text-decoration-color:rgba(196,104,61,.6)}
+.b.dk .ba s{color:#8FA59B}
+
+/* про мене */
+.me{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:center}
+@media (max-width:940px){.me{grid-template-columns:1fr;gap:40px}}
+.me>*{min-width:0}
+.me-pic{position:relative;justify-self:center;width:min(100%,460px);aspect-ratio:4/5}
+.me-pic .bg{position:absolute;inset:8% 0 0;border-radius:200px 200px 32px 32px;background:linear-gradient(170deg,#13996A,#062A1F)}
+.me-pic img{position:absolute;left:50%;bottom:0;height:100%;width:auto;max-width:none;transform:translateX(-50%);border-radius:0 0 32px 32px}
+.me-pic .seal{position:absolute;right:-6px;top:6%;width:120px;height:120px;z-index:3}
+@media (prefers-reduced-motion: no-preference){.me-pic .seal .ring{transform-origin:60px 60px;animation:spin 18s linear infinite}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.me-pic .chip{left:-6%;bottom:12%}
+.me-t{display:grid;gap:20px}
+.me-t p{font-size:1.08rem}
+.nums{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media (max-width:560px){.nums{grid-template-columns:1fr}}
+.nums div{padding:20px;border-radius:22px;background:var(--soft);display:grid;gap:4px}
+.nums strong{font-family:var(--display);font-size:1.9rem;font-weight:700;letter-spacing:-.03em;color:var(--em)}
+.nums span{font-size:.88rem;color:var(--muted);line-height:1.35}
+.quote{padding:24px 28px;border-radius:24px;background:var(--deep);color:#EAF4EF;font-family:var(--display);font-size:1.2rem;line-height:1.4;letter-spacing:-.01em;position:relative}
+.quote::before{content:"“";position:absolute;right:22px;top:-6px;font-size:5rem;color:var(--em);line-height:1}
+
+/* програма */
+.prog{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:start}
+@media (max-width:940px){.prog{grid-template-columns:1fr}}
+.prog>*{min-width:0}
+.prog-side{position:sticky;top:110px;display:grid;gap:20px}
+@media (max-width:940px){.prog-side{position:static}}
+.pbars{display:flex;align-items:flex-end;gap:8px;height:150px;margin-top:10px}
+.pbars i{flex:1;border-radius:10px 10px 4px 4px;background:rgba(255,255,255,.1);height:var(--h);position:relative;transition:height 1s cubic-bezier(.2,.8,.2,1)}
+.pbars i:last-child{background:var(--em)}
+.pbars i::after{content:attr(data-l);position:absolute;bottom:-22px;left:0;right:0;text-align:center;font-size:.68rem;color:#A7BDB3;font-style:normal}
+.pbars.pre i{height:6px}
+.acc{display:grid;gap:10px}
+.acc details{border-radius:22px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);transition:background .25s,border-color .25s}
+.acc details[open]{background:rgba(255,255,255,.09);border-color:rgba(168,224,197,.35)}
+.acc summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:56px 1fr 34px;gap:14px;align-items:center;padding:18px 20px}
+.acc summary::-webkit-details-marker{display:none}
+.acc .n{font-family:var(--display);font-weight:700;font-size:1.6rem;color:var(--pale);letter-spacing:-.03em}
+.acc .t{font-weight:600;line-height:1.3}
+.acc .t small{display:block;font-weight:400;color:#A7BDB3;font-size:.9rem;margin-top:2px}
+.acc .p{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.2);display:grid;place-items:center;transition:transform .3s,background .3s}
+.acc details[open] .p{transform:rotate(45deg);background:var(--em);border-color:var(--em)}
+.acc ul{margin:0;padding:0 22px 22px 90px;display:grid;gap:8px;list-style:none;color:#C7D7CF;font-size:.95rem}
+.acc li{position:relative}
+.acc li::before{content:"";position:absolute;left:-18px;top:.6em;width:7px;height:7px;border-radius:50%;background:var(--pale)}
+.acc li b{color:#fff;font-weight:600}
+.acc .free{background:var(--em);border-color:var(--em)}
+.acc .free .n,.acc .free .t small{color:#E5F2EC}
+.acc .free ul{color:#E5F2EC}
+.acc .free li::before{background:#fff}
+.acc .week-output{margin:0 22px 22px 90px;padding:16px 18px;border-radius:16px;background:rgba(168,224,197,.09);color:#DCEAE3;font-size:.9rem;line-height:1.55;display:grid;gap:7px}
+.acc .week-output strong{color:var(--pale);font-weight:700}
+.acc .week-output b{color:#fff;font-weight:600}
+.acc .free .week-output{background:rgba(255,255,255,.14);color:#fff}
+.acc .free .week-output strong{color:#fff}
+.track-labels{display:flex;flex-wrap:wrap;gap:8px}
+.track-labels span{padding:8px 12px;border-radius:999px;background:rgba(168,224,197,.1);border:1px solid rgba(168,224,197,.18);font-size:.82rem;color:#DCEAE3}
+@media (max-width:560px){.acc summary{grid-template-columns:40px 1fr 30px}.acc ul{padding-left:64px}.acc .week-output{margin-left:64px}}
+
+/* інструменти */
+.tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:900px;margin-inline:auto}
+.tools span{padding:12px 20px;border-radius:999px;background:var(--soft);border:1px solid var(--line);font-weight:600;transition:transform .25s,background .25s,color .25s}
+.tools span:hover{transform:translateY(-4px) rotate(-2deg);background:var(--deep);color:#fff}
+.tools span.ai{background:var(--tint);color:var(--em-2);border-color:var(--tint)}
+
+/* ринок */
+.market{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media (max-width:900px){.market{grid-template-columns:1fr 1fr}}
+@media (max-width:460px){.market{grid-template-columns:1fr}}
+.mk{padding:26px;border-radius:24px;background:var(--soft);display:grid;gap:6px}
+.mk .c{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--em)}
+.mk .v{font-family:var(--display);font-weight:700;font-size:1.9rem;letter-spacing:-.03em;line-height:1.1;font-variant-numeric:tabular-nums}
+.mk .v small{font-size:.5em;color:var(--muted);font-weight:500;letter-spacing:0}
+.mk .s{font-size:.84rem;color:var(--muted)}
+.mk .s a{color:var(--em)}
+
+/* ціни */
+.prices{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1000px;margin-inline:auto}
+@media (max-width:820px){.prices{grid-template-columns:1fr}}
+.pr{position:relative;padding:36px;border-radius:32px;border:1px solid var(--line);display:grid;gap:22px;align-content:start;background:#fff;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+@media (hover:hover){.pr:hover{transform:translateY(-6px);box-shadow:0 40px 60px -40px rgba(6,42,31,.45)}}
+.pr .k{font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--em)}
+.pr .amt{font-family:var(--display);font-weight:700;font-size:clamp(3.2rem,6vw,4.6rem);letter-spacing:-.05em;line-height:1}
+.pr ul{margin:0;padding:0;list-style:none;display:grid;gap:12px}
+.pr li{position:relative;padding-left:32px}
+.pr li::before{content:"✓";position:absolute;left:0;top:.1em;width:22px;height:22px;border-radius:50%;background:var(--tint);color:var(--em);display:grid;place-items:center;font-size:.72rem;font-weight:800}
+.pr .btn{justify-self:start}
+.pr.dk{background:var(--deep);border-color:var(--deep);color:#EAF4EF}
+.pr.dk .k{color:var(--pale)}
+.pr.dk li::before{background:rgba(168,224,197,.15);color:var(--pale)}
+.pr.dk .small{color:#A7BDB3}
+.pr .hot{position:absolute;right:24px;top:24px;padding:6px 12px;border-radius:999px;background:var(--gold);color:var(--deep);font-size:.74rem;font-weight:700}
+.note{margin-top:22px;text-align:center}
+
+/* приз */
+.prize{display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center;padding:clamp(28px,5vw,56px);border-radius:36px;background:linear-gradient(120deg,#0B3B2C,#062A1F);color:#EAF4EF;overflow:hidden;position:relative}
+@media (max-width:700px){.prize{grid-template-columns:1fr}}
+.medal{width:150px;height:150px;border-radius:50%;background:conic-gradient(from 210deg,var(--gold),#F1E2BE,var(--gold),#9C7F45,var(--gold));display:grid;place-items:center}
+.medal div{width:122px;height:122px;border-radius:50%;background:var(--deep);display:grid;place-items:center;text-align:center;font-family:var(--display);line-height:1;color:#F1E2BE}
+.medal big{display:block;font-size:2.6rem;font-weight:700}
+.medal small{font-size:.66rem;font-weight:600;letter-spacing:.06em}
+.prize .t{display:grid;gap:14px}
+.prize .muted{color:#A7BDB3}
+
+/* faq */
+.faq{display:grid;gap:10px;max-width:880px;margin-inline:auto}
+.faq details{border-radius:22px;background:var(--soft);padding:0 24px;transition:background .25s}
+.faq details[open]{background:var(--tint)}
+.faq summary{cursor:pointer;list-style:none;font-weight:600;font-size:1.05rem;padding:20px 44px 20px 0;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:0;top:16px;width:30px;height:30px;border-radius:50%;background:#fff;color:var(--em);display:grid;place-items:center;font-size:1.2rem;transition:transform .3s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding:0 0 22px;color:var(--muted);max-width:70ch}
+
+/* фінал */
+.final{border-radius:40px;padding:clamp(32px,6vw,80px);background:radial-gradient(70% 90% at 100% 0%,#13996A 0%,transparent 60%),var(--deep);color:#EAF4EF;text-align:center;display:grid;gap:22px;justify-items:center;overflow:hidden;position:relative}
+.final h2{max-width:18ch}
+.final .lead{color:#C7D7CF;max-width:60ch}
+.final .opts{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.final .btn.line{color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35)}
+.final .btn.line:hover{box-shadow:inset 0 0 0 1.5px #fff}
+.final .ps{max-width:640px;padding-top:22px;border-top:1px solid rgba(255,255,255,.15);color:#C7D7CF;font-size:1rem}
+.final .ps b{color:#fff}
+.final .star{position:absolute;width:140px;left:-30px;bottom:-30px;color:rgba(168,224,197,.12)}
+@media (prefers-reduced-motion: no-preference){.final .star{animation:spin 40s linear infinite}}
+footer .wrap{display:flex;flex-wrap:wrap;gap:10px 24px;justify-content:space-between;padding-block:32px;font-size:.86rem;color:var(--muted)}
+
+
+/* біль */
+.pain{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+@media (max-width:900px){.pain{grid-template-columns:1fr;gap:28px}}
+.pain>*{min-width:0}
+.cloud{display:flex;flex-wrap:wrap;gap:10px}
+.cloud span{padding:14px 20px;border-radius:999px;background:var(--soft);border:1px solid var(--line);font-weight:500;display:inline-flex;gap:10px;align-items:center;transition:transform .25s}
+.cloud span::before{content:"✕";color:#C4683D;font-weight:800}
+.cloud span:nth-child(odd){transform:rotate(-1.2deg)}
+.cloud span.k{background:var(--deep);color:#EAF4EF;border-color:var(--deep)}
+.cloud span:hover{transform:rotate(0) scale(1.03)}
+.b p b{color:var(--em)}
+.b.dk p b{color:var(--pale)}
+
+.trio{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-top:22px}
+.trio span{padding:9px 16px;border-radius:999px;background:var(--tint);color:var(--em-2);font-weight:700;font-family:var(--display);font-size:.95rem}
+.trio i{font-style:normal;color:var(--muted);font-weight:700}
+.num{font-family:var(--display);font-weight:700;font-size:2.4rem;line-height:1;color:var(--em);letter-spacing:-.04em}
+.b.dk .num{color:var(--pale)}
+
+/* смуга «безкоштовно» */
+.fb{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;padding:clamp(28px,5vw,60px);border-radius:40px;background:radial-gradient(80% 120% at 0% 0%,#13996A 0%,transparent 55%),var(--deep);color:#EAF4EF}
+@media (max-width:900px){.fb{grid-template-columns:1fr;gap:28px}}
+.fb>*{min-width:0}
+.fb-l{display:grid;gap:6px}
+.fb-k{font-family:var(--display);font-weight:800;font-size:clamp(2rem,4.4vw,3.7rem);overflow-wrap:anywhere;line-height:.95;letter-spacing:-.045em;text-transform:uppercase}
+.fb-eq{font-family:var(--display);font-weight:800;font-size:clamp(2rem,4vw,3.4rem);color:var(--pale);line-height:1}
+.fb-v{font-family:var(--display);font-weight:700;font-size:clamp(1.3rem,2.6vw,2rem);line-height:1.1;letter-spacing:-.03em;color:var(--pale)}
+.fb-r{display:grid;gap:18px}
+.fb-r ul{margin:0;padding:0;list-style:none;display:grid;gap:12px}
+.fb-r li{position:relative;padding-left:32px;color:#C7D7CF}
+.fb-r li b{color:#fff}
+.fb-r li::before{content:"✓";position:absolute;left:0;top:.1em;width:22px;height:22px;border-radius:50%;background:var(--em);color:#fff;display:grid;place-items:center;font-size:.72rem;font-weight:800}
+.fb-r .btn{justify-self:start}
+.fb-s{font-size:.86rem;color:#A7BDB3}
+/* порівняння */
+.cmp{border-radius:28px;overflow:hidden;border:1px solid var(--line)}
+.cmp-h,.cmp-r{display:grid;grid-template-columns:200px 1fr 1fr}
+.cmp-h span{padding:16px 20px;font-weight:700;font-size:.82rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);background:var(--soft)}
+.cmp-h span:last-child{background:var(--deep);color:var(--pale)}
+.cmp-r>*{padding:18px 20px;border-top:1px solid var(--line)}
+.cmp-r b{font-family:var(--display);font-weight:600;background:var(--soft)}
+.cmp-r span:nth-child(2){color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(196,104,61,.5)}
+.cmp-r span:nth-child(3){background:var(--tint);font-weight:600;color:var(--deep)}
+@media (max-width:760px){.cmp-h{display:none}.cmp-r{grid-template-columns:1fr}.cmp-r>*{border-top:0}.cmp-r{border-top:1px solid var(--line)}.cmp-r span:nth-child(2)::before{content:"Більшість курсів: ";font-weight:700;text-decoration:none;display:inline}.cmp-r span:nth-child(3)::before{content:"Тут: ";color:var(--em)}}
+/* поява */
+@media (prefers-reduced-motion: no-preference){
+  .rv{transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .rv.pre{opacity:0;transform:translateY(32px)}
+}
+.sprog{position:fixed;left:0;top:0;right:0;height:3px;z-index:60;pointer-events:none}
+.sprog i{display:block;height:100%;background:var(--em);transform-origin:0 50%;transform:scaleX(0)}
+</style>
+</head>
+<body>
+<div class="sprog" aria-hidden="true"><i id="sprog"></i></div>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="logo" href="#"><b>МК</b><span>Марія Клепач<small>МК SMM 1.0</small></span></a>
+    <nav class="nav" aria-label="Розділи">
+      <a href="#week">Безкоштовне навчання</a>
+      <a href="#program">Програма</a>
+      <a href="#me">Про мене</a>
+      <a href="#price">Вартість</a>
+      <a href="#faq">Питання</a>
+    </nav>
+    <a class="btn" href="#start" data-bot="sim">Безкоштовне навчання</a>
+  </div>
+</header>
+
+<main>
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <span class="tag">Майстер-клас довжиною у 8 основних тижнів · старт 1 листопада</span>
+    <h1><span class="course-title">МК SMM 1.0</span><span class="course-promise">Соцмережі, які продають, та AI-інструменти, котрі забирають до 70% твоєї повторюваної роботи</span></h1>
+    <p class="lead">Для тих, хто шукає актуальну онлайн-професію; для SMM-спеціалістів, які хочуть перестати просто «вести Instagram» і стати маркетологами в соціальних мережах; для власників бізнесу й експертів, які хочуть продавати через соцмережі та створити з AI власних асистентів.</p>
+    <div class="trio"><span>Маркетингова база</span><i>+</i><span>SMM</span><i>+</i><span>AI-автоматизація</span></div>
+    <div class="cta">
+      <a class="btn" href="#start" data-bot="sim"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.3-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.2 13 1.4 11.5c-1-.3-1-1 .2-1.5L20.5 2.8c.9-.3 1.6.2 1.4 1.5z"/></svg>Перейти на безкоштовне навчання</a>
+      <a class="btn line" href="#program">Подивитися програму</a>
+    </div>
+    <div class="when">Не знаєш, що таке SMM, і хочеш спробувати? Пройди безкоштовний симулятор: 5 днів у ролі SMM-спеціаліста над вигаданим або власним проєктом · до старту: <span class="cd"><span id="cd_d">–<i>дн</i></span><span id="cd_h">–<i>год</i></span><span id="cd_m">–<i>хв</i></span></span></div>
+  </div>
+  <div class="wrap">
+    <div class="fan pre" id="fan" aria-hidden="true">
+      <div class="fc"><img src="img/portrait.webp" alt=""><b><small>День 1</small>Бриф клієнта і ніша</b></div>
+      <div class="fc"><img src="img/window.webp" alt=""><b><small>День 2</small>Аналіз конкурентів</b></div>
+      <div class="fc"><img src="img/hug.webp" alt=""><b><small>День 3</small>Instagram з нуля</b></div>
+      <div class="fc"><img src="img/music.webp" alt=""><b><small>День 4</small>Контент-план і пост</b></div>
+      <div class="fc"><img src="img/phone.webp" alt=""><b><small>День 5</small>Перший Reels</b></div>
+    </div>
+  </div>
+  <div class="trust" aria-hidden="true"><div class="row">
+    <span><i>19</i>років у продажах</span><span><i>3</i>роки практики в SMM</span><span><i>8</i>основних тижнів</span><span><i>66</i>уроків</span><span><i>80+</i>професійних шаблонів</span><span><i>Z</i>Zoom-розбір щотижня</span>
+    <span><i>19</i>років у продажах</span><span><i>3</i>роки практики в SMM</span><span><i>8</i>основних тижнів</span><span><i>66</i>уроків</span><span><i>80+</i>професійних шаблонів</span><span><i>Z</i>Zoom-розбір щотижня</span>
+  </div></div>
+</section>
+
+<!-- БЕЗКОШТОВНО -->
+<section class="free-band" style="padding-block:clamp(56px,7vw,96px)">
+  <div class="wrap">
+    <div class="fb rv">
+      <div class="fb-l"><span class="fb-k">Безкоштовне навчання</span><span class="fb-eq">=</span><span class="fb-v">мінікурс із практикою на 5 днів</span></div>
+      <div class="fb-r">
+        <ul>
+          <li><b>Мінікурс + практика</b> — зрозумілі приклади, професійні пояснення та робочі рішення</li>
+          <li><b>Словник термінів</b> — кожне поняття з поясненням і прикладом</li>
+          <li><b>Три окремі маршрути</b> — професія з нуля, власний бізнес або поглиблена SMM-практика. Для бізнесу на 5-й день — особистий фідбек Марії в чаті</li>
+        </ul>
+        <a class="btn light" href="#start" data-bot="sim"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.3-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.2 13 1.4 11.5c-1-.3-1-1 .2-1.5L20.5 2.8c.9-.3 1.6.2 1.4 1.5z"/></svg>Почати безкоштовне навчання</a>
+        <span class="fb-s">Доступ приходить у Telegram одразу. Оплата навчання — лише якщо після симулятора вирішиш іти далі.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ЧОМУ НЕ ПРАЦЮЄ -->
+<section style="padding-bottom:0">
+  <div class="wrap">
+    <div class="head rv"><span class="tag">Знаєте що?</span><h2>Чому соцмережі не приносять результату — <span class="em">і яку можливість втрачає бізнес</span></h2><p class="lead">У світі вже 5,66 млрд активних ідентичностей користувачів соцмереж — 68,7% населення. Соціальна реклама є третім за значенням джерелом знання про бренди загалом і першим для аудиторії 16–34 років. Але жоден канал не закриває всі задачі: результат створює система з продукту, повідомлення, каналів і вимірювання.</p></div>
+    <div class="bento">
+      <article class="b w3 rv"><span class="num">01</span><h3>Є перегляди, але немає зрозумілого шляху до покупки</h3><p class="muted">Гарна сторінка й охоплення — ще не продаж. Людина має за кілька кроків зрозуміти: що ви продаєте, чи це для неї, чому вам довіряти та що зробити далі.</p></article>
+      <article class="b w3 rv"><span class="num">02</span><h3>Контент не пов’язаний із продуктом і ЦА</h3><p class="muted">Коли не визначені продукт, сегмент, бар’єр, доказ і метрика, тренди лише збирають випадкову увагу. Комплексне SMM перетворює увагу на керований клієнтський шлях.</p></article>
+      <article class="b full dk rv" style="grid-column:1/-1"><span class="num">AI</span><h3>Чому AI видає шаблонні відповіді?</h3><p class="muted">AI — інструмент, а не заміна людського інтелекту. Він може структурувати дослідження, готувати звіти й сценарії, створювати таблиці та документи, переносити дані між сервісами й навіть виконувати дії на робочому столі. Але без контексту, знань і правил він лише швидше масштабує шаблон або помилку. Правильно налаштована система може забрати до 70% повторюваних задач конкретного робочого процесу — стратегічне рішення й перевірка залишаються за людиною.</p></article>
+    </div>
+    <p class="small" style="margin-top:16px">Джерела: <a href="https://datareportal.com/reports/digital-2026-global-overview-report" target="_blank" rel="noopener">DataReportal, Digital 2026</a>; <a href="https://about.fb.com/news/2025/09/instagram-3-billion-monthly-active-users/" target="_blank" rel="noopener">Meta, 3 млрд користувачів Instagram</a>. Дані описують можливість ринку, а не гарантують продажі конкретному бізнесу.</p>
+  </div>
+</section>
+
+<!-- ТРИ НАВИЧКИ -->
+<section style="padding-bottom:0">
+  <div class="wrap">
+    <div class="head rv"><span class="tag">Швидкий результат = знання + AI-автоматизація</span><h2>Три навички: використовуй окремо <span class="em">або збери в одну професію</span></h2><p class="lead">Маркетинг — основа. SMM перетворює рішення на систему роботи в соцмережах. AI прискорює повторювані процеси тільки після того, як ти розумієш, що й навіщо робиш.</p></div>
+    <div class="bento">
+      <article class="b w2 tn rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></div><h3>SMM</h3><p class="muted">Стратегія, контент-план, тексти, графіка, Reels, Instagram, TikTok, YouTube, Telegram, таргетована реклама і аналітика.</p></article>
+      <article class="b w2 dk rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2z"/></svg></div><h3>Штучний інтелект</h3><p class="muted">AI-асистенти, які пишуть голосом бренду, чат-боти, що збирають заявки, і автоматизація, яка знімає з тебе рутину.</p></article>
+      <article class="b w2 em2 rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg></div><h3>Маркетинг і продажі</h3><p class="muted">Цільова аудиторія, позиціонування, воронка, прогрів і продажі в дірект — те, без чого соцмережі не перетворюються на гроші.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ПОРІВНЯННЯ -->
+<section style="padding-bottom:0">
+  <div class="wrap">
+    <div class="head rv"><span class="tag">Чому інші навчання не дають результату</span><h2>Більшість курсів дають один шматок пазла. <span class="em">Тут — уся картина</span></h2><p class="lead">В інфопросторі кожне навчання в кращому випадку розкриває одну окрему частину: контент, таргет, копірайтинг чи Reels. Тож курси доводиться проходити ще, і ще, і ще. А більшість узагалі дає шаблони, які на практиці майже нічим не допомагають.</p></div>
+    <div class="cmp rv">
+      <div class="cmp-h"><span></span><span>Більшість курсів</span><span>Це навчання</span></div>
+      <div class="cmp-r"><b>Що вивчаєш</b><span>Окремо SMM, окремо таргет, окремо тексти — кожне в іншому курсі</span><span>SMM, AI, маркетинг і продажі в одній програмі</span></div>
+      <div class="cmp-r"><b>Штучний інтелект</b><span>Один модуль наприкінці або «добірка промптів»</span><span>Не замінює базу: спочатку розумієш процес, потім віддаєш AI рутину</span></div>
+      <div class="cmp-r"><b>Практика</b><span>Шаблони, які в реальній роботі майже не допомагають</span><span>Задачі на реальному проєкті і розбір кожної роботи на Zoom</span></div>
+      <div class="cmp-r"><b>Рішення про оплату</b><span>Платиш наосліп, а потім дізнаєшся, чи це твоє</span><span>Спершу 5 днів у симуляторі безкоштовно</span></div>
+      <div class="cmp-r"><b>Результат</b><span>Однакова обіцянка для всіх незалежно від стартового рівня</span><span>Свій результат для кожного маршруту: перший кейс, система просування або перехід до стратегічної роботи й вищого чека</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ДЛЯ КОГО -->
+<section style="padding-top:clamp(72px,9vw,120px);padding-bottom:0">
+  <div class="wrap">
+    <div class="head rv"><span class="tag">Кому підходить</span><h2>Три стартові точки — <span class="em">одна сильна система</span></h2><p class="lead">Тим, хто шукає онлайн-професію, потрібну бізнесу. SMM-спеціалістам, які хочуть стати маркетологами в соціальних мережах. Власникам бізнесу й експертам, які хочуть продавати через соцмережі та зробити з AI власних асистентів.</p></div>
+    <div class="bento">
+      <article class="b w2 tn has-pic rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="3"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg></div><h3>Починаю з нуля</h3><ul><li>Не потрібно знати терміни або вже вміти монтувати</li><li>Від маркетингової бази до першого оформленого кейсу</li><li>Пакети послуг, робота з клієнтом і пошук перших проєктів</li></ul><img class="pic" src="img/portrait.webp" alt=""></article>
+      <article class="b w2 dk has-pic rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V9l7-5 7 5v12"/><path d="M9 21v-6h6v6"/></svg></div><h3>Просуваю власну справу</h3><ul><li>Бізнес, послуга, продукт, експертність або блог</li><li>Розуміння аудиторії, пропозиції, контенту й воронки</li><li>Самостійна система або контроль роботи підрядника</li></ul><img class="pic" src="img/music.webp" alt=""></article>
+      <article class="b w2 em2 has-pic rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9m6 10V5m6 14v-7m4 7H2"/><path d="m4 7 5-3 5 4 6-6"/></svg></div><h3>Уже працюю в SMM</h3><ul><li>Контент є, але немає передбачуваного результату</li><li>Чек упирається в «пости, Stories і Reels», а не в цінність</li><li>Потрібні стратегія, аналітика, мультиканальність і AI-процеси</li></ul><img class="pic" src="img/phone.webp" alt=""></article>
+    </div>
+  </div>
+</section>
+
+<!-- ПРО МЕНЕ -->
+<section id="me">
+  <div class="wrap me">
+    <div class="me-pic rv">
+      <div class="bg"></div>
+      <img src="img/portrait.webp" alt="Марія Клепач, авторка навчання">
+      <svg class="seal" viewBox="0 0 120 120" aria-hidden="true"><defs><path id="sp" d="M60,60 m-45,0 a45,45 0 1,1 90,0 a45,45 0 1,1 -90,0"/></defs><circle cx="60" cy="60" r="58" fill="#fff"/><text class="ring" font-size="9" font-weight="700" letter-spacing="1.8" fill="#0F8A5F"><textPath href="#sp">19 РОКІВ У ПРОДАЖАХ · 3 РОКИ В SMM · </textPath></text><text x="60" y="68" text-anchor="middle" font-size="26" font-weight="700" fill="#062A1F" font-family="Geologica,sans-serif">МК</text></svg>
+      <div class="chip"><i>★</i>19 років у продажах · 3 роки практики в SMM</div>
+    </div>
+    <div class="me-t rv">
+      <span class="tag">Чому я створила це навчання</span>
+      <h2>Я зібрала навчання, <span class="em">якого сама не змогла знайти</span></h2>
+      <p class="muted">До SMM я 19 років працювала у продажах. За три роки в SMM я пройшла сотні уроків, курсів і наставництв, але найбільше інформації отримала лише на практиці: у роботі з клієнтами, продуктом, продажами й результатом.</p>
+      <p class="muted">В одних навчаннях є непогані шаблони, в інших — AI, у третіх — складний монтаж, який не завжди дає результат клієнту. Тому цілий рік я збирала всі потрібні частини в одну систему: щоб соцмережі не просто існували, а продавали, а один проєкт не забирав у SMM-спеціаліста по вісім годин щодня.</p>
+      <p class="muted">Так з’явився МК SMM 1.0: 66 уроків, понад 80 професійних шаблонів, вісім основних тижнів навчання та щотижневі Zoom-розбори. Якщо щось незрозуміло з першого разу — поясню ще 322. Але вчитися й виконувати практику доведеться: легких грошей я не обіцяю.</p>
+      <div class="nums">
+        <div><strong>19 років</strong><span>у продажах і роботі з клієнтами</span></div>
+        <div><strong>3 роки</strong><span>у SMM, тільки довгострокові проєкти</span></div>
+        <div><strong>1–3 роки</strong><span>стільки зі мною працюють клієнти</span></div>
+        <div><strong>Сотні</strong><span>консультацій за цей час</span></div>
+      </div>
+      <p class="quote">Три роки тому я сиділа за манікюрним столом по 12 годин на день. Взяла телефон, оплатила перший курс — і вже на другому тижні знайшла перших клієнтів. Тепер у мене власний бізнес і інша країна. І я знаю, як пройти цей шлях швидше.</p>
+    </div>
+  </div>
+</section>
+
+<!-- БЕЗКОШТОВНИЙ ТИЖДЕНЬ -->
+<section id="week">
+  <div class="wrap">
+    <div class="week">
+      <div>
+        <div class="head rv" style="margin-bottom:28px">
+          <span class="tag">МК SMM 1.0 · безкоштовний симулятор</span>
+          <h2>Не знаєш, чи тобі це потрібно? <span class="em">Перевір за 5 днів</span></h2>
+          <p class="lead">Почни зі зрозумілого пояснення SMM та фактів. Далі обери маршрут: новачок вчиться через ситуації SENSE BEAUTY; власник покроково збирає систему свого бізнесу з AI-завданнями та особистим фідбеком Марії на 5-й день; чинний SMM працює з економікою, аналітикою та стратегічним кейсом. Кожен день продовжує попередній: розмова, твоє рішення, його наслідок і пояснення. Перед практикою — повністю розібраний приклад. У новачка один салон усі п’ять днів, у власника — свій бізнес із прикладом поруч, у SMM — один стратегічний кейс. AI-завдання проходять через твій ChatGPT.</p>
+        </div>
+        <div class="days rv">
+          <div class="d"><em>0</em><div><b>Що таке SMM і чому це важливо</b><span>Зрозумілі приклади, факти з джерелами та вибір маршруту</span></div></div>
+          <div class="d"><em>1</em><div><b>Бізнес і задача</b><span>Що продаємо та яку зміну перевіряємо</span></div></div>
+          <div class="d"><em>2</em><div><b>Покупець і його ситуація</b><span>Бажання, страхи та реальні підстави висновків</span></div></div>
+          <div class="d"><em>3</em><div><b>Пропозиція, доказ і контент</b><span>Чому обрати продукт і що має побачити людина</span></div></div>
+          <div class="d"><em>4</em><div><b>Система та перевірка</b><span>Аналітика для новачка й SMM; контент-план для бізнесу</span></div></div>
+          <div class="d"><em>5</em><div><b>AI і фінальний результат</b><span>Мінікейс або система своєї справи з планом на 30 днів</span></div></div>
+          <div class="d z"><em>LIVE</em><div><b>Бізнес: особистий фідбек на 5-й день</b><span>Надсилаєш систему Марії в особистому чаті та вносиш правки</span></div></div>
+        </div>
+      </div>
+      <div class="rv" style="position:relative;justify-self:center;width:min(100%,360px)">
+        <div class="phone" aria-hidden="true"><div class="screen">
+          <div class="scr-top"><span>Тиждень 0</span><i></i></div>
+          <div class="scr-h"><b>Твій тиждень</b><span>Один день — одна задача</span></div>
+          <div class="scr-l">
+            <div><em>00</em><b>Що таке SMM</b><s>Здано</s></div>
+            <div><em>01</em><b>Бриф і задача</b><s>Здано</s></div>
+            <div class="on"><em>02</em><b>Мій покупець</b><s>Відкрито</s></div>
+            <div class="off"><em>03</em><b>Пропозиція</b><s>Далі</s></div>
+            <div class="off"><em>04</em><b>Контент і цифри</b><s>Далі</s></div>
+            <div class="off"><em>05</em><b>AI і результат</b><s>Далі</s></div>
+          </div>
+        </div></div>
+        <div class="chip c1"><i>✉</i>Лист від клієнта</div>
+        <div class="chip c2"><i>☁</i>Відповіді збережено</div>
+      </div>
+    </div>
+    <div class="tracks">
+      <div class="tr a rv"><small>Маршрут 1 · Хочу професію з нуля</small><h3>Готовий навчальний проєкт</h3><p class="muted">Отримуєш бриф, фото й усі вихідні дані та пробуєш типові задачі SMM-спеціаліста без вимоги вже щось уміти.</p></div>
+      <div class="tr rv"><small>Маршрут 2 · Просуваю свою справу</small><h3>Бізнес, блог або експертність</h3><p class="muted">Збираєш власну систему: продукт, покупець, пропозиція, теми та план на 30 днів. AI допомагає через твій ChatGPT; Марія дає особистий фідбек на 5-й день.</p></div>
+      <div class="tr rv"><small>Маршрут 3 · Уже працюю в SMM</small><h3>Аудит своєї практики</h3><p class="muted">Розбираєш економіку, сегменти, атрибуцію та тести. Фінал — стратегічний кейс із 30 постами, 70 коментарями й 20 навчальними заявками.</p></div>
+    </div>
+    <div class="rv" style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:28px">
+      <a class="btn" href="#start" data-bot="sim"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.3-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.2 13 1.4 11.5c-1-.3-1-1 .2-1.5L20.5 2.8c.9-.3 1.6.2 1.4 1.5z"/></svg>Отримати симулятор у Telegram</a>
+      <p class="small">Уже розумієш роботу з соцмережами та можливості AI? Напиши в боті <b>«хочу зідзвон»</b> — отримаєш 30 хвилин безкоштовної консультації щодо свого проєкту або навчання без штучної терміновості.</p>
+      <span class="small">Бот одразу надішле особистий вхід. Почати можна сьогодні, з телефона чи ноутбука.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ЩО ВМІТИМЕШ -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="head rv"><span class="tag">Результат</span><h2>Що зміниться <span class="em">після навчання</span></h2><p class="lead">Результат залежить від стартової точки, але фундамент один: приймати рішення на основі маркетингу, а не випадкових трендів.</p></div>
+    <div class="bento">
+      <article class="b w2 rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg></div><h3>Ідеї</h3><div class="ba"><s>Порожнє поле і «що б запостити»</s><span>Рубрики і контент-план на місяць — за один вечір з AI</span></div></article>
+      <article class="b w2 em2 rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h6M8 11h6"/></svg></div><h3>Тексти і графіка</h3><div class="ba"><s style="color:rgba(255,255,255,.7)">Години на тексти, які нічого не продають</s><span>Формули продажних текстів, шаблони Canva і AI-асистент, що пише голосом бренду</span></div></article>
+      <article class="b w2 rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="6" width="14" height="12" rx="3"/><path d="M16 10l6-3v10l-6-3"/></svg></div><h3>Відео</h3><div class="ba"><s>Вечір на монтаж одного ролика</s><span>Сценарій за формулою і шаблон монтажу під проєкт</span></div></article>
+      <article class="b w2 dk rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 4h16v12H8l-4 4z"/></svg></div><h3>Заявки</h3><div class="ba"><s>Поодинокі повідомлення в дірект, частина губиться</s><span>Воронка і чат-бот збирають заявки самі</span></div></article>
+      <article class="b w2 rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg></div><h3>Аналітика</h3><div class="ba"><s>Публікації навмання</s><span>Читаєш цифри і знаєш, що прибрати, а що посилити</span></div></article>
+      <article class="b w2 tn rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></div><h3>Впевненість</h3><div class="ba"><s>«А раптом у мене не вийде»</s><span>Система і перший результат, зроблений власними руками</span></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- ПРОГРАМА -->
+<section id="program" class="dark">
+  <div class="wrap prog">
+    <div class="prog-side rv">
+      <span class="tag">Програма</span>
+      <h2>8 основних тижнів + симулятор: від «я не знаю, з чого почати» <span style="color:var(--pale)">до власної системи SMM</span></h2>
+      <p class="lead">66 коротких уроків без припущення, що ти вже знаєш професійні слова. Спочатку розбираємо маркетингову логіку професійно й зрозуміло та робимо завдання самостійно. Потім підключаємо AI як помічника, який пришвидшує роботу, але не думає замість тебе.</p>
+      <div class="track-labels"><span>Маршрут 1 · нова професія</span><span>Маршрут 2 · власна справа або блог</span><span>Маршрут 3 · чинний SMM-спеціаліст</span></div>
+      <div class="pbars pre" id="pbars" aria-hidden="true"><i style="--h:14%" data-l="0"></i><i style="--h:24%" data-l="2"></i><i style="--h:36%" data-l="4"></i><i style="--h:50%" data-l="6"></i><i style="--h:66%" data-l="8"></i><i style="--h:84%" data-l="9"></i><i style="--h:100%" data-l="10"></i></div>
+    </div>
+    <div class="acc">
+      <details class="free" open><summary><span class="n">00</span><span class="t">Безкоштовний мінікурс · 5 днів<small>Старт + три маршрути · гра, знання та практика</small></span><span class="p" aria-hidden="true">+</span></summary><ul><li><b>Старт: що таке SMM.</b> Зрозуміле пояснення, приклади роботи та факти з джерелами.</li><li><b>День 1: бізнес-задача.</b> Що продаємо, навіщо соцмережі та який результат перевіряємо.</li><li><b>День 2: покупець.</b> Ситуації, бажання, страхи й реальні дані замість вигаданих портретів.</li><li><b>День 3: пропозиція.</b> Чому обрати продукт, що доводить цінність і як допомагає контент.</li><li><b>День 4: система.</b> Для новачка — цифри та шлях до покупки; для бізнесу — теми й план; для SMM — атрибуція та тести.</li><li><b>День 5: AI та результат.</b> Перевірка AI й фінальний кейс. Власник збирає свою систему та надсилає її Марії на особистий фідбек у чаті.</li></ul><div class="week-output"><strong>Результат:</strong><span>Новачок — мінікейс і проба професії. Власник — основа просування своєї справи. SMM — стратегічний розбір і контрольований AI-процес.</span></div></details>
+      <details><summary><span class="n">01</span><span class="t">Маркетинг, соцмережі й AI з абсолютного нуля<small>6 уроків · фундамент без складної мови</small></span><span class="p" aria-hidden="true">+</span></summary><ul><li><b>1.1 Що таке маркетинг.</b> Продукт, покупець, цінність і 4P на простих прикладах — щоб розуміти, навіщо бізнесу контент.</li><li><b>1.2 SMM у системі digital-маркетингу.</b> Де закінчується «вести сторінку» і починаються стратегія, комунікація та продажі.</li><li><b>1.3 Соцмережі у 2026 році.</b> Чим відрізняються Instagram, Facebook, TikTok, YouTube, Telegram та інші платформи.</li><li><b>1.4 Професія SMM зсередини.</b> Щоденні задачі, ролі, формати співпраці та що насправді купує клієнт.</li><li><b>1.5 База роботи з AI.</b> Як поставити чітку задачу, не передавати зайві дані й перевірити відповідь, а не сліпо копіювати її.</li><li><b>1.6 Робоче середовище і проєкт на курс.</b> Створюєш папки, бриф і обираєш проєкт, на якому проходитимеш усю програму.</li></ul><div class="week-output"><strong>Практика:</strong><span>4P проєкту, матриця «де мій клієнт», робоча папка і перші 5 промптів.</span><b>На виході: проєкт, порядок у матеріалах і розуміння, коли AI допомагає, а коли його треба перевірити.</b></div></details>
+      <details><summary><span class="n">02</span><span class="t">Стратегія: бізнес, бренд і блог<small>7 уроків · кому, що і навіщо говорити</small></span><span class="p" aria-hidden="true">+</span></summary><ul><li><b>2.1 Бізнес, бренд, особистий блог.</b> Розбираєш різницю між трьома моделями та цілями їхніх соцмереж.</li><li><b>2.2 Цільова аудиторія і портрет покупця.</b> Вчишся бачити не «жінок 25–45», а конкретну людину, її ситуацію, потребу й задачу покупки — JTBD.</li><li><b>2.3 Аналіз конкурентів.</b> Порівнюєш 5 конкурентів за єдиною таблицею і робиш SWOT без копіювання чужих ідей.</li><li><b>2.4 Позиціонування і бренд-платформа.</b> Формулюєш, для кого бренд, чим відрізняється, що обіцяє і як звучить.</li><li><b>2.5 Чому одна публікація — це не SMM.</b> З'єднуєш окремі дописи в систему, що веде до бізнес-цілі.</li><li><b>2.6 Контент-стратегія.</b> Визначаєш рубрики, формати, частоту, SMART-цілі та план на місяць.</li><li><b>2.7 Як працюють алгоритми.</b> Розумієш базову логіку рекомендацій і чому універсальної «секретної кнопки» не існує.</li></ul><div class="week-output"><strong>Практика:</strong><span>Портрет покупця + JTBD, аналіз 5 конкурентів + SWOT, бренд-платформа, tone of voice і контент-стратегія.</span><b>На виході: готова стратегічна основа, на якій триматиметься весь подальший контент.</b></div></details>
+      <details><summary><span class="n">03</span><span class="t">Контент-продакшн своїми руками<small>8 уроків · фото, відео, графіка й тексти</small></span><span class="p" aria-hidden="true">+</span></summary><ul><li><b>3.1 Візуальна ідентичність.</b> Збираєш moodboard і brand kit: кольори, шрифти, стиль фото та правила оформлення.</li><li><b>3.2 Мобільна фотозйомка.</b> Світло, композиція, ракурси й серія кадрів на звичайний телефон.</li><li><b>3.3 Вихід у камеру.</b> Готуєш думку, кадр і подачу, щоб говорити природно, навіть якщо раніше не знімався.</li><li><b>3.4 Відео: зйомка.</b> Сценарій, хук у перші секунди, план кадрів і вертикальний формат.</li><li><b>3.5 Відео: монтаж.</b> Ритм, склейки, субтитри, звук і експорт; спочатку вручну, потім із допомогою AI.</li><li><b>3.6 Графіка.</b> Каруселі, обкладинки й Stories у Canva без дизайнерської освіти.</li><li><b>3.7 Тексти і копірайтинг.</b> Гачок, структура, доказ і один заклик до дії; як прибрати з тексту «голос робота».</li><li><b>3.8 Правова безпека контенту.</b> Що можна використовувати з музики, фото, відео й шрифтів та де перевіряти права.</li></ul><div class="week-output"><strong>Практика:</strong><span>Brand kit, 10 фото в одному стилі, 2 Reels, одна карусель і тексти до контенту.</span><b>На виході: перший цілісний пакет контенту, створений самостійно й пришвидшений AI там, де це доречно.</b></div></details>
+      <details><summary><span class="n">04</span><span class="t">Instagram і Facebook без хаосу<small>7 уроків · налаштування, контент, спілкування, цифри</small></span><span class="p" aria-hidden="true">+</span></summary><ul><li><b>4.1 Алгоритми.</b> Як платформа тестує публікацію, кому показує її далі та які сигнали справді важливі.</li><li><b>4.2 Технічне налаштування.</b> Професійний акаунт, безпечні доступи, зв'язка сторінок, UTM-мітки та базові перевірки.</li><li><b>4.3 Instagram: формати й упаковка.</b> Біо, аватар, актуальне, стрічка, Reels, каруселі та шлях людини в профілі.</li><li><b>4.4 Stories: прогрів і продажі.</b> Як скласти серію історій, утримати увагу й підвести до однієї дії.</li><li><b>4.5 Community management.</b> Коментарі, дірект, швидкість відповіді, запитання, заперечення й негатив.</li><li><b>4.6 Facebook для бізнесу.</b> Сторінки, групи, локальний бізнес і ситуації, коли канал варто використовувати.</li><li><b>4.7 Meta Business Suite і статистика.</b> Планування публікацій та перше читання показників без складної аналітики.</li></ul><div class="week-output"><strong>Практика:</strong><span>Налаштування й переупаковка профілю, тиждень публікацій, Stories на 3 дні та перший звіт.</span><b>На виході: робочий профіль, контент за планом і розуміння перших цифр.</b></div></details>
+      <details><summary><span class="n">05</span><span class="t">TikTok, YouTube, Telegram та інші платформи<small>5 уроків · одна система замість п'яти окремих робіт</small></span><span class="p" aria-hidden="true">+</span></summary><ul><li><b>5.1 TikTok.</b> Рекомендації, пошук, тренди, серійні формати й адаптація короткого відео під платформу.</li><li><b>5.2 YouTube.</b> Shorts, довгі відео, заголовок, обкладинка та базове SEO.</li><li><b>5.3 Telegram.</b> Канал для теплої аудиторії: структура дописів, навігація, залучення й продажі без постійного спаму.</li><li><b>5.4 Інші майданчики.</b> Threads, LinkedIn, Pinterest і WhatsApp — кому вони потрібні, а кому ні.</li><li><b>5.5 Омніканальний маркетинг.</b> Перетворюєш одну сильну ідею на різні формати, зберігаючи сенс і правила кожної мережі.</li></ul><div class="week-output"><strong>Практика:</strong><span>Запуск другого майданчика, одна ідея у 5 форматах і схема руху аудиторії між каналами.</span><b>На виході: мультиканальна система, яку реально підтримувати без копіювання одного поста всюди.</b></div></details>
+      <details><summary><span class="n">06</span><span class="t">Просування і продажі<small>6 уроків · як увага переходить у звернення й покупку</small></span><span class="p" aria-hidden="true">+</span></summary><ul><li><b>6.1 Воронка продажів.</b> Шлях від першого знайомства до заявки, карта клієнтського шляху та лід-магніт.</li><li><b>6.2 Органічне просування.</b> Колаборації, UGC, активності й партнерства без рекламного кабінету.</li><li><b>6.3 Influencer marketing.</b> Як обрати блогера, перевірити аудиторію, скласти бриф і зафіксувати результат.</li><li><b>6.4 Таргетована реклама Meta: база.</b> Ціль кампанії, аудиторія, креатив, бюджет і показники — без обіцянки стати таргетологом за тиждень.</li><li><b>6.5 Інші рекламні канали.</b> Коли дивитися в Google, TikTok та інші джерела платного трафіку.</li><li><b>6.6 Продажі в дірект і запуски.</b> Діалог без тиску, уточнення потреби, відповідь на заперечення та план запуску.</li></ul><div class="week-output"><strong>Практика:</strong><span>Воронка, лід-магніт, одна колаборація, медіаплан; за бажанням — тестова кампанія з малим бюджетом.</span><b>На виході: зрозумілий план просування й система, яка створює умови для перших звернень.</b></div></details>
+      <details><summary><span class="n">07</span><span class="t">AI й автоматизація після бази<small>6 уроків · менше рутини, більше контролю</small></span><span class="p" aria-hidden="true">+</span></summary><ul><li><b>7.1 AI-асистент проєкту.</b> Налаштовуєш контекст, правила бренду й приклади, щоб помічник не генерував безликі шаблони.</li><li><b>7.2 Чат-боти в Instagram.</b> Автоматична видача матеріалу, збір контакту, сценарій діалогу й передача людині.</li><li><b>7.3 Telegram-боти.</b> Команди, ланцюжки повідомлень, сегментація й базовий сценарій без програмування.</li><li><b>7.4 Автоматизація робочих процесів.</b> Будуєш шлях від ідеї до погодження, публікації та збереження результатів.</li><li><b>7.5 Правила й етика AI.</b> Персональні дані, авторське право, маркування та перевірка фактів.</li><li><b>7.6 Замір ефекту.</b> Порівнюєш час і якість «до / після», щоб автоматизувати тільки те, що справді дає користь.</li></ul><div class="week-output"><strong>Практика:</strong><span>Власний AI-асистент, один чат-бот, контент-конвеєр і особистий замір економії часу.</span><b>На виході: автоматизація як перевага твоєї системи, а не заміна маркетингових знань.</b></div></details>
+      <details><summary><span class="n">08</span><span class="t">Аналітика, упаковка послуг і система роботи<small>8 уроків · цифри, документи й зрозумілий продукт</small></span><span class="p" aria-hidden="true">+</span></summary><ul><li><b>8.1 Аналітика і KPI.</b> Простою мовою про охоплення, залученість, кліки, вартість заявки та окупність.</li><li><b>8.2 Звітність.</b> Як зібрати дашборд і пояснити цифри клієнту або собі: що спрацювало і що змінюємо.</li><li><b>8.3 Упаковка послуги — маршрути 1 і 3.</b> Формуєш прайс, три пакети й комерційну пропозицію без списку «роблю все».</li><li><b>8.4 Підвищення чека — маршрут 3.</b> Перехід від продажу кількості контенту до продажу діагностики, стратегії, системи й вимірюваного внеску.</li><li><b>8.5 Особистий бренд SMM-спеціаліста.</b> Позиціонування, докази, профіль і контент для залучення клієнтів.</li><li><b>8.6 Робота з клієнтом.</b> Бриф, онбординг, межі відповідальності, погодження, зв'язок і договір.</li><li><b>8.7 Системність і офіційна робота.</b> Планування часу, ведення задач, документи й базова організація роботи.</li><li><b>8.8 Керування підрядником — маршрут 2.</b> Як поставити ТЗ, визначити KPI та оцінювати роботу не за відчуттями.</li></ul><div class="week-output"><strong>Практика:</strong><span>Звіт і KPI; для майбутнього або чинного SMM — прайс, пакети, КП, кейс і аргументація ціни; для власника — ТЗ та система контролю підрядника.</span><b>На виході: сильніше упакована SMM-послуга або зрозуміла система керування просуванням своєї справи.</b></div></details>
+      <div class="week-output"><strong>Фінал усіх маршрутів:</strong><span>Demo day, оформлений кейс або 90-денна система просування, персональні наступні кроки та план роботи після навчання. Клієнтів не шукаємо з першого дня: спочатку навички. Якщо власного проєкту немає, Марія надає живий проєкт для практики від А до Я.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ІНСТРУМЕНТИ -->
+<section>
+  <div class="wrap">
+    <div class="head c rv"><span class="tag">Інструменти</span><h2>Інструменти, з якими <span class="em">працюють професіонали</span></h2><p class="lead">Для старту достатньо безкоштовних версій.</p></div>
+    <div class="tools rv">
+      <span>Instagram</span><span>Facebook</span><span>TikTok</span><span>YouTube</span><span>Telegram</span><span>Threads</span><span>LinkedIn</span><span>Pinterest</span><span>Meta Business Suite</span><span>Ads Manager</span><span>Canva</span><span>CapCut</span><span>Google Таблиці</span><span class="ai">ChatGPT</span><span class="ai">Claude</span><span class="ai">AI-асистенти</span><span class="ai">Чат-боти</span>
+    </div>
+  </div>
+</section>
+
+<!-- РИНОК -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="head rv"><span class="tag">Ринок · вересень 2026</span><h2>Професія <span class="em">без кордонів</span></h2><p class="lead">Кожен бізнес сьогодні продає через соцмережі: б'юті-студія у Львові, ресторан у Варшаві, онлайн-школа в Берліні. Усім потрібна людина, яка перетворить увагу на продажі. Середні зарплати Social Media Manager у найманій роботі:</p></div>
+    <div class="market">
+      <div class="mk rv"><span class="c">США</span><span class="v" data-n="64000" data-p="$">$64 000 <small>/рік</small></span><span class="s">медіана · <a href="https://www.glassdoor.com/Salaries/us-social-media-manager-salary-SRCH_IL.0,2_IN1_KO3,23.htm" target="_blank" rel="noopener">Glassdoor</a></span></div>
+      <div class="mk rv"><span class="c">Німеччина</span><span class="v" data-n="37100" data-p="€">€37 100 <small>/рік</small></span><span class="s">медіана, брутто · <a href="https://www.stepstone.de/gehalt/Social-Media-Manager-in.html" target="_blank" rel="noopener">StepStone</a></span></div>
+      <div class="mk rv"><span class="c">Польща</span><span class="v" data-n="7570" data-s=" zł">7 570 zł <small>/міс</small></span><span class="s">медіана, брутто · <a href="https://wynagrodzenia.pl/moja-placa/ile-zarabia-social-media-manager" target="_blank" rel="noopener">Wynagrodzenia.pl</a></span></div>
+      <div class="mk rv"><span class="c">Україна</span><span class="v" data-n="30000" data-s=" грн">30 000 грн <small>/міс</small></span><span class="s">середня у вакансіях · <a href="https://www.work.ua/salary-smm-%D0%BC%D0%B5%D0%BD%D0%B5%D0%B4%D0%B6%D0%B5%D1%80/" target="_blank" rel="noopener">Work.ua</a></span></div>
+    </div>
+    <p class="small" style="margin-top:16px">Це середні показники ринку, а не обіцянка доходу після навчання. Дохід на фрілансі залежить від кількості клієнтів і твоїх цін.</p>
+  </div>
+</section>
+
+<!-- ВАРТІСТЬ -->
+<section id="price" style="padding-top:0">
+  <div class="wrap">
+    <div class="head c rv"><span class="tag">Вартість</span><h2>Обери, як <span class="em">навчатися</span></h2><p class="lead">Безкоштовне навчання в симуляторі — для всіх. Після нього ти обираєш формат. Якщо рішення вже є, місце можна забронювати одразу.</p></div>
+    <div class="prices">
+      <article class="pr rv">
+        <span class="k">Навчання</span>
+        <div class="amt">€550</div>
+        <ul>
+          <li>8 основних тижнів програми після безкоштовного симулятора</li>
+          <li>Відеоуроки і практичні задачі щотижня</li>
+          <li>Zoom-розбір раз на тиждень і чат потоку</li>
+          <li>Бібліотека шаблонів і промптів, готові AI-асистенти і чат-боти</li>
+          <li>Доступ до уроків ще місяць після завершення</li>
+          <li>Участь у конкурсі на місяць практики зі мною</li>
+        </ul>
+        <a class="btn" href="#start" data-bot="pay550">Забронювати місце · €550</a>
+        <a class="small" href="#start" data-bot="sim">або спершу безкоштовне навчання в симуляторі</a>
+      </article>
+      <article class="pr dk rv">
+        <span class="hot">Максимум уваги</span>
+        <span class="k">Індивідуальний супровід</span>
+        <div class="amt">€2000</div>
+        <ul>
+          <li>Усе з тарифу «Навчання»</li>
+          <li>Мій персональний супровід протягом усього навчання</li>
+          <li>Індивідуальні розбори твого проєкту і задач</li>
+          <li>Без участі в конкурсі: ти вже працюєш зі мною особисто</li>
+        </ul>
+        <a class="btn light" href="#start" data-bot="pay2000">Забронювати місце · €2000</a>
+        <a class="small" href="#start" data-bot="sim">або спершу безкоштовне навчання в симуляторі</a>
+      </article>
+    </div>
+    <p class="small note">Старт потоку — 1 листопада. Ціна однакова для всіх, без знижок і розстрочок. Оплата з будь-якої країни, умови — у договорі, який ти отримаєш перед оплатою.</p>
+  </div>
+</section>
+
+<!-- ПРИЗ -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="prize rv">
+      <div class="medal"><div><span><big>1</big><small>МІСЯЦЬ<br>ПРАКТИКИ</small></span></div></div>
+      <div class="t">
+        <span class="tag">Приз потоку</span>
+        <h2 style="font-size:clamp(1.6rem,3vw,2.4rem)">Місяць практики зі мною для найкращого студента</h2>
+        <p class="muted">Протягом навчання я веду рейтинг: виконані задачі, якість роботи, участь у Zoom і фінальний результат. Кількість підписників не враховується. Студент з найвищим рейтингом працює поруч зі мною на реальних проєктах. У конкурсі беруть участь студенти тарифу €550.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="padding-top:0">
+  <div class="wrap">
+    <div class="head c rv"><span class="tag">Питання</span><h2>Часті <span class="em">запитання</span></h2></div>
+    <div class="faq rv">
+      <details><summary>У мене немає знань і досвіду. Це для мене?</summary><p>Так. Навчання підходить новачкам: кожна тема розкривається з нуля, а незрозумілі питання ми розбираємо на Zoom і на практиці, яку я координую.</p></details>
+      <details><summary>Я вже працюю SMM-спеціалістом. Мені не буде надто просто?</summary><p>Деякі базові теми будуть знайомі. Але програма створена з урахуванням маркетингу, платформних алгоритмів та AI-інструментів 2026 року: стратегія, бізнес-метрики, мультиканальність, упаковка послуг, аргументація ціни й автоматизація.</p></details>
+      <details><summary>Чи потрібен комп'ютер?</summary><p>Навчатися й почати працювати можна з телефона. Для таблиць, аналітики, автоматизацій і зручної роботи краще мати ноутбук — це економить час.</p></details>
+      <details><summary>Скільки часу треба на навчання?</summary><p>Мінімум дві години на день. Легко не буде: потрібні зусилля й практика. Навчатися можна в будь-який час доби, але час на роботу закласти необхідно.</p></details>
+      <details><summary>Чи треба платити за сервіси?</summary><p>Під час навчання можна обійтися безкоштовними версіями сервісів. Для подальшої професійної роботи частина основних інструментів має місячну підписку.</p></details>
+      <details><summary>Я не з України. Можна?</summary><p>Так. Маркетингова логіка й основні інструменти працюють у різних країнах. SMM дає можливість працювати з проєктами по всьому світу — дистанційно або локально.</p></details>
+      <details><summary>Що робити, якщо після симулятора я ще не впевнена/впевнений?</summary><p>Напиши в бот «хочу зідзвон». Я допоможу розібратися, чи є сенс іти далі саме тобі.</p></details>
+      <details><summary>Чим це відрізняється від безкоштовних відео на YouTube?</summary><p>За бажання професію можна вивчити самостійно: інформація є в YouTube, Google та AI. Але потрібно вміти відбирати актуальні джерела, аналізувати, знати англійську й перетворювати розрізнені матеріали на практику. Тут є маршрут, живий проєкт, щотижневий Zoom, розбір результату й правки — зворотний зв’язок перетворює інформацію на навичку.</p></details>
+      <details><summary>А якщо AI скоро замінить SMM-спеціалістів?</summary><p>AI пише варіанти, але не вирішує, кому продавати, що говорити і як рахувати результат. Саме цього я й навчаю: ти керуєш AI, а не змагаєшся з ним.</p></details>
+      <details><summary>Чи можна повернути кошти?</summary><p>Саме для цього існує безкоштовний симулятор: про оплату ти вирішуєш, уже попрацювавши в ролі SMM-спеціаліста. Умови повернення прописані в договорі, який ти отримаєш перед оплатою.</p></details>
+      <details><summary>Чи є розстрочка або знижки?</summary><p>Ні. Ціна однакова для всіх.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ФІНАЛ -->
+<section id="start" style="padding-top:0">
+  <div class="wrap">
+    <div class="final rv">
+      <svg class="star" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 0l9 36 41 14-41 14-9 36-9-36L0 50l41-14z" fill="currentColor"/></svg>
+      <span class="tag">Старт потоку 1 листопада</span>
+      <h2>Почни безкоштовне навчання <span style="color:var(--pale)">в симуляторі</span></h2>
+      <p class="lead">За 5 днів ти зрозумієш свій наступний крок: почати професію, вибудувати просування власної справи або перейти від «веду Instagram» до стратегічної роботи в SMM. Бот надішле особистий вхід, а фідбек проходитиме приватно.</p>
+      <div class="opts">
+        <a class="btn light" href="#start" data-bot="sim">Отримати доступ безкоштовно</a>
+        <a class="btn line" href="#start" data-bot="buy">Одразу забронювати місце</a>
+      </div>
+      <p class="ps"><b>P.S.</b> Дочитати лендінг до кінця — вже ознака, що тобі цікаво. Залишається прийняти рішення й почати зміни у своєму житті.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>© 2026 МК SMM 1.0 · Марія Клепач</span><a href="privacy.html">Політика конфіденційності</a></div></footer>
+
+<script>
+  // ===== Налаштування воронки =====
+  var BOT = "smm_ai_mariia_klepach_bot";
+  var START = { sim:"sim_landing", buy:"buy_landing", pay550:"pay_550", pay2000:"pay_2000" };
+  document.querySelectorAll('a[data-bot]').forEach(function(a){
+    var k = a.getAttribute("data-bot");
+    if (BOT) a.href = "https://t.me/" + BOT + "?start=" + START[k];
+    else a.href = (k === "sim") ? "login.html?next=simulator.html" : "#price";
+    if (BOT){ a.target = "_blank"; a.rel = "noopener"; }
+  });
+  // Відлік до старту потоку (1 листопада 2026, 10:00 за Києвом)
+  (function(){
+    var t = new Date("2026-11-01T10:00:00+02:00").getTime();
+    function set(id,v,l){ var e=document.getElementById(id); if(e) e.innerHTML=v+'<i>'+l+'</i>'; }
+    function tick(){ var m=Math.floor(Math.max(0,t-Date.now())/60000); set("cd_d",Math.floor(m/1440),"дн"); set("cd_h",Math.floor(m%1440/60),"год"); set("cd_m",m%60,"хв"); }
+    tick(); setInterval(tick,30000);
+  })();
+  (function(){
+    var red = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // шапка і прогрес прокрутки
+    var top=document.getElementById('top'), bar=document.getElementById('sprog');
+    function sc(){ var h=document.documentElement, p=h.scrollTop/((h.scrollHeight-h.clientHeight)||1); bar.style.transform='scaleX('+p+')'; top.classList.toggle('sc',h.scrollTop>10); }
+    addEventListener('scroll',sc,{passive:true}); sc();
+    // слова, що змінюються в заголовку
+    var rot=document.getElementById('rot');
+    if(rot && !red){ var W=rot.getAttribute('data-words').split('|'), wi=0, ci=W[0].length, del=true;
+      rot.innerHTML='<span></span><i class="cur"></i>'; var sp=rot.firstChild; sp.textContent=W[0];
+      (function step(){ var w=W[wi];
+        if(del){ ci--; sp.textContent=w.slice(0,ci); if(ci<=0){ del=false; wi=(wi+1)%W.length; } setTimeout(step, ci<=0?250:28); }
+        else { var nw=W[wi]; ci++; sp.textContent=nw.slice(0,ci); if(ci>=nw.length){ del=true; setTimeout(step,2200); } else setTimeout(step,55); }
+      })(); }
+    // віяло фото
+    var fan=document.getElementById('fan'); setTimeout(function(){ fan.classList.remove('pre'); }, red?0:150);
+    if(red || !('IntersectionObserver' in window)){ var pb=document.getElementById('pbars'); if(pb) pb.classList.remove('pre'); return; }
+    // поява блоків
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.remove('pre'); io.unobserve(e.target); } }); },{rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.rv, #pbars').forEach(function(el){ if(el.getBoundingClientRect().top>innerHeight*0.92){ el.classList.add('pre'); io.observe(el); } else el.classList.remove('pre'); });
+    // лічильники зарплат
+    var io2=new IntersectionObserver(function(es){ es.forEach(function(e){ if(!e.isIntersecting) return; io2.unobserve(e.target); var el=e.target, n=+el.getAttribute('data-n'), p=el.getAttribute('data-p')||'', s=el.getAttribute('data-s')||'', sm=el.querySelector('small').outerHTML, t0=null;
+      (function f(t){ if(!t0) t0=t; var k=Math.min(1,(t-t0)/1400), v=Math.round(n*(1-Math.pow(1-k,3))); el.innerHTML=p+v.toLocaleString('uk-UA').replace(/\s/g,' ')+s+' '+sm; if(k<1) requestAnimationFrame(f); })(performance.now()); }); },{threshold:.5});
+    document.querySelectorAll('.mk .v').forEach(function(v){ io2.observe(v); });
+    // легкий 3D-нахил карток
+    if(matchMedia('(hover:hover)').matches){
+      document.querySelectorAll('.b,.pr,.tr').forEach(function(c){
+        c.addEventListener('mousemove',function(ev){ var r=c.getBoundingClientRect(),x=(ev.clientX-r.left)/r.width-.5,y=(ev.clientY-r.top)/r.height-.5; c.style.transform='perspective(1000px) rotateX('+(-y*4)+'deg) rotateY('+(x*5)+'deg) translateY(-6px)'; });
+        c.addEventListener('mouseleave',function(){ c.style.transform=''; });
+      });
+    }
+  })();
+</script>
+</body>
+</html>

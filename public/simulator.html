@@ -1,23 +1,36 @@
-
 <!doctype html>
 <html lang="uk">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>МК SMM 1.0 · симулятор</title>
-<meta name="description" content="Симулятор безкоштовного тижня курсу SMM + AI з нуля: 5 робочих днів SMM-спеціаліста.">
+<title>Безкоштовний SMM-симулятор — МК SMM 1.0</title>
+<meta name="application-name" content="МК SMM 1.0">
+<meta name="apple-mobile-web-app-title" content="МК SMM 1.0">
+<meta name="description" content="Проживи п’ять днів у ролі SMM-спеціаліста на навчальному проєкті та зрозумій, чи підходить тобі цей напрям.">
+<link rel="canonical" href="https://smm-ai-mariia-klepach.klepachmari.chatgpt.site/simulator">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="МК SMM 1.0">
+<meta property="og:title" content="Безкоштовний SMM-симулятор — МК SMM 1.0">
+<meta property="og:description" content="П’ять днів у ролі SMM-спеціаліста: маркетинг, бриф, конкуренти, ЦА, упаковка, контент і AI.">
+<meta property="og:url" content="https://smm-ai-mariia-klepach.klepachmari.chatgpt.site/simulator">
+<meta property="og:image" content="https://smm-ai-mariia-klepach.klepachmari.chatgpt.site/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="МК SMM 1.0 — безкоштовний SMM-симулятор">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Безкоштовний SMM-симулятор — МК SMM 1.0">
+<meta name="twitter:description" content="Проживи п’ять днів у ролі SMM-спеціаліста та отримай перші практичні навички.">
+<meta name="twitter:image" content="https://smm-ai-mariia-klepach.klepachmari.chatgpt.site/og-cover.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@500;600;700;800&family=Onest:wght@400;500;600;700&display=swap">
-<style>
-/* Прибираємо старий Telegram/ключ-вхід: єдиний вхід тепер через email-код */
-#f_key, #f_rkey, #f_key2,
-#restoreBtn, #keyBtn2,
-label[for="f_key"], label[for="f_rkey"], label[for="f_key2"] {
-  display:none !important;
-}
-</style>
-
+<link rel="stylesheet" href="minicourse.css?v=14">
+<link rel="stylesheet" href="story-course.css?v=14">
+<link rel="stylesheet" href="story-v15.css?v=16">
+<style>html{visibility:hidden}</style>
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="cloud.js"></script>
 </head>
 <body>
 <style>
@@ -352,11 +365,11 @@ var CONFIG = {
   BOT: "smm_ai_mariia_klepach_bot",       // нікнейм Telegram-бота без @
   START: "",  // порожньо = проходити можна будь-коли (дні відкриваються по черзі після здачі)
   SUBMIT: [],  // заповнюється після підключення нового бота
-  SYNC_URL: "https://script.google.com/macros/s/AKfycbyzfjeTMASVAqFFjNOp1K5sOrIgV8Y73qtJlAMMtpqTMhCtI9Id708eqyu1zTzlqWRp/exec",  // Google Apps Script: хмарне збереження прогресу
-  AUTH_URL: "https://script.google.com/macros/s/AKfycbx5jFGBIu9YTLBq_9R3cW6q6XehW-njlVYl1IboLNjxMUUFjrhJ9RmVPUHkMX0Ta6nD/exec",  // підтвердження email кодом
-  CHAT_URL: "https://t.me/smm_ai_mariia_klepach_bot?start=feedback",
-  MYLINK: "./",  // буде замінено на посилання нового бота
-  CALL_URL: "https://t.me/smm_ai_mariia_klepach_bot?start=feedback",
+  SYNC_URL: "supabase",  // персональне збереження за авторизованим email
+  LEGACY_SYNC_URL: "https://smm-ai-mariia-klepach.klepachmari.chatgpt.site/sync",
+  CHAT_URL: "https://t.me/smm_ai_mariia_klepach_bot?start=6abfc4bbb2d1a4a7430d1931",
+  MYLINK: "https://t.me/smm_ai_mariia_klepach_bot",
+  CALL_URL: "https://t.me/smm_ai_mariia_klepach_bot?start=6abfc4bbb2d1a4a7430d1931",
   ZOOM_TEXT: "Фінальний Zoom — дата і посилання надішле бот.",
   LESSONS: {0:"",1:"",2:"",3:"",4:"",5:""}
 };
@@ -417,7 +430,7 @@ var DAYS = [
    {t:"Зареєструйся у Canva, CapCut і AI-асистенті",items:["Відкрий кожен застосунок → «Увійти» / «Зареєструватися» → «Продовжити з Google» → обери навчальну пошту.","ChatGPT: chatgpt.com. Claude: claude.ai. Безкоштовного тарифу достатньо.","Перевір AI: напиши «Привіт! Поясни одним реченням, що таке SMM». Якщо прийшла відповідь — усе працює."]},
    {t:"Створи папки проєкту в Google Диску",items:["Google Диск → «+» → «Папка» → назва «SMM Тиждень 0».","Усередині створи 7 папок: 01 Бриф · 02 Конкуренти · 03 Профіль · 04 Контент-план · 05 Пост · 06 Відео · 07 Звіт.","Цифри на початку потрібні, щоб папки стояли по порядку."],tip:"Так само SMM-спеціаліст веде папку кожного клієнта. Ти звикаєш до системи з першого дня."},
    {t:"Завантаж пакет матеріалів",items:["Трек А: brand kit, логотип, обкладинки і таблиці — у блоках «Файли для роботи» кожного дня. Фото і відео кав'ярні — за посиланням на пакет матеріалів.","Збережи brand kit у папку 03 Профіль уже зараз: він знадобиться в Дні 3 і 4.","Трек Б: збери у папку 10–15 своїх фото і 5–10 коротких відео про свою справу (процес, продукт, руки, простір)."]},
-   {t:"Дізнайся, як я оцінюю, і заповни анкету",items:["Я дивлюся на 4 речі: чи виконані задачі дня, чи здано в той самий день до 23:59, якість (чи зроблено за інструкцією) і мотивацію.","Вступне відео (4 хв) закріплене в каналі t.me/masha_in_albania_smm — там я розповідаю, як проходить тиждень.","Анкета — нижче в робочому полі. Відповідай чесно: це не іспит, а знайомство."]}
+   {t:"Дізнайся, як я оцінюю, і заповни анкету",items:["Я дивлюся на 4 речі: чи виконані задачі дня, чи здано в той самий день до 23:59, якість (чи зроблено за інструкцією) і мотивацію.","Вступне відео та організаційна інформація приходять через нового бота SMM + AI · Марія Клепач.","Анкета — нижче в робочому полі. Відповідай чесно: це не іспит, а знайомство."]}
   ],
   mistakes:["Реєструвати робочі сервіси на особисту пошту — потім важко розділити.","Зберігати файли «десь у галереї» — наприкінці тижня ти їх не знайдеш.","Пропускати анкету: без неї я не зможу підлаштувати розбір під тебе."],
   check:["Застосунки встановлено, у Canva, CapCut і AI-асистенті є вхід.","Створено папку «SMM Тиждень 0» з 7 підпапками.","Анкета заповнена змістовно: не «не знаю» і не одне слово."]},
@@ -538,24 +551,11 @@ var DAYS = [
 /* ===== Стан ===== */
 var TESTMODE = /[?&]test=1/.test(location.search);
 var TESTFRESH = TESTMODE && /[?&]fresh=1/.test(location.search);
-var KEY = TESTMODE ? "smm-ai-review-v16" : "smm-ai-week0-v2";
+var AUTH_UID = TESTMODE ? "review" : (localStorage.getItem("mk_auth_uid")||"");
+var KEY = TESTMODE ? "smm-ai-review-v16" : "smm-ai-week0-v3-"+AUTH_UID;
 var STORE = TESTMODE ? sessionStorage : localStorage;
 if(TESTFRESH){ try{ STORE.removeItem(KEY); STORE.removeItem(KEY+"-dirty"); }catch(e){} }
 var S = load();
-function normalizeState_(){
-  try{
-    if(!S || typeof S!=="object") S={name:"",track:"",about:"",f:{},done:{},view:"welcome"};
-    if(!S.f || typeof S.f!=="object") S.f={};
-    if(!S.done || typeof S.done!=="object") S.done={};
-    if(typeof S.name!=="string") S.name="";
-    if(typeof S.about!=="string") S.about="";
-    if(S.track!=="A" && S.track!=="B") S.track="";
-    var ok=/^(welcome|dash|final|d[0-5])$/.test(String(S.view||""));
-    if(!ok) S.view=S.track?"dash":"welcome";
-    if(!S.track && S.view!=="welcome") S.view="welcome";
-  }catch(e){ S={name:"",track:"",about:"",f:{},done:{},view:"welcome"}; }
-}
-normalizeState_();
 function load(){ try{ var r = STORE.getItem(KEY); if(r) return JSON.parse(r);}catch(e){} return {name:"",track:TESTMODE?"A":"",about:"",f:{},done:{},view:TESTMODE?"d0":"welcome"}; }
 function save(noBump){ if(!noBump){ S.updated=Date.now(); SYNC.dirty=true; } try{ STORE.setItem(KEY, JSON.stringify(S)); }catch(e){} schedulePush(); }
 
@@ -568,7 +568,7 @@ var DF=(function(){ try{ return JSON.parse(STORE.getItem(DKEY)||"{}")||{}; }catc
 function saveDF(){ try{ STORE.setItem(DKEY, JSON.stringify(DF)); }catch(e){} }
 var URLKEY=(function(){ var m=location.search.match(/[?&]u=([^&#]+)/); if(!m) return ""; var v=""; try{ v=decodeURIComponent(m[1]).trim(); }catch(e){} if(/^\d{3,}$/.test(v)) return "tg"+v; if(/^[A-Za-z0-9_-]{3,64}$/.test(v)) return "id_"+v.toLowerCase(); return ""; })();
 function normKey(k){ return String(k||"").trim().toLowerCase().replace(/^@+/,"").replace(/\s+/g,""); }
-function syncOn(){ return !TESTMODE && !!CONFIG.SYNC_URL; }
+function syncOn(){ return !TESTMODE && !!AUTH_UID && !!window.MKCloud; }
 function setSync(st){ SYNC.state=st; var el=document.getElementById("syncst"); if(el) el.textContent = st==="saving"?"зберігаю…":st==="ok"?"збережено в хмарі ✓":st==="err"?"немає зв'язку — збережу пізніше":""; }
 function schedulePush(){ if(!syncOn()||!S.key||!SYNC.ready||!SYNC.dirty) return; clearTimeout(SYNC.t); SYNC.t=setTimeout(push,1200); }
 function payload(){ var f={}; Object.keys(DF).forEach(function(k){ if(S.f[k]!==undefined) f[k]=S.f[k]; });
@@ -577,20 +577,28 @@ function push(){ if(!syncOn()||!S.key) return Promise.resolve();
   if(SYNC.busy){ clearTimeout(SYNC.t); SYNC.t=setTimeout(push,1500); return Promise.resolve(); }
   SYNC.busy=true; setSync("saving");
   var body=payload(), sent=body.data.f;
-  return fetch(CONFIG.SYNC_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(body)})
-    .then(function(r){return r.json();}).then(function(j){ SYNC.busy=false;
+  return window.MKCloud.save(body.data)
+    .then(function(j){ SYNC.busy=false;
       if(j&&j.ok){ Object.keys(sent).forEach(function(k){ if(S.f[k]===sent[k]) delete DF[k]; }); saveDF();
         if(!Object.keys(DF).length) SYNC.dirty=false; setSync("ok"); if(SYNC.dirty) schedulePush(); }
       else { setSync("err"); SYNC.t=setTimeout(push,15000); } })
     .catch(function(){ SYNC.busy=false; setSync("err"); clearTimeout(SYNC.t); SYNC.t=setTimeout(push,15000); }); }
 /* Дані з хмари перевіряються: лише очікувані поля і типи (захист від підкинутого коду) */
 function clean(d){ if(!d||typeof d!=="object") return null;
-  var o={name:String(d.name||"").slice(0,200), track:(d.track==="A"||d.track==="B")?d.track:"", about:String(d.about||"").slice(0,500), f:{}, ft:{}, done:{}, updated:+d.updated||0};
+  var o={name:String(d.name||"").slice(0,200), track:(d.track==="A"||d.track==="B"||d.track==="C")?d.track:"", about:String(d.about||"").slice(0,500), f:{}, ft:{}, done:{}, updated:+d.updated||0,
+    view:/^d[0-5]$|^(welcome|dash|final)$/.test(String(d.view||""))?String(d.view):"dash"};
   Object.keys(d.f||{}).forEach(function(k){ if(/^[\w-]{1,40}$/.test(k) && d.f[k]!=null) o.f[k]=String(d.f[k]).slice(0,20000); });
   Object.keys(d.ft||{}).forEach(function(k){ if(/^[\w-]{1,40}$/.test(k)) o.ft[k]=+d.ft[k]||0; });
   Object.keys(d.done||{}).forEach(function(k){ if(/^[0-5]$/.test(k) && d.done[k]) o.done[k]=String(d.done[k]).slice(0,40); });
   return o; }
-function pull(key){ return fetch(CONFIG.SYNC_URL+"?k="+encodeURIComponent(normKey(key))+"&t="+Date.now()).then(function(r){return r.json();}).then(function(j){ if(!j||!j.ok) throw new Error("sync"); return clean(j.data); }); }
+function pull(key){ return window.MKCloud.load().then(function(data){
+  if(data) return clean(data);
+  if(!URLKEY||!CONFIG.LEGACY_SYNC_URL) return null;
+  var legacy=/^\d{3,}$/.test(URLKEY)?"tg"+URLKEY:"id_"+URLKEY.toLowerCase();
+  return fetch(CONFIG.LEGACY_SYNC_URL+"?k="+encodeURIComponent(legacy)+"&t="+Date.now())
+    .then(function(r){return r.json();}).then(function(j){ var old=j&&j.ok?clean(j.data):null; if(old) return window.MKCloud.save(old).then(function(){return old;}); return null; })
+    .catch(function(){return null;});
+}); }
 function doneOf(x){ var c=0; for(var i=0;i<6;i++) if(x&&x.done&&x.done[i]) c++; return c; }
 function hasData(x){ return !!(x && (x.name || x.track || doneOf(x) || Object.keys(x.f||{}).length)); }
 /* Об'єднання: незбережені тут правки (DF) завжди лишаються; решта — з хмари;
@@ -619,18 +627,45 @@ function syncNow(){ if(!syncOn()||!S.key||SYNC.pulling) return;
       if(needPush){ SYNC.dirty=true; clearTimeout(SYNC.t); push(); } else setSync("ok");
       if(JSON.stringify(S)!==before && !typing()) render(); })
     .catch(function(){ SYNC.pulling=false; SYNC.ready=true; setSync("err"); if(SYNC.dirty) schedulePush(); }); }
-function connect(raw){ var key=normKey(raw); if(!key){ toast("Вкажи email"); return; }
+function syncBeforeFirstRender(){
+  var app=document.getElementById("app"), key=S.key;
+  app.innerHTML='<section class="hero stack" style="min-height:52vh;justify-content:center"><span class="pill">МК SMM 1.0</span><h1>Відновлюю твій прогрес…</h1><p class="muted">Секунду: завантажую твої відповіді, щоб ти продовжила з того самого місця.</p></section>';
+  SYNC.pulling=true;
+  pull(key).then(function(remote){
+    SYNC.pulling=false; if(S.key!==key) return;
+    var m=merge(S,remote); m.key=key; m.synced=true;
+    if(remote && remote.view) m.view=remote.view;
+    if(m.view==="welcome"&&m.track) m.view="dash";
+    var needPush=!remote||Object.keys(DF).length>0||doneOf(m)>doneOf(remote)||(!remote.name&&m.name)||(!remote.track&&m.track);
+    S=m; SYNC.ready=true; save(true);
+    if(needPush){ SYNC.dirty=true; clearTimeout(SYNC.t); push(); } else setSync("ok");
+    render();
+  }).catch(function(){
+    SYNC.pulling=false; SYNC.ready=true; setSync("err");
+    app.innerHTML='<section class="hero stack" style="min-height:52vh;justify-content:center"><span class="pill">Зв\'язок перервався</span><h1>Не вдалося завантажити прогрес</h1><p class="muted">Твої дані не стерті. Перевір інтернет і натисни кнопку ще раз.</p><div class="row"><button class="btn" type="button" id="syncRetry">Спробувати ще раз</button></div></section>';
+    var b=document.getElementById("syncRetry"); if(b) b.onclick=syncBeforeFirstRender;
+  });
+}
+function connect(raw){ var key=normKey(raw); if(!key){ toast("Вкажи нік у Telegram або email"); return; }
   if(!syncOn()){ S.key=key; save(); render(); return; }
   toast("Шукаю твій прогрес…");
-  pull(key).then(function(remote){ if(!hasData(remote) && !hasData(S)){ toast("Не знайшла прогрес за цим email. Перевір адресу і спробуй ще раз"); return; } var m=merge(S,remote); m.key=key; m.synced=true; m.view = m.track ? "dash" : "welcome";
+  pull(key).then(function(remote){ if(!hasData(remote) && !hasData(S)){ toast("Не знайшла прогрес за «"+key+"». Перевір нік або email і спробуй ще раз"); return; } var m=merge(S,remote); m.key=key; m.synced=true; m.view = m.track ? "dash" : "welcome";
       S=m; SYNC.ready=true; SYNC.dirty=true; save(true); push(); render(); toast(hasData(remote)?"Прогрес відновлено ✓":"Готово: прогрес зберігається в хмарі"); })
     .catch(function(){ toast("Немає зв'язку. Спробуй ще раз за хвилину"); }); }
-function syncCard(){
-  if(!syncOn()) return "";
-  if(S.key){
-    return '<p class="small">☁ Відповіді зберігаються автоматично · <span id="syncst"></span><br>На іншому пристрої увійди з тим самим email — прогрес підтягнеться автоматично.</p>';
-  }
-  return "";
+function syncCard(){ if(!syncOn()) return "";
+  return '<p class="small">☁ Відповіді автоматично зберігаються у твоєму акаунті · <span id="syncst"></span><br>На іншому телефоні або комп\'ютері увійди з тим самим email і введи код із листа.</p>'; }
+function v(k){ return S.f[k] || ""; }
+function set(k,val){ S.f[k]=val; S.ft=S.ft||{}; S.ft[k]=Date.now(); DF[k]=S.ft[k]; saveDF(); save(); }
+
+/* ===== Утиліти ===== */
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+function toast(t){ var el=document.getElementById("toast"); el.textContent=t; el.hidden=false; clearTimeout(toast._t); toast._t=setTimeout(function(){el.hidden=true;},2400); }
+function copy(text){ try{ navigator.clipboard.writeText(text).then(function(){toast("Скопійовано");},function(){fallback(text);}); }catch(e){ fallback(text); } }
+function fallback(text){ var ta=document.createElement("textarea"); ta.value=text; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy"); toast("Скопійовано");}catch(e){ toast("Виділи і скопіюй вручну"); } ta.remove(); }
+function field(k,label,hint,opts){ opts=opts||{};
+  var t = opts.input ? '<input type="'+(opts.url?'url':'text')+'" id="f_'+k+'" data-k="'+k+'" value="'+esc(v(k))+'" placeholder="'+esc(opts.ph||"")+'"'+(opts.max?' data-max="'+opts.max+'"':'')+'>'
+                     : '<textarea id="f_'+k+'" data-k="'+k+'" '+(opts.max?'data-max="'+opts.max+'"':'')+' placeholder="'+esc(opts.ph||"")+'" style="'+(opts.h?'min-height:'+opts.h+'px':'')+'">'+esc(v(k))+'</textarea>';
+  return '<label class="f" for="f_'+k+'">'+label+(hint?' <small>'+hint+'</small>':'')+t+(opts.max?'<span class="count" data-for="'+k+'"></span>':'')+'</label>';
 }
 function radios(k,label,list){
   return '<div class="f" role="radiogroup" aria-label="'+esc(label)+'" style="display:grid;gap:8px"><b style="font-size:.93rem">'+label+'</b><div class="choice">'+list.map(function(o){return '<label><input type="radio" name="r_'+k+'" data-k="'+k+'" value="'+esc(o)+'" '+(v(k)===o?'checked':'')+'>'+esc(o)+'</label>';}).join("")+'</div></div>';
@@ -670,7 +705,7 @@ function render(){
   else if(S.view==="dash") app.innerHTML=dash();
   else if(S.view==="final") app.innerHTML=finalView();
   else app.innerHTML=dayView(+S.view.slice(1));
-  if(TESTMODE) app.insertAdjacentHTML("afterbegin",'<section class="test-mode-banner"><div><b>Режим перевірки</b><span>Це окрема чиста копія. Дані учасників і твій основний прогрес не змінюються.</span></div><div class="row"><a class="btn sm" href="./?test=1&fresh=1">Почати перевірку заново</a><a class="btn ghost sm" href="./">Вийти з перевірки</a></div></section>');
+  if(TESTMODE) app.insertAdjacentHTML("afterbegin",'<section class="test-mode-banner"><div><b>Режим перевірки</b><span>Це окрема чиста копія. Дані учасників і твій основний прогрес не змінюються.</span></div><div class="row"><a class="btn sm" href="simulator.html?test=1&fresh=1">Почати перевірку заново</a><a class="btn ghost sm" href="simulator.html">Вийти з перевірки</a></div></section>');
   bind(); window.scrollTo(0,0);
 }
 
@@ -681,6 +716,7 @@ function welcome(){
    '<p class="muted" style="max-width:62ch;font-size:1.08rem">За тиждень ти пройдеш весь шлях від брифу до першого відео: розбереш клієнта і нішу, проаналізуєш конкурентів, створиш і оформиш Instagram, складеш контент-план, зробиш пост і змонтуєш перше відео Reels. Кожен крок розписаний до дрібниць, файли для роботи ми даємо. Досвід не потрібен.</p>'+
    '<div class="need" style="margin-top:6px">'+[["1","Бриф і ніша"],["2","Конкуренти"],["3","Instagram з нуля"],["4","Контент-план і пост"],["5","Перше відео і звіт"]].map(function(x){return '<div class="it"><span class="ic">'+x[0]+'</span><div><b>'+x[1]+'</b><span>День '+x[0]+'</span></div></div>';}).join("")+'</div>'+
   '</section>'+
+  (syncOn()&&!S.key?'<section class="card stack"><h3>Уже проходиш симулятор? 💚</h3><p class="small">Твої відповіді чекають на тебе. Отримай особистий вхід у боті — і продовжуй з того самого місця на телефоні чи комп\'ютері. Найкраще відкрий його спершу на тому пристрої, де вже проходиш симулятор.</p><div class="row"><a class="btn" href="'+esc(CONFIG.MYLINK)+'" target="_blank" rel="noopener">Отримати мій вхід у боті ↗</a></div></section>':'')+
   '<section class="stack">'+
    
    '<label class="f" for="f_name">Як тебе звати?<input type="text" id="f_name" value="'+esc(S.name)+'" placeholder="Ім\'я та прізвище"></label>'+
@@ -693,7 +729,7 @@ function welcome(){
    '<div class="card stack"><h3>Як я оцінюю тиждень</h3><div class="rubric">'+
      '<div><b>Виконані задачі</b><span>скільки днів зараховано</span></div><div><b>Вчасність</b><span>день здано до 23:59 того ж дня, коли його відкрито</span></div><div><b>Якість</b><span>за інструкцією, AI перевірено</span></div><div><b>Мотивація</b><span>чесні відповіді, питання</span></div>'+
    '</div><p class="small">0–3 бали за кожен критерій, максимум 12. Досвід, вік і кількість підписників не оцінюються.</p></div>'+
-   '<p class="small">'+(syncOn()?'Відповіді зберігаються автоматично. На іншому пристрої увійди з тим самим email — і продовжуй з того самого місця.':'Відповіді зберігаються в цьому браузері. Проходь тиждень з одного пристрою.')+'</p>'+
+   '<p class="small">'+(syncOn()?'Відповіді зберігаються автоматично: можна починати на телефоні й продовжувати на комп\'ютері — просто відкривай симулятор кнопкою в боті.':'Відповіді зберігаються в цьому браузері. Проходь тиждень з одного пристрою.')+'</p>'+
    '<div class="row"><button type="button" class="btn" id="startBtn">Почати тиждень →</button></div>'+
   '</section>';
 }
@@ -856,7 +892,7 @@ function finalView(){
   return '<section class="dayhead"><div class="row"><button type="button" class="btn ghost sm" data-go="dash">← Усі дні</button></div><span class="pill">★ Фінал</span><h1>Позаду <span class="gt">увесь тиждень</span></h1><p class="muted" style="max-width:62ch">За 5 днів у тебе з\'явилися розбір брифу і ніші, аналіз конкурентів, профіль, контент-план, опублікований пост і перше відео Reels. Я перегляну всі роботи за тими самими критеріями, що й на старті, і розберу їх на фінальному Zoom.</p></section>'+
    '<section class="grid2"><div class="card stack"><h3>Твій тиждень</h3><p>Трек: <b>'+(S.track==="A"?"А · «Ранкова Лапка»":"Б · власна справа")+'</b></p>'+DAYS.map(function(d,i){return '<p class="small">'+(i===0?"Старт":"День "+i)+' · '+d.title+': <b style="color:var(--mint)">'+(S.done[i]?"здано "+esc(S.done[i]):"—")+'</b></p>';}).join("")+'</div>'+
    '<div class="card stack"><h3>Твоя самооцінка</h3><div class="total gt">'+(n?sum+" / 12":"—")+'</div><p class="small">Після Zoom ти отримаєш особистий лист: запрошення в навчання або пояснення, чому поки ні, і що підтягнути.</p><p>'+esc(CONFIG.ZOOM_TEXT)+'</p></div></section>'+
-   '<section class="row"><button type="button" class="btn ghost" data-copyall="1">Скопіювати всі мої відповіді</button>'+(CONFIG.BOT?'<a class="btn" href="https://t.me/'+esc(CONFIG.BOT)+'?start=simulato" target="_blank" rel="noopener">Повідомити в боті, що тиждень пройдено</a>':'<a class="btn" href="index.html#price">Переглянути формати навчання</a>')+'</section>';
+   '<section class="row"><button type="button" class="btn ghost" data-copyall="1">Скопіювати всі мої відповіді</button>'+(CONFIG.BOT?'<a class="btn" href="https://t.me/'+esc(CONFIG.BOT)+'?start=6abfc3a54f310df5b2040566" target="_blank" rel="noopener">Повідомити в боті, що тиждень пройдено</a>':'<a class="btn" href="index.html#price">Переглянути формати навчання</a>')+'</section>';
 }
 
 /* ===== Текст для здачі ===== */
@@ -918,7 +954,7 @@ function bind(){
   var nm=document.getElementById("f_name"); if(nm) nm.oninput=function(){ S.name=nm.value; save(); };
   var ab=document.getElementById("f_about"); if(ab) ab.oninput=function(){ S.about=ab.value; save(); };
   app.querySelectorAll("[data-track]").forEach(function(b){ b.onclick=function(){ S.track=b.getAttribute("data-track"); save(); app.querySelectorAll("[data-track]").forEach(function(x){x.setAttribute("aria-pressed", x===b?"true":"false");}); document.getElementById("aboutWrap").hidden = S.track!=="B"; }; });
-  var sb=document.getElementById("startBtn"); if(sb) sb.onclick=function(){ if(!S.name.trim()){ toast("Вкажи ім'я"); nm.focus(); return; } if(!S.track){ toast("Обери трек"); return; } var kk=document.getElementById("f_key"); if(kk && syncOn()){ if(!normKey(kk.value)){ toast("Вкажи email"); kk.focus(); return; } S.view="dash"; connect(kk.value); return; } S.view="dash"; save(); render(); };
+  var sb=document.getElementById("startBtn"); if(sb) sb.onclick=function(){ if(!S.name.trim()){ toast("Вкажи ім'я"); nm.focus(); return; } if(!S.track){ toast("Обери трек"); return; } var kk=document.getElementById("f_key"); if(kk && syncOn()){ if(!normKey(kk.value)){ toast("Вкажи нік у Telegram або email"); kk.focus(); return; } S.view="dash"; connect(kk.value); return; } S.view="dash"; save(); render(); };
   var rb=document.getElementById("restoreBtn"); if(rb) rb.onclick=function(){ connect(document.getElementById("f_rkey").value); };
   var kb=document.getElementById("keyBtn2"); if(kb) kb.onclick=function(){ connect(document.getElementById("f_key2").value); };
   setSync(SYNC.state);
@@ -989,252 +1025,27 @@ function reviewStart(){
 }
 if(REVIEW!==null){ reviewStart(); } else {
 /* Старт: особисте посилання з бота */
-if(syncOn() && URLKEY && S.key!==URLKEY){
-  if(S.key && /^(tg\d|id_)/.test(S.key)){            // на цьому пристрої був інший учасник — спершу відправляємо його правки, потім чистий старт
-    try{ if(Object.keys(DF).length && navigator.sendBeacon) navigator.sendBeacon(CONFIG.SYNC_URL, new Blob([JSON.stringify(payload())],{type:"text/plain;charset=utf-8"})); }catch(e){}
-    S={name:"",track:"",about:"",f:{},done:{},view:"welcome"}; DF={}; saveDF();
-  }
-  S.key=URLKEY; S.synced=false; SYNC.dirty=true; try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){}
-}
-try{ if(URLKEY && history.replaceState) history.replaceState(null,"",location.pathname+location.hash); }catch(e){}  // прибираємо номер з адресного рядка
+if(syncOn()){ S.key="user_"+AUTH_UID; try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
 try{ if(TESTMODE && TESTFRESH && history.replaceState) history.replaceState(null,"",location.pathname+"?test=1"); }catch(e){}
-render();
-if(syncOn() && S.key){ if(URLKEY && !hasData(S)) toast("Завантажую твої відповіді…"); syncNow(); } else { SYNC.ready=true; }
+if(syncOn() && S.key){ syncBeforeFirstRender(); }
+else { render(); SYNC.ready=true; }
 document.addEventListener("visibilitychange",function(){ if(document.visibilityState==="visible") syncNow(); else flushBeacon(); });
 window.addEventListener("pagehide",flushBeacon);
 setInterval(function(){ if(document.visibilityState==="visible" && !typing()) syncNow(); }, 60000);
 }
-function flushBeacon(){ if(!(S.key && syncOn() && SYNC.ready && SYNC.dirty)) return; clearTimeout(SYNC.t); var ok=false; try{ ok=navigator.sendBeacon && navigator.sendBeacon(CONFIG.SYNC_URL, new Blob([JSON.stringify(payload())],{type:"text/plain;charset=utf-8"})); }catch(e){} if(!ok) push(); }
+function flushBeacon(){ if(!(S.key && syncOn() && SYNC.ready && SYNC.dirty)) return; clearTimeout(SYNC.t); push(); }
 </script>
-<style>
-/* ===== Email-вхід перед симулятором ===== */
-#emailGate{
-  position:fixed;inset:0;z-index:99999;background:#F5F7F5;
-  display:grid;place-items:center;padding:24px;font-family:"Onest","Segoe UI",system-ui,sans-serif;
-}
-#emailGate[hidden]{display:none}
-#emailGate .eg-card{
-  width:min(100%,520px);background:#fff;border:1px solid #DCE5E0;border-radius:26px;
-  padding:28px;display:grid;gap:18px;box-shadow:0 24px 70px rgba(6,42,31,.12)
-}
-#emailGate .eg-logo{
-  width:42px;height:42px;border-radius:14px;background:#062A1F;color:#A8E0C5;
-  display:grid;place-items:center;font-weight:800
-}
-#emailGate h1{font-size:clamp(1.8rem,7vw,2.7rem);line-height:1.02;color:#0A1F17}
-#emailGate p{color:#55665E;margin:0}
-#emailGate label{display:grid;gap:7px;font-weight:650;color:#0A1F17}
-#emailGate input{
-  width:100%;font:inherit;border:1px solid #DCE5E0;border-radius:14px;padding:13px 14px;
-  background:#fff;color:#0A1F17;outline:none
-}
-#emailGate input:focus{border-color:#0F8A5F;box-shadow:0 0 0 3px rgba(15,138,95,.16)}
-#emailGate .eg-row{display:flex;gap:10px;flex-wrap:wrap}
-#emailGate button{
-  border:0;border-radius:999px;padding:13px 19px;font:inherit;font-weight:700;cursor:pointer
-}
-#emailGate .eg-main{background:#062A1F;color:#fff}
-#emailGate .eg-alt{background:#EEF3F0;color:#0A1F17}
-#emailGate button:disabled{opacity:.5;cursor:not-allowed}
-#emailGate .eg-status{min-height:22px;font-size:.9rem;color:#55665E}
-#emailGate .eg-status.ok{color:#0B6B49;font-weight:650}
-#emailGate .eg-status.err{color:#B4451C;font-weight:650}
-#emailGate .eg-small{font-size:.79rem;color:#738079}
-</style>
+<script src="simulator-v5-content.js?v=11"></script>
+<script src="simulator-v7-content.js?v=19"></script>
+<script src="simulator-v8-content.js?v=11"></script>
+<script src="simulator-v9-game.js?v=11"></script>
+<script src="simulator-v10-upgrade.js?v=11"></script>
+<script src="simulator-v11-overhaul.js?v=19"></script>
+<script src="minicourse-content.js?v=14"></script>
+<script src="minicourse.js?v=15"></script>
+<script src="story-content.js?v=14"></script>
+<script src="story-v15-content.js?v=17"></script>
+<script src="story-course.js?v=19"></script>
 
-<div id="emailGate" hidden>
-  <div class="eg-card">
-    <div class="eg-logo">МК</div>
-    <div>
-      <h1>Твій прогрес — на будь-якому пристрої</h1>
-      <p style="margin-top:10px">Ти вже прийшла з бота. Тепер увійди через email: ми надішлемо 6-значний код, а після підтвердження одразу відкриється симулятор.</p>
-    </div>
-
-    <div id="egEmailStep">
-      <label>Email
-        <input id="egEmail" type="email" autocomplete="email" placeholder="name@gmail.com">
-      </label>
-      <div class="eg-row" style="margin-top:14px">
-        <button class="eg-main" id="egSend" type="button">Отримати код</button>
-      </div>
-    </div>
-
-    <div id="egCodeStep" hidden>
-      <label>Код із листа
-        <input id="egCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000">
-      </label>
-      <div class="eg-row" style="margin-top:14px">
-        <button class="eg-main" id="egVerify" type="button">Увійти</button>
-        <button class="eg-alt" id="egBack" type="button">Змінити email</button>
-      </div>
-    </div>
-
-    <div id="egStatus" class="eg-status"></div>
-    <div class="eg-small">Email потрібен лише для входу та збереження твого прогресу.</div>
-  </div>
-</div>
-
-<script>
-(function(){
-  if (typeof TESTMODE!=="undefined" && TESTMODE) return;
-  if (typeof REVIEW!=="undefined" && REVIEW!==null) return;
-
-  var AUTH_STORE="smm-ai-email-auth-v1";
-  var gate=document.getElementById("emailGate");
-  var emailEl=document.getElementById("egEmail");
-  var codeEl=document.getElementById("egCode");
-  var sendBtn=document.getElementById("egSend");
-  var verifyBtn=document.getElementById("egVerify");
-  var backBtn=document.getElementById("egBack");
-  var emailStep=document.getElementById("egEmailStep");
-  var codeStep=document.getElementById("egCodeStep");
-  var statusEl=document.getElementById("egStatus");
-  var pendingEmail="";
-
-  function normEmail(v){ return String(v||"").trim().toLowerCase(); }
-  function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
-  function st(msg,kind){
-    statusEl.textContent=msg||"";
-    statusEl.className="eg-status"+(kind?" "+kind:"");
-  }
-  function savedAuth(){
-    try{
-      var x=JSON.parse(localStorage.getItem(AUTH_STORE)||"null");
-      if(x&&validEmail(x.email)) return x;
-    }catch(e){}
-    return null;
-  }
-  function api(payload){
-    return new Promise(function(resolve, reject){
-      var cb = "__smmAuthCb_" + Date.now() + "_" + Math.random().toString(36).slice(2);
-      var script = document.createElement("script");
-      var timer;
-
-      function cleanup(){
-        try{ delete window[cb]; }catch(e){ window[cb] = undefined; }
-        if(script && script.parentNode) script.parentNode.removeChild(script);
-        if(timer) clearTimeout(timer);
-      }
-
-      window[cb] = function(data){
-        cleanup();
-        resolve(data);
-      };
-
-      var q = new URLSearchParams();
-      Object.keys(payload || {}).forEach(function(k){
-        if(payload[k] !== undefined && payload[k] !== null){
-          q.set(k, String(payload[k]));
-        }
-      });
-      q.set("callback", cb);
-      q.set("t", Date.now());
-
-      script.src = CONFIG.AUTH_URL + "?" + q.toString();
-      script.async = true;
-      script.onerror = function(){
-        cleanup();
-        reject(new Error("AUTH JSONP LOAD ERROR"));
-      };
-
-      timer = setTimeout(function(){
-        cleanup();
-        reject(new Error("AUTH JSONP TIMEOUT"));
-      }, 15000);
-
-      document.head.appendChild(script);
-    });
-  }
-
-  var old =savedAuth();
-  if(old){
-    var em=normEmail(old.email);
-    if(typeof S!=="undefined" && S.key!==em){
-      /* Якщо це перша прив'язка старого локального прогресу — переносимо його на email.
-         Якщо на пристрої вже був інший персональний ключ — не змішуємо акаунти. */
-      var hadPersonalKey=!!S.key;
-      if(hadPersonalKey){
-        try{ flushBeacon(); }catch(e){}
-        S={name:"",track:"",about:"",f:{},done:{},view:"welcome"};
-        DF={}; try{ saveDF(); }catch(e){}
-      }
-      S.key=em; S.synced=false;
-      try{ STORE.setItem(KEY,JSON.stringify(S)); }catch(e){}
-      location.reload();
-      return;
-    }
-    gate.hidden=true;
-    return;
-  }
-
-  gate.hidden=false;
-  setTimeout(function(){emailEl.focus();},80);
-
-  sendBtn.onclick=function(){
-    var email=normEmail(emailEl.value);
-    if(!validEmail(email)){ st("Перевір email — здається, є помилка.","err"); emailEl.focus(); return; }
-    pendingEmail=email;
-    sendBtn.disabled=true; st("Надсилаю код…","");
-    api({action:"request",email:email}).then(function(j){
-      sendBtn.disabled=false;
-      if(j&&j.ok){
-        emailStep.hidden=true; codeStep.hidden=false;
-        st("Код уже в пошті. Він діє 10 хвилин.","ok");
-        setTimeout(function(){codeEl.focus();},50);
-      }else if(j&&j.error==="rate"){
-        st("Код уже надсилали. Зачекай хвилину й перевір пошту.","err");
-      }else{
-        st("Не вдалося надіслати код. Спробуй ще раз.","err");
-      }
-    }).catch(function(){ sendBtn.disabled=false; st("Немає зв'язку. Спробуй ще раз.","err"); });
-  };
-
-  verifyBtn.onclick=function(){
-    var code=String(codeEl.value||"").replace(/\D/g,"");
-    if(!/^\d{6}$/.test(code)){ st("Введи 6 цифр із листа.","err"); codeEl.focus(); return; }
-    verifyBtn.disabled=true; st("Перевіряю код…","");
-    api({action:"verify",email:pendingEmail,code:code}).then(function(j){
-      verifyBtn.disabled=false;
-      if(!(j&&j.ok)){
-        st(j&&j.error==="expired"?"Код уже не діє. Надішли новий.":"Код не підійшов. Перевір цифри.","err");
-        return;
-      }
-
-      var email=pendingEmail;
-      try{
-        localStorage.setItem(AUTH_STORE,JSON.stringify({
-          email:email, token:j.token||"", verifiedAt:Date.now()
-        }));
-      }catch(e){}
-
-      if(typeof S!=="undefined"){
-        /* Не змішуємо прогрес двох різних людей на одному браузері. */
-        if(S.key && normEmail(S.key)!==email){
-          try{ flushBeacon(); }catch(e){}
-          S={name:"",track:"",about:"",f:{},done:{},view:"welcome"};
-          DF={}; try{ saveDF(); }catch(e){}
-        }
-        S.key=email;
-        S.synced=false;
-        SYNC.ready=false;
-        try{ STORE.setItem(KEY,JSON.stringify(S)); }catch(e){}
-      }
-
-      st("Готово ✓ Завантажую твій прогрес…","ok");
-      setTimeout(function(){ location.reload(); },350);
-    }).catch(function(){ verifyBtn.disabled=false; st("Немає зв'язку. Спробуй ще раз.","err"); });
-  };
-
-  backBtn.onclick=function(){
-    codeStep.hidden=true; emailStep.hidden=false; codeEl.value=""; st("","");
-    setTimeout(function(){emailEl.focus();},50);
-  };
-
-  codeEl.addEventListener("keydown",function(e){ if(e.key==="Enter") verifyBtn.click(); });
-  emailEl.addEventListener("keydown",function(e){ if(e.key==="Enter") sendBtn.click(); });
-})();
-</script>
-
-
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a44b9a47ba9bdfc0',t:'MTc5MTAyNjg5OQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
