@@ -31,10 +31,15 @@ jobs:
           import os, re
           from pathlib import Path
           sha = os.environ.get('GITHUB_SHA','dev')[:12]
-          p = Path('public/simulator.html')
-          s = p.read_text(encoding='utf-8')
-          s = re.sub(r'src="cloud\.js(?:\?v=[^"]*)?"', f'src="cloud.js?v={sha}"', s)
-          p.write_text(s, encoding='utf-8')
+          old = 'https://smm-ai-mariia-klepach.klepachmari.chatgpt.site/'
+          new = 'https://klepachmari-png.github.io/smm-simulator/'
+          for name in ('public/index.html','public/simulator.html'):
+              p = Path(name)
+              s = p.read_text(encoding='utf-8')
+              s = s.replace(old, new)
+              if name.endswith('simulator.html'):
+                  s = re.sub(r'src="cloud\.js(?:\?v=[^"]*)?"', f'src="cloud.js?v={sha}"', s)
+              p.write_text(s, encoding='utf-8')
           p = Path('public/cloud.js')
           s = p.read_text(encoding='utf-8')
           s = re.sub(r"s\.src='engagement\.js(?:\?v=[^']*)?'", f"s.src='engagement.js?v={sha}'", s)
