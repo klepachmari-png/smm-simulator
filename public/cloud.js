@@ -46,6 +46,45 @@
     return url;
   }
 
+  function compactState(raw) {
+    if (!raw || typeof raw !== "object") return null;
+    var out = {
+      name: typeof raw.name === "string" ? raw.name : "",
+      track: typeof raw.track === "string" ? raw.track : "",
+      about: typeof raw.about === "string" ? raw.about : "",
+      f: raw.f && typeof raw.f === "object" ? raw.f : {},
+      ft: raw.ft && typeof raw.ft === "object" ? raw.ft : {},
+      done: raw.done && typeof raw.done === "object" ? raw.done : {},
+      updated: Number(raw.updated || 0),
+      view: typeof raw.view === "string" ? raw.view : "welcome"
+    };
+    return out;
+  }
+
+  function meaningfulState(state) {
+    if (!state) return false;
+    return !!(
+      state.name ||
+      state.track ||
+      state.about ||
+      Object.keys(state.f || {}).length ||
+      Object.keys(state.done || {}).length ||
+      (state.view && state.view !== "welcome")
+    );
+  }
+
+  function localStateForUser(userId) {
+    try {
+      var exactKey = "smm-ai-week0-v3-" + userId;
+      var raw = localStorage.getItem(exactKey);
+      if (!raw) return null;
+      return compactState(JSON.parse(raw));
+    } catch (e) {
+      console.warn("MKCloud local migration read failed", e);
+      return null;
+    }
+  }
+
   async function touch(extra) {
     if (!client) return null;
     var c = context();
@@ -92,27 +131,45 @@
     return session.user;
   }
 
-  async function load() {
-    var user = await api.ready;
-    var result = await client.from("simulator_progress")
-      .select("data,updated_at").eq("user_id", user.id).maybeSingle();
-    if (result.error) throw result.error;
-    return result.data ? result.data.data : null;
-  }
-
   async function save(data) {
     var user = await api.ready;
-    var result = await client.rpc("save_simulator_progress", { p_data: data });
+    var cleaned = compactState(data) || data;
+    var result = await client.rpc("save_simulator_progress", { p_data: cleaned });
     if (!result.error) return { ok: true, data: result.data };
 
     console.warn("RPC progress save failed, trying direct upsert", result.error);
     var fallback = await client.from("simulator_progress").upsert({
       user_id: user.id,
-      data: data,
+      data: cleaned,
       updated_at: new Date().toISOString()
     }, { onConflict: "user_id" }).select("data").single();
     if (fallback.error) throw fallback.error;
     return { ok: true, data: fallback.data && fallback.data.data };
+  }
+
+  async function load() {
+    var user = await api.ready;
+    var result = await client.from("simulator_progress")
+      .select("data,updated_at").eq("user_id", user.id).maybeSingle();
+    if (result.error) throw result.error;
+    if (result.data && result.data.data) return compactState(result.data.data);
+
+    // One-time safe migration: if this device already has real progress for
+    // the same authenticated Supabase user, upload it before returning.
+    var local = localStateForUser(user.id);
+    if (meaningfulState(local)) {
+      try {
+        var migrated = await save(local);
+        await track("local_progress_migrated", {
+          view: local.view || "welcome",
+          completed_steps: Object.keys(local.done || {}).length
+        }).catch(function () {});
+        return compactState((migrated && migrated.data) || local);
+      } catch (e) {
+        console.warn("MKCloud local migration failed", e);
+      }
+    }
+    return null;
   }
 
   var api = {
