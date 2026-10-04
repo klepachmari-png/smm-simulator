@@ -736,9 +736,15 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:10px 24px;justify-content:space-bet
   var START = { sim:"sim_landing", buy:"buy_landing", pay550:"pay_550", pay2000:"pay_2000" };
   document.querySelectorAll('a[data-bot]').forEach(function(a){
     var k = a.getAttribute("data-bot");
-    if (BOT) a.href = "https://t.me/" + BOT + "?start=" + START[k];
-    else a.href = (k === "sim") ? "login.html?next=simulator.html" : "#price";
-    if (BOT){ a.target = "_blank"; a.rel = "noopener"; }
+    if (k === "sim") {
+      a.href = "login.html?next=simulator.html";
+      a.removeAttribute("target");
+      a.removeAttribute("rel");
+    } else if (BOT) {
+      a.href = "https://t.me/" + BOT + "?start=" + START[k];
+      a.target = "_blank";
+      a.rel = "noopener";
+    } else a.href = "#price";
   });
   // Відлік до старту потоку (1 листопада 2026, 10:00 за Києвом)
   (function(){
