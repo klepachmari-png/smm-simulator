@@ -39,6 +39,8 @@ jobs:
               s = s.replace(old, new)
               if name.endswith('simulator.html'):
                   s = re.sub(r'src="cloud\.js(?:\?v=[^"]*)?"', f'src="cloud.js?v={sha}"', s)
+                  if 'sync-fix.js' not in s:
+                      s = s.replace('</body>', f'<script src="sync-fix.js?v={sha}"></script>\n</body>')
               p.write_text(s, encoding='utf-8')
           p = Path('public/cloud.js')
           s = p.read_text(encoding='utf-8')
