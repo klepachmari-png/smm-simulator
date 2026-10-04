@@ -62,6 +62,17 @@
     return result.data;
   }
 
+  async function track(eventType, metadata) {
+    if (!client) return null;
+    await api.ready;
+    var result = await client.rpc("track_simulator_event", {
+      p_event_type: String(eventType || "").slice(0, 80),
+      p_metadata: metadata && typeof metadata === "object" ? metadata : {}
+    });
+    if (result.error) throw result.error;
+    return result.data;
+  }
+
   async function requireUser() {
     if (!client) throw new Error("auth_not_configured");
     var result = await client.auth.getSession();
@@ -90,10 +101,18 @@
   }
 
   async function save(data) {
-    await api.ready;
+    var user = await api.ready;
     var result = await client.rpc("save_simulator_progress", { p_data: data });
-    if (result.error) throw result.error;
-    return { ok: true, data: result.data };
+    if (!result.error) return { ok: true, data: result.data };
+
+    console.warn("RPC progress save failed, trying direct upsert", result.error);
+    var fallback = await client.from("simulator_progress").upsert({
+      user_id: user.id,
+      data: data,
+      updated_at: new Date().toISOString()
+    }, { onConflict: "user_id" }).select("data").single();
+    if (fallback.error) throw fallback.error;
+    return { ok: true, data: fallback.data && fallback.data.data };
   }
 
   var api = {
@@ -102,6 +121,7 @@
     load: load,
     save: save,
     touch: touch,
+    track: track,
     context: context,
     appendContext: appendContext,
     signOut: async function () {
@@ -112,4 +132,10 @@
     }
   };
   window.MKCloud = api;
+
+  api.ready.then(function () {
+    return track("simulator_opened", { path: location.pathname, source: context().source });
+  }).catch(function (e) {
+    console.warn("MKCloud open event failed", e);
+  });
 })();
