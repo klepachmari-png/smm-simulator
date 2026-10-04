@@ -64,11 +64,6 @@
     return !!(s && (s.name || s.track || s.about || Object.keys(s.f || {}).length || Object.keys(s.done || {}).length || (s.view && s.view !== "welcome")));
   }
 
-  function scoreState(s) {
-    if (!meaningfulState(s)) return -1;
-    return Object.keys(s.done || {}).length * 1000000000000 + Object.keys(s.f || {}).length * 1000000 + Number(s.updated || 0);
-  }
-
   function readState(key) {
     try {
       var raw = localStorage.getItem(key);
@@ -77,22 +72,35 @@
   }
 
   function localStateForUser(userId) {
-    var candidates = [];
-    var exact = "smm-ai-week0-v3-" + userId;
-    candidates.push(readState(exact));
-    ["smm-ai-week0-v3", "smm-ai-week0-v2", "smm-ai-week0-v1"].forEach(function (k) { candidates.push(readState(k)); });
-    try {
-      for (var i = 0; i < localStorage.length; i++) {
-        var k = localStorage.key(i) || "";
-        if (/^smm-ai-week0-v[123]$/.test(k)) candidates.push(readState(k));
+    // Never read another participant's legacy/unscoped localStorage.
+    // Authenticated Supabase user id is the only local progress identity.
+    return readState("smm-ai-week0-v3-" + userId);
+  }
+
+  function mergeState(existing, incoming) {
+    var e = compactState(existing) || { name:"", track:"", about:"", f:{}, ft:{}, done:{}, updated:0, view:"welcome" };
+    var n = compactState(incoming) || { name:"", track:"", about:"", f:{}, ft:{}, done:{}, updated:0, view:"welcome" };
+    var newer = Number(n.updated || 0) >= Number(e.updated || 0);
+    var out = {
+      name: newer ? (n.name || e.name || "") : (e.name || n.name || ""),
+      track: newer ? (n.track || e.track || "") : (e.track || n.track || ""),
+      about: newer ? (n.about || e.about || "") : (e.about || n.about || ""),
+      f: Object.assign({}, e.f || {}),
+      ft: Object.assign({}, e.ft || {}),
+      done: Object.assign({}, e.done || {}, n.done || {}),
+      updated: Math.max(Number(e.updated || 0), Number(n.updated || 0)),
+      view: newer ? (n.view || e.view || "welcome") : (e.view || n.view || "welcome")
+    };
+
+    Object.keys(n.f || {}).forEach(function(k){
+      var et = Number((e.ft || {})[k] || 0);
+      var nt = Number((n.ft || {})[k] || 0);
+      if (!Object.prototype.hasOwnProperty.call(out.f, k) || nt >= et) {
+        out.f[k] = n.f[k];
+        if (nt) out.ft[k] = nt;
       }
-    } catch (e) {}
-    var best = null, bestScore = -1;
-    candidates.forEach(function (s) {
-      var sc = scoreState(s);
-      if (sc > bestScore) { best = s; bestScore = sc; }
     });
-    return best;
+    return out;
   }
 
   function applyRemoteToRuntime(userId, remote) {
@@ -156,7 +164,12 @@
   }
 
   async function directSave(user, data) {
-    var cleaned = compactState(data) || data;
+    var incoming = compactState(data) || data;
+    var current = await client.from("simulator_progress")
+      .select("data").eq("user_id", user.id).maybeSingle();
+    if (current.error) throw current.error;
+
+    var cleaned = mergeState(current.data && current.data.data, incoming);
     var r = await client.from("simulator_progress").upsert({
       user_id: user.id,
       data: cleaned,
@@ -209,7 +222,7 @@
       if (client) await client.auth.signOut();
       localStorage.removeItem("mk_auth_uid");
       localStorage.removeItem("mk_auth_email");
-      location.replace(appendContext("login.html"));
+      location.replace("login.html?next=simulator.html&source=direct");
     }
   };
   window.MKCloud = api;
@@ -218,7 +231,7 @@
     if(!/simulator\.html$/i.test(location.pathname) || document.getElementById('mk-engagement-script')) return;
     var s=document.createElement('script');
     s.id='mk-engagement-script';
-    s.src='engagement.js?v=20261004-1';
+    s.src='engagement.js?v=20261004-2';
     s.defer=true;
     document.head.appendChild(s);
   }
