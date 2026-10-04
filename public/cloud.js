@@ -30,7 +30,7 @@
     }
     localStorage.setItem("mk_auth_uid", session.user.id);
     localStorage.setItem("mk_auth_email", session.user.email || "");
-    document.documentElement.style.visibility = "";
+    document.documentElement.style.visibility = "visible";
     return session.user;
   }
 
@@ -63,4 +63,3 @@
   };
   window.MKCloud = api;
 })();
-
