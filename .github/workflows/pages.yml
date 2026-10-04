@@ -41,16 +41,20 @@ jobs:
                   s = s.replace('a.href = "login.html?next=simulator.html";', 'a.href = "https://t.me/smm_ai_mariia_klepach_bot?start=sim_landing";')
               if name.endswith('simulator.html'):
                   s = re.sub(r'src="cloud\.js(?:\?v=[^"]*)?"', f'src="cloud.js?v={sha}"', s)
+                  s = re.sub(r'src="sync-fix\.js(?:\?v=[^"]*)?"', f'src="sync-fix.js?v={sha}"', s)
+                  s = re.sub(r'src="auth-ui\.js(?:\?v=[^"]*)?"', f'src="auth-ui.js?v={sha}"', s)
+                  # Remove the old emergency wrapper. Its load override conflicted with the real cloud loader.
+                  s = re.sub(r'\s*<script src="sync-safety-v2\.js(?:\?v=[^"]*)?"></script>', '', s)
                   if 'sync-fix.js' not in s:
                       s = s.replace('</body>', f'<script src="sync-fix.js?v={sha}"></script>\n</body>')
+                  if 'auth-ui.js' not in s:
+                      s = s.replace('</body>', f'<script src="auth-ui.js?v={sha}"></script>\n</body>')
                   if 'route-b-business-fix.js' not in s:
                       s = s.replace('</body>', f'<script src="route-b-business-fix.js?v={sha}"></script>\n</body>')
                   if 'route-b-education.js' not in s:
                       s = s.replace('</body>', f'<script src="route-b-education.js?v={sha}"></script>\n</body>')
                   if 'final-funnel-fix.js' not in s:
                       s = s.replace('</body>', f'<script src="final-funnel-fix.js?v={sha}"></script>\n</body>')
-                  if 'sync-safety-v2.js' not in s:
-                      s = s.replace('</body>', f'<script src="sync-safety-v2.js?v={sha}"></script>\n</body>')
               if name.endswith('admin.html') and 'submissions.html' not in s:
                   s = s.replace('<div class="row"><button id="refresh" hidden>', '<div class="row"><button class="alt" type="button" onclick="location.href=\'submissions.html\'">Здачі</button><button id="refresh" hidden>')
               p.write_text(s, encoding='utf-8')
