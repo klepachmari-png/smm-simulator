@@ -71,7 +71,7 @@
     if (!meaningfulState(s)) return -1;
     return (Object.keys(s.done || {}).length * 1000000) +
       (Object.keys(s.f || {}).length * 1000) +
-      (Number(s.updated || 0));
+      Number(s.updated || 0);
   }
 
   function readState(key) {
@@ -86,18 +86,16 @@
     var exactKey = "smm-ai-week0-v3-" + userId;
     candidates.push({ key: exactKey, state: readState(exactKey), priority: 100 });
 
-    // Known legacy keys used by earlier simulator builds before Supabase auth.
     ["smm-ai-week0-v2", "smm-ai-week0-v3", "smm-ai-week0-v3-", "smm-ai-week0-v1"].forEach(function (key) {
       candidates.push({ key: key, state: readState(key), priority: 50 });
     });
 
-    // Safe fallback: only generic simulator keys, never another user's UUID-specific key.
     try {
       for (var i = 0; i < localStorage.length; i++) {
         var k = localStorage.key(i) || "";
-        if (/^smm-ai-week0-v[12]$/.test(k) || /^smm-ai-week0-v3$/.test(k)) {
+        if (/^smm-ai-week0-v[123](?:-[A-Za-z0-9_-]+)?$/.test(k)) {
           if (!candidates.some(function (x) { return x.key === k; })) {
-            candidates.push({ key: k, state: readState(k), priority: 40 });
+            candidates.push({ key: k, state: readState(k), priority: k === exactKey ? 100 : 20 });
           }
         }
       }
@@ -109,7 +107,7 @@
       var rank = c.priority * 10000000000000 + scoreState(c.state);
       if (!best || rank > best.rank) best = { key: c.key, state: c.state, rank: rank };
     });
-    if (best) console.info("MKCloud: legacy progress found in", best.key);
+    if (best) console.info("MKCloud: progress found in", best.key);
     return best ? best.state : null;
   }
 
@@ -187,11 +185,37 @@
       var migrated = await save(local);
       await track("local_progress_migrated", {
         view: local.view || "welcome",
-        completed_steps: Object.keys(local.done || {}).length
+        completed_steps: Object.keys(local.done || {}).length,
+        source: "localStorage"
       }).catch(function () {});
       return compactState((migrated && migrated.data) || local);
     }
     return null;
+  }
+
+  async function migrateRuntimeStateIfNeeded() {
+    try {
+      var user = await api.ready;
+      var state = compactState(window.S);
+      if (!meaningfulState(state)) return false;
+
+      var existing = await client.from("simulator_progress")
+        .select("data").eq("user_id", user.id).maybeSingle();
+      if (existing.error) throw existing.error;
+      if (existing.data && meaningfulState(compactState(existing.data.data))) return false;
+
+      await save(state);
+      await track("runtime_progress_migrated", {
+        view: state.view || "welcome",
+        completed_steps: Object.keys(state.done || {}).length,
+        fields: Object.keys(state.f || {}).length
+      }).catch(function () {});
+      console.info("MKCloud: runtime progress migrated to Supabase");
+      return true;
+    } catch (e) {
+      console.warn("MKCloud runtime migration failed", e);
+      return false;
+    }
   }
 
   var api = {
@@ -203,6 +227,7 @@
     track: track,
     context: context,
     appendContext: appendContext,
+    migrateRuntimeStateIfNeeded: migrateRuntimeStateIfNeeded,
     signOut: async function () {
       if (client) await client.auth.signOut();
       localStorage.removeItem("mk_auth_uid");
@@ -213,8 +238,17 @@
   window.MKCloud = api;
 
   api.ready.then(function () {
-    return track("simulator_opened", { path: location.pathname, source: context().source });
+    track("simulator_opened", { path: location.pathname, source: context().source }).catch(function () {});
+
+    // The simulator's own state variable is defined later in simulator.html.
+    // These delayed checks migrate the exact state currently visible on this device,
+    // so legacy progress cannot remain trapped in one browser.
+    [1500, 4000, 8000].forEach(function (delay) {
+      setTimeout(function () {
+        migrateRuntimeStateIfNeeded();
+      }, delay);
+    });
   }).catch(function (e) {
-    console.warn("MKCloud open event failed", e);
+    console.warn("MKCloud startup failed", e);
   });
 })();
