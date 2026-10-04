@@ -56,6 +56,14 @@ jobs:
                       s = s.replace('</body>', f'<script src="route-b-business-fix.js?v={sha}"></script>\n</body>')
                   if 'route-b-education.js' not in s:
                       s = s.replace('</body>', f'<script src="route-b-education.js?v={sha}"></script>\n</body>')
+                  if 'route-b-owner-lite.js' not in s:
+                      s = s.replace('</body>', f'<script src="route-b-owner-lite.js?v={sha}"></script>\n</body>')
+                  else:
+                      s = re.sub(r'src="route-b-owner-lite\.js(?:\?v=[^"]*)?"', f'src="route-b-owner-lite.js?v={sha}"', s)
+                  if 'ai-owner-lite-v9.js' not in s:
+                      s = s.replace('</body>', f'<script src="ai-owner-lite-v9.js?v={sha}"></script>\n</body>')
+                  else:
+                      s = re.sub(r'src="ai-owner-lite-v9\.js(?:\?v=[^"]*)?"', f'src="ai-owner-lite-v9.js?v={sha}"', s)
                   if 'final-funnel-fix.js' not in s:
                       s = s.replace('</body>', f'<script src="final-funnel-fix.js?v={sha}"></script>\n</body>')
                   if 'route-state-guard.js' not in s:
@@ -65,7 +73,7 @@ jobs:
                   else:
                       s = re.sub(r'src="challenge-workflow-v2\.js(?:\?v=[^"]*)?"', f'src="challenge-workflow-v2.js?v={sha}"', s)
 
-                  # Exactly one AI prompt owner. v8 teaches why each AI task matters in real SMM work.
+                  # SMM tracks A/C stay on v8 unchanged.
                   s = re.sub(r'\s*<script src="ai-workflow-v[234567]\.js(?:\?v=[^"]*)?"></script>', '', s)
                   if 'ai-workflow-v8.js' not in s:
                       s = re.sub(r'(<script src="challenge-workflow-v2\.js(?:\?v=[^"]*)?"></script>)', r'\1\n<script src="ai-workflow-v8.js?v='+sha+r'"></script>', s, count=1)
