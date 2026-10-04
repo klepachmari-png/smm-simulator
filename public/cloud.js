@@ -30,15 +30,15 @@
     var sep = url.indexOf("?") >= 0 ? "&" : "?";
     if (c.sendpulse_contact_id) { url += sep + "sp_contact=" + encodeURIComponent(c.sendpulse_contact_id); sep = "&"; }
     if (c.telegram_id) { url += sep + "tg=" + encodeURIComponent(c.telegram_id); sep = "&"; }
-    if (c.source) { url += sep + "source=" + encodeURIComponent(c.source); }
+    if (c.source) url += sep + "source=" + encodeURIComponent(c.source);
     return url;
   }
 
   function loginUrl() {
     var next = location.pathname.split("/").pop() || "simulator.html";
-    var params = new URLSearchParams(location.search);
+    var p = new URLSearchParams(location.search);
     var url = "login.html?next=" + encodeURIComponent(next);
-    if (params.get("u")) url += "&u=" + encodeURIComponent(params.get("u"));
+    if (p.get("u")) url += "&u=" + encodeURIComponent(p.get("u"));
     var c = context();
     if (c.sendpulse_contact_id) url += "&sp_contact=" + encodeURIComponent(c.sendpulse_contact_id);
     if (c.telegram_id) url += "&tg=" + encodeURIComponent(c.telegram_id);
@@ -60,18 +60,13 @@
     };
   }
 
-  function meaningfulState(state) {
-    if (!state) return false;
-    return !!(state.name || state.track || state.about ||
-      Object.keys(state.f || {}).length || Object.keys(state.done || {}).length ||
-      (state.view && state.view !== "welcome"));
+  function meaningfulState(s) {
+    return !!(s && (s.name || s.track || s.about || Object.keys(s.f || {}).length || Object.keys(s.done || {}).length || (s.view && s.view !== "welcome")));
   }
 
   function scoreState(s) {
     if (!meaningfulState(s)) return -1;
-    return (Object.keys(s.done || {}).length * 1000000) +
-      (Object.keys(s.f || {}).length * 1000) +
-      Number(s.updated || 0);
+    return Object.keys(s.done || {}).length * 1000000000000 + Object.keys(s.f || {}).length * 1000000 + Number(s.updated || 0);
   }
 
   function readState(key) {
@@ -83,39 +78,47 @@
 
   function localStateForUser(userId) {
     var candidates = [];
-    var exactKey = "smm-ai-week0-v3-" + userId;
-    candidates.push({ key: exactKey, state: readState(exactKey), priority: 100 });
-
-    ["smm-ai-week0-v2", "smm-ai-week0-v3", "smm-ai-week0-v3-", "smm-ai-week0-v1"].forEach(function (key) {
-      candidates.push({ key: key, state: readState(key), priority: 50 });
-    });
-
+    var exact = "smm-ai-week0-v3-" + userId;
+    candidates.push(readState(exact));
+    ["smm-ai-week0-v3", "smm-ai-week0-v2", "smm-ai-week0-v1"].forEach(function (k) { candidates.push(readState(k)); });
     try {
       for (var i = 0; i < localStorage.length; i++) {
         var k = localStorage.key(i) || "";
-        if (/^smm-ai-week0-v[123](?:-[A-Za-z0-9_-]+)?$/.test(k)) {
-          if (!candidates.some(function (x) { return x.key === k; })) {
-            candidates.push({ key: k, state: readState(k), priority: k === exactKey ? 100 : 20 });
-          }
-        }
+        if (/^smm-ai-week0-v[123]$/.test(k)) candidates.push(readState(k));
       }
     } catch (e) {}
-
-    var best = null;
-    candidates.forEach(function (c) {
-      if (!meaningfulState(c.state)) return;
-      var rank = c.priority * 10000000000000 + scoreState(c.state);
-      if (!best || rank > best.rank) best = { key: c.key, state: c.state, rank: rank };
+    var best = null, bestScore = -1;
+    candidates.forEach(function (s) {
+      var sc = scoreState(s);
+      if (sc > bestScore) { best = s; bestScore = sc; }
     });
-    if (best) console.info("MKCloud: progress found in", best.key);
-    return best ? best.state : null;
+    return best;
+  }
+
+  function applyRemoteToRuntime(userId, remote) {
+    remote = compactState(remote);
+    if (!meaningfulState(remote)) return remote;
+
+    try {
+      localStorage.setItem("smm-ai-week0-v3-" + userId, JSON.stringify(remote));
+    } catch (e) {}
+
+    // The simulator creates global S before calling MKCloud.load().
+    // Make the cloud copy authoritative so a stale phone 'welcome' state
+    // cannot overwrite a real cross-device progress state.
+    if (window.S && typeof window.S === "object") {
+      Object.keys(window.S).forEach(function (k) { delete window.S[k]; });
+      Object.keys(remote).forEach(function (k) { window.S[k] = remote[k]; });
+      window.S.key = "user_" + userId;
+      window.S.synced = true;
+    }
+    return remote;
   }
 
   async function touch(extra) {
     if (!client) return null;
-    var c = context();
-    extra = extra || {};
-    var result = await client.rpc("touch_participant", {
+    var c = context(); extra = extra || {};
+    var r = await client.rpc("touch_participant", {
       p_sendpulse_contact_id: extra.sendpulse_contact_id || c.sendpulse_contact_id || null,
       p_telegram_id: extra.telegram_id || c.telegram_id || null,
       p_source: extra.source || c.source || null,
@@ -123,25 +126,25 @@
       p_completed_steps: Number.isFinite(extra.completed_steps) ? extra.completed_steps : null,
       p_metadata: extra.metadata || null
     });
-    if (result.error) throw result.error;
-    return result.data;
+    if (r.error) throw r.error;
+    return r.data;
   }
 
   async function track(eventType, metadata) {
     if (!client) return null;
     await api.ready;
-    var result = await client.rpc("track_simulator_event", {
+    var r = await client.rpc("track_simulator_event", {
       p_event_type: String(eventType || "").slice(0, 80),
       p_metadata: metadata && typeof metadata === "object" ? metadata : {}
     });
-    if (result.error) throw result.error;
-    return result.data;
+    if (r.error) throw r.error;
+    return r.data;
   }
 
   async function requireUser() {
     if (!client) throw new Error("auth_not_configured");
-    var result = await client.auth.getSession();
-    var session = result.data && result.data.session;
+    var r = await client.auth.getSession();
+    var session = r.data && r.data.session;
     if (!session || !session.user) {
       localStorage.removeItem("mk_auth_uid");
       localStorage.removeItem("mk_auth_email");
@@ -150,72 +153,55 @@
     }
     localStorage.setItem("mk_auth_uid", session.user.id);
     localStorage.setItem("mk_auth_email", session.user.email || "");
-    touch({ metadata: { user_agent: navigator.userAgent.slice(0, 300) } }).catch(function (e) {
-      console.warn("MKCloud touch failed", e);
-    });
+    touch({ metadata: { user_agent: navigator.userAgent.slice(0, 300) } }).catch(function () {});
     document.documentElement.style.visibility = "visible";
     return session.user;
   }
 
-  async function save(data) {
-    var user = await api.ready;
+  async function directSave(user, data) {
     var cleaned = compactState(data) || data;
-    var result = await client.rpc("save_simulator_progress", { p_data: cleaned });
-    if (!result.error) return { ok: true, data: result.data };
-
-    console.warn("RPC progress save failed, trying direct upsert", result.error);
-    var fallback = await client.from("simulator_progress").upsert({
+    var r = await client.from("simulator_progress").upsert({
       user_id: user.id,
       data: cleaned,
       updated_at: new Date().toISOString()
     }, { onConflict: "user_id" }).select("data").single();
-    if (fallback.error) throw fallback.error;
-    return { ok: true, data: fallback.data && fallback.data.data };
+    if (r.error) throw r.error;
+
+    touch({
+      current_view: cleaned.view || "welcome",
+      completed_steps: Object.keys(cleaned.done || {}).length
+    }).catch(function () {});
+
+    return { ok: true, data: r.data && r.data.data };
+  }
+
+  async function save(data) {
+    var user = await api.ready;
+    return directSave(user, data);
   }
 
   async function load() {
     var user = await api.ready;
-    var result = await client.from("simulator_progress")
+    var r = await client.from("simulator_progress")
       .select("data,updated_at").eq("user_id", user.id).maybeSingle();
-    if (result.error) throw result.error;
-    if (result.data && result.data.data) return compactState(result.data.data);
+    if (r.error) throw r.error;
+
+    if (r.data && meaningfulState(r.data.data)) {
+      return applyRemoteToRuntime(user.id, r.data.data);
+    }
 
     var local = localStateForUser(user.id);
     if (meaningfulState(local)) {
-      var migrated = await save(local);
-      await track("local_progress_migrated", {
-        view: local.view || "welcome",
-        completed_steps: Object.keys(local.done || {}).length,
-        source: "localStorage"
+      var migrated = await directSave(user, local);
+      var saved = compactState((migrated && migrated.data) || local);
+      applyRemoteToRuntime(user.id, saved);
+      track("local_progress_migrated", {
+        view: saved.view || "welcome",
+        completed_steps: Object.keys(saved.done || {}).length
       }).catch(function () {});
-      return compactState((migrated && migrated.data) || local);
+      return saved;
     }
     return null;
-  }
-
-  async function migrateRuntimeStateIfNeeded() {
-    try {
-      var user = await api.ready;
-      var state = compactState(window.S);
-      if (!meaningfulState(state)) return false;
-
-      var existing = await client.from("simulator_progress")
-        .select("data").eq("user_id", user.id).maybeSingle();
-      if (existing.error) throw existing.error;
-      if (existing.data && meaningfulState(compactState(existing.data.data))) return false;
-
-      await save(state);
-      await track("runtime_progress_migrated", {
-        view: state.view || "welcome",
-        completed_steps: Object.keys(state.done || {}).length,
-        fields: Object.keys(state.f || {}).length
-      }).catch(function () {});
-      console.info("MKCloud: runtime progress migrated to Supabase");
-      return true;
-    } catch (e) {
-      console.warn("MKCloud runtime migration failed", e);
-      return false;
-    }
   }
 
   var api = {
@@ -227,7 +213,6 @@
     track: track,
     context: context,
     appendContext: appendContext,
-    migrateRuntimeStateIfNeeded: migrateRuntimeStateIfNeeded,
     signOut: async function () {
       if (client) await client.auth.signOut();
       localStorage.removeItem("mk_auth_uid");
@@ -238,17 +223,6 @@
   window.MKCloud = api;
 
   api.ready.then(function () {
-    track("simulator_opened", { path: location.pathname, source: context().source }).catch(function () {});
-
-    // The simulator's own state variable is defined later in simulator.html.
-    // These delayed checks migrate the exact state currently visible on this device,
-    // so legacy progress cannot remain trapped in one browser.
-    [1500, 4000, 8000].forEach(function (delay) {
-      setTimeout(function () {
-        migrateRuntimeStateIfNeeded();
-      }, delay);
-    });
-  }).catch(function (e) {
-    console.warn("MKCloud startup failed", e);
-  });
+    return track("simulator_opened", { path: location.pathname, source: context().source });
+  }).catch(function () {});
 })();
