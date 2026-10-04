@@ -14,9 +14,9 @@
     main{width:min(100%,520px);display:grid;gap:18px;padding:clamp(24px,6vw,42px);border:1px solid var(--stroke);border-radius:28px;background:var(--card);box-shadow:0 30px 90px rgba(0,0,0,.35)}
     .brand{display:flex;align-items:center;gap:12px;font-family:"Geologica",sans-serif;font-weight:800}.brand b{display:grid;place-items:center;width:40px;height:40px;border-radius:13px;background:linear-gradient(100deg,var(--mint),var(--em));color:#04120B}
     h1{margin:0;font:800 clamp(1.8rem,7vw,2.7rem)/1.08 "Geologica",sans-serif;letter-spacing:-.03em}p{margin:0}.muted{color:var(--muted)}
-    form{display:grid;gap:12px}label{display:grid;gap:7px;font-weight:600}input{width:100%;border:1px solid var(--stroke);border-radius:14px;background:rgba(0,0,0,.25);color:var(--text);font:inherit;padding:14px 15px}input:focus{outline:3px solid rgba(23,201,121,.22);border-color:var(--em)}
+    form,.session-box{display:grid;gap:12px}label{display:grid;gap:7px;font-weight:600}input{width:100%;border:1px solid var(--stroke);border-radius:14px;background:rgba(0,0,0,.25);color:var(--text);font:inherit;padding:14px 15px}input:focus{outline:3px solid rgba(23,201,121,.22);border-color:var(--em)}
     button{border:0;border-radius:999px;background:var(--em);color:#03140C;font:700 1rem "Onest",sans-serif;padding:14px 20px;cursor:pointer}button:disabled{opacity:.5;cursor:wait}.link{border:1px solid var(--stroke);background:transparent;color:var(--text)}
-    .note{padding:14px 16px;border-radius:16px;background:rgba(216,255,114,.08);border:1px solid rgba(216,255,114,.2);font-size:.9rem}.error{color:#ffad92}.success{color:var(--mint)}[hidden]{display:none!important}
+    .note{padding:14px 16px;border-radius:16px;background:rgba(216,255,114,.08);border:1px solid rgba(216,255,114,.2);font-size:.9rem}.session-box{padding:16px;border-radius:18px;border:1px solid var(--stroke);background:rgba(255,255,255,.03)}.session-email{font-weight:700;color:var(--mint);word-break:break-word}.error{color:#ffad92}.success{color:var(--mint)}[hidden]{display:none!important}
   </style>
 </head>
 <body>
@@ -26,6 +26,14 @@
       <h1>Твій особистий вхід</h1>
       <p class="muted">Введи email — ми надішлемо одноразовий код. Пароль створювати не потрібно.</p>
     </div>
+
+    <div id="sessionBox" class="session-box" hidden>
+      <p class="muted">У цьому браузері вже активний акаунт:</p>
+      <p id="sessionEmail" class="session-email"></p>
+      <button id="continueSession" type="button">Продовжити з цим email</button>
+      <button id="switchAccount" class="link" type="button">Увійти з іншим email</button>
+    </div>
+
     <form id="emailForm">
       <label>Email<input id="email" type="email" autocomplete="email" inputmode="email" required placeholder="name@example.com"></label>
       <button id="send" type="submit">Отримати код</button>
@@ -53,24 +61,47 @@
     var ready=cfg.SUPABASE_URL&&cfg.SUPABASE_ANON_KEY&&cfg.SUPABASE_URL.indexOf("__")!==0&&cfg.SUPABASE_ANON_KEY.indexOf("__")!==0;
     if(!ready){ status.className="error"; status.textContent="Вхід ще налаштовується. Спробуй трохи пізніше."; document.getElementById("send").disabled=true; return; }
     var sb=window.supabase.createClient(cfg.SUPABASE_URL,cfg.SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true}}), currentEmail="";
+    var sessionBox=document.getElementById("sessionBox"),emailForm=document.getElementById("emailForm"),codeForm=document.getElementById("codeForm");
+
     function destination(){
       var url=next, sep=url.indexOf("?")>=0?"&":"?";
       function add(k,v){ if(!v) return; url+=sep+k+"="+encodeURIComponent(v); sep="&"; }
       add("u",legacy); add("sp_contact",sp); add("tg",tg); add("source",source||"direct");
       return url;
     }
-    sb.auth.getSession().then(function(r){ if(r.data&&r.data.session){ localStorage.setItem("mk_auth_uid",r.data.session.user.id); localStorage.setItem("mk_auth_email",r.data.session.user.email||""); location.replace(destination()); }});
-    document.getElementById("emailForm").onsubmit=async function(e){ e.preventDefault(); currentEmail=document.getElementById("email").value.trim().toLowerCase(); var b=document.getElementById("send"); b.disabled=true; status.className="muted"; status.textContent="Надсилаю код…";
+    function clearLocalAuth(){
+      try{localStorage.removeItem("mk_auth_uid");localStorage.removeItem("mk_auth_email");}catch(e){}
+    }
+    function showEmailEntry(){
+      sessionBox.hidden=true; codeForm.hidden=true; emailForm.hidden=false; status.textContent=""; document.getElementById("email").focus();
+    }
+
+    sb.auth.getSession().then(function(r){
+      var s=r.data&&r.data.session;
+      if(!s) return;
+      document.getElementById("sessionEmail").textContent=s.user.email||"активний акаунт";
+      sessionBox.hidden=false; emailForm.hidden=true; codeForm.hidden=true;
+      document.getElementById("continueSession").onclick=function(){
+        localStorage.setItem("mk_auth_uid",s.user.id); localStorage.setItem("mk_auth_email",s.user.email||""); location.replace(destination());
+      };
+      document.getElementById("switchAccount").onclick=async function(){
+        var b=this; b.disabled=true; b.textContent="Перемикаю акаунт…";
+        try{ await sb.auth.signOut(); }catch(e){}
+        clearLocalAuth(); b.disabled=false; b.textContent="Увійти з іншим email"; showEmailEntry();
+      };
+    });
+
+    emailForm.onsubmit=async function(e){ e.preventDefault(); currentEmail=document.getElementById("email").value.trim().toLowerCase(); var b=document.getElementById("send"); b.disabled=true; status.className="muted"; status.textContent="Надсилаю код…";
       var r=await sb.auth.signInWithOtp({email:currentEmail,options:{shouldCreateUser:true}}); b.disabled=false;
       if(r.error){ status.className="error"; status.textContent="Не вдалося надіслати код. Перевір email і спробуй ще раз."; return; }
-      document.getElementById("emailForm").hidden=true; document.getElementById("codeForm").hidden=false; status.className="success"; status.textContent="Код надіслано на "+currentEmail; document.getElementById("code").focus();
+      emailForm.hidden=true; codeForm.hidden=false; status.className="success"; status.textContent="Код надіслано на "+currentEmail; document.getElementById("code").focus();
     };
-    document.getElementById("codeForm").onsubmit=async function(e){ e.preventDefault(); var b=document.getElementById("verify"), token=document.getElementById("code").value.replace(/\s+/g,""); b.disabled=true; status.className="muted"; status.textContent="Перевіряю код…";
+    codeForm.onsubmit=async function(e){ e.preventDefault(); var b=document.getElementById("verify"), token=document.getElementById("code").value.replace(/\s+/g,""); b.disabled=true; status.className="muted"; status.textContent="Перевіряю код…";
       var r=await sb.auth.verifyOtp({email:currentEmail,token:token,type:"email"}); b.disabled=false;
       if(r.error||!r.data||!r.data.user){ status.className="error"; status.textContent="Код неправильний або вже не діє. Спробуй ще раз."; return; }
       localStorage.setItem("mk_auth_uid",r.data.user.id); localStorage.setItem("mk_auth_email",r.data.user.email||currentEmail); status.className="success"; status.textContent="Готово. Відкриваю твій симулятор…"; location.replace(destination());
     };
-    document.getElementById("change").onclick=function(){ document.getElementById("codeForm").hidden=true; document.getElementById("emailForm").hidden=false; status.textContent=""; document.getElementById("email").focus(); };
+    document.getElementById("change").onclick=function(){ codeForm.hidden=true; emailForm.hidden=false; status.textContent=""; document.getElementById("email").focus(); };
   })();
   </script>
 </body>
