@@ -68,6 +68,10 @@ jobs:
                       s = re.sub(r'(<script src="challenge-workflow-v2\.js(?:\?v=[^"]*)?"></script>)', r'\1\n<script src="ai-workflow-v2.js?v='+sha+r'"></script>', s, count=1)
                   else:
                       s = re.sub(r'src="ai-workflow-v2\.js(?:\?v=[^"]*)?"', f'src="ai-workflow-v2.js?v={sha}"', s)
+                  if 'ai-workflow-v3.js' not in s:
+                      s = re.sub(r'(<script src="ai-workflow-v2\.js(?:\?v=[^"]*)?"></script>)', r'\1\n<script src="ai-workflow-v3.js?v='+sha+r'"></script>', s, count=1)
+                  else:
+                      s = re.sub(r'src="ai-workflow-v3\.js(?:\?v=[^"]*)?"', f'src="ai-workflow-v3.js?v={sha}"', s)
               if name.endswith('admin.html') and 'submissions.html' not in s:
                   s = s.replace('<div class="row"><button id="refresh" hidden>', '<div class="row"><button class="alt" type="button" onclick="location.href=\'submissions.html\'">Здачі</button><button id="refresh" hidden>')
               p.write_text(s, encoding='utf-8')
