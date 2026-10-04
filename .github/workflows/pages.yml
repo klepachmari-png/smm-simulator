@@ -49,6 +49,8 @@ jobs:
                       s = s.replace('</body>', f'<script src="route-b-education.js?v={sha}"></script>\n</body>')
                   if 'final-funnel-fix.js' not in s:
                       s = s.replace('</body>', f'<script src="final-funnel-fix.js?v={sha}"></script>\n</body>')
+                  if 'sync-safety-v2.js' not in s:
+                      s = s.replace('</body>', f'<script src="sync-safety-v2.js?v={sha}"></script>\n</body>')
               if name.endswith('admin.html') and 'submissions.html' not in s:
                   s = s.replace('<div class="row"><button id="refresh" hidden>', '<div class="row"><button class="alt" type="button" onclick="location.href=\'submissions.html\'">Здачі</button><button id="refresh" hidden>')
               p.write_text(s, encoding='utf-8')
