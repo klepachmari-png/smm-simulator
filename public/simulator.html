@@ -722,7 +722,7 @@ function welcome(){
    '<label class="f" for="f_name">Як тебе звати?<input type="text" id="f_name" value="'+esc(S.name)+'" placeholder="Ім\'я та прізвище"></label>'+
    '<b style="font-size:.93rem">Обери трек</b>'+
    '<div class="tracks">'+
-    '<button type="button" class="track" data-track="A" aria-pressed="'+(S.track==="A")+'"><span class="tag gt">А</span><h3>Працювати з клієнтами</h3><span class="muted">Ти працюєш з вигаданою кав\'ярнею «Ранкова Лапка». Ми даємо бриф, логотип, фото, відео і всі файли. Підходить, якщо хочеш професію SMM-спеціаліста.</span></button>'+
+    '<button type="button" class="track" data-track="A" aria-pressed="'+(S.track==="A")+'"><span class="tag gt">А</span><h3>Працювати з клієнтами</h3><span class="muted">Ти працюєш з вигаданим салоном краси SENSE BEAUTY у Варшаві. Ми даємо бриф, навчальні дані та матеріали. Підходить, якщо хочеш спробувати професію SMM-спеціаліста.</span></button>'+
     '<button type="button" class="track" data-track="B" aria-pressed="'+(S.track==="B")+'"><span class="tag gt">Б</span><h3>Розвивати свою справу</h3><span class="muted">Ті самі задачі на твоєму бізнесі чи блозі. Фото і відео знімаєш свої, за нашими інструкціями.</span></button>'+
    '</div>'+
    '<div id="aboutWrap" '+(S.track==="B"?'':'hidden')+'><label class="f" for="f_about">Одним реченням: що це за справа і для кого?<input type="text" id="f_about" value="'+esc(S.about)+'" placeholder="Наприклад: манікюрна студія в Кракові для зайнятих жінок"></label></div>'+
@@ -735,7 +735,8 @@ function welcome(){
 }
 
 function dash(){
-  var html='<section class="dayhead"><span class="pill">Трек '+esc(S.track)+(S.track==="A"?' · «Ранкова Лапка»':' · власна справа')+'</span><h1>Привіт'+(S.name?', '+esc(S.name.split(" ")[0]):'')+'! <span class="gt">Твій тиждень</span></h1><p class="muted">Проходь у своєму темпі: один день — одна задача, приблизно 2 години. Наступний день відкривається, коли здано попередній. Фінальний Zoom для всіх — у суботу, 10 жовтня.</p>'+syncCard()+'</section><section class="days">';
+  var trackTitle=S.track==="A"?'А · SENSE BEAUTY':S.track==="B"?'Б · власна справа':S.track==="C"?'В · чинний SMM-спеціаліст':'маршрут не обрано';
+  var html='<section class="dayhead"><span class="pill">'+esc(trackTitle)+'</span><h1>Привіт'+(S.name?', '+esc(S.name.split(" ")[0]):'')+'! <span class="gt">Твій тиждень</span></h1><p class="muted">Проходь у своєму темпі: один день — одна задача, приблизно 2 години. Наступний день відкривається, коли здано попередній. Фінальний Zoom для всіх — у суботу, 10 жовтня.</p>'+syncCard()+'</section><section class="days">';
   DAYS.forEach(function(d,i){
     var st = S.done[i] ? "done" : (unlocked(i) ? "open" : "locked");
     var label = S.done[i] ? "✓ Здано" : (unlocked(i) ? "Відкрито" : (!dateOpen(i) ? "Відкриється "+openLabel(i) : "Закрито"));
@@ -890,7 +891,7 @@ function work(i){
 function finalView(){
   var sum=0,n=0; for(var j=0;j<4;j++){ if(v("sc"+j)!==""){sum+=+v("sc"+j);n++;} }
   return '<section class="dayhead"><div class="row"><button type="button" class="btn ghost sm" data-go="dash">← Усі дні</button></div><span class="pill">★ Фінал</span><h1>Позаду <span class="gt">увесь тиждень</span></h1><p class="muted" style="max-width:62ch">За 5 днів у тебе з\'явилися розбір брифу і ніші, аналіз конкурентів, профіль, контент-план, опублікований пост і перше відео Reels. Я перегляну всі роботи за тими самими критеріями, що й на старті, і розберу їх на фінальному Zoom.</p></section>'+
-   '<section class="grid2"><div class="card stack"><h3>Твій тиждень</h3><p>Трек: <b>'+(S.track==="A"?"А · «Ранкова Лапка»":"Б · власна справа")+'</b></p>'+DAYS.map(function(d,i){return '<p class="small">'+(i===0?"Старт":"День "+i)+' · '+d.title+': <b style="color:var(--mint)">'+(S.done[i]?"здано "+esc(S.done[i]):"—")+'</b></p>';}).join("")+'</div>'+
+   '<section class="grid2"><div class="card stack"><h3>Твій тиждень</h3><p>Трек: <b>'+(S.track==="A"?"А · SENSE BEAUTY":S.track==="B"?"Б · власна справа":S.track==="C"?"В · чинний SMM-спеціаліст":"маршрут не обрано")+'</b></p>'+DAYS.map(function(d,i){return '<p class="small">'+(i===0?"Старт":"День "+i)+' · '+d.title+': <b style="color:var(--mint)">'+(S.done[i]?"здано "+esc(S.done[i]):"—")+'</b></p>';}).join("")+'</div>'+
    '<div class="card stack"><h3>Твоя самооцінка</h3><div class="total gt">'+(n?sum+" / 12":"—")+'</div><p class="small">Після Zoom ти отримаєш особистий лист: запрошення в навчання або пояснення, чому поки ні, і що підтягнути.</p><p>'+esc(CONFIG.ZOOM_TEXT)+'</p></div></section>'+
    '<section class="row"><button type="button" class="btn ghost" data-copyall="1">Скопіювати всі мої відповіді</button>'+(CONFIG.BOT?'<a class="btn" href="https://t.me/'+esc(CONFIG.BOT)+'?start=6abfc3a54f310df5b2040566" target="_blank" rel="noopener">Повідомити в боті, що тиждень пройдено</a>':'<a class="btn" href="index.html#price">Переглянути формати навчання</a>')+'</section>';
 }
@@ -1014,7 +1015,7 @@ function reviewStart(){
     var out=[];
     for(var i=0;i<6;i++){ app.innerHTML=dayView(i); var t=dayText(i); var filled=t.split("\n").slice(6).some(function(l){ return l && !/^Самооцінка за рубрикою: .*разом 0\/12$/.test(l); }) || !!S.done[i]; out.push({i:i,t:t,filled:filled}); }
     var c=doneOf(S);
-    var h='<section class="hero">'+(ADM?'<div class="row"><a class="btn ghost sm" href="?review'+Q+'">← Усі учасники</a></div>':'')+'<span class="pill">Перегляд відповідей · лише для Маші</span><h1>'+esc(S.name||"Без імені")+'</h1><p class="muted">Трек '+esc(S.track==="A"?"А · «Ранкова Лапка»":S.track==="B"?"Б · власна справа"+(S.about?" ("+S.about+")":""):"не обрано")+' · здано '+c+' з 6 · ключ '+esc(REVIEW)+'</p></section>';
+    var h='<section class="hero">'+(ADM?'<div class="row"><a class="btn ghost sm" href="?review'+Q+'">← Усі учасники</a></div>':'')+'<span class="pill">Перегляд відповідей · лише для Маші</span><h1>'+esc(S.name||"Без імені")+'</h1><p class="muted">Трек '+esc(S.track==="A"?"А · SENSE BEAUTY":S.track==="B"?"Б · власна справа"+(S.about?" ("+S.about+")":""):S.track==="C"?"В · чинний SMM-спеціаліст":"не обрано")+' · здано '+c+' з 6 · ключ '+esc(REVIEW)+'</p></section>';
     out.forEach(function(o){
       var st=S.done[o.i]?'✓ Здано '+esc(S.done[o.i]):(o.filled?'Почато, не здано':'Ще не почато');
       h+='<section class="stack"><div class="sec-title"><i>'+(o.i===0?"S":o.i)+'</i><h2>'+(o.i===0?"Старт":"День "+o.i)+' · '+esc(DAYS[o.i].title)+'</h2></div><p class="muted">'+st+'</p>'+(o.filled?'<pre class="rvt" style="white-space:pre-wrap;margin:0;padding:16px;border-radius:16px;background:var(--card);border:1px solid var(--stroke);font:inherit;font-size:.92rem;line-height:1.55">'+esc(o.t)+'</pre><div class="row"><button class="btn ghost" type="button" data-rvc="'+o.i+'">Скопіювати</button></div>':'')+'</section>';
