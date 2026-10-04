@@ -33,7 +33,7 @@ jobs:
           sha = os.environ.get('GITHUB_SHA','dev')[:12]
           old = 'https://smm-ai-mariia-klepach.klepachmari.chatgpt.site/'
           new = 'https://klepachmari-png.github.io/smm-simulator/'
-          for name in ('public/index.html','public/simulator.html'):
+          for name in ('public/index.html','public/simulator.html','public/admin.html'):
               p = Path(name)
               s = p.read_text(encoding='utf-8')
               s = s.replace(old, new)
@@ -44,6 +44,8 @@ jobs:
                   s = re.sub(r'src="cloud\.js(?:\?v=[^"]*)?"', f'src="cloud.js?v={sha}"', s)
                   if 'sync-fix.js' not in s:
                       s = s.replace('</body>', f'<script src="sync-fix.js?v={sha}"></script>\n</body>')
+              if name.endswith('admin.html') and 'submissions.html' not in s:
+                  s = s.replace('<div class="row"><button id="refresh" hidden>', '<div class="row"><button class="alt" type="button" onclick="location.href=\'submissions.html\'">Здачі</button><button id="refresh" hidden>')
               p.write_text(s, encoding='utf-8')
           p = Path('public/cloud.js')
           s = p.read_text(encoding='utf-8')
