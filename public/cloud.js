@@ -103,9 +103,6 @@
       localStorage.setItem("smm-ai-week0-v3-" + userId, JSON.stringify(remote));
     } catch (e) {}
 
-    // The simulator creates global S before calling MKCloud.load().
-    // Make the cloud copy authoritative so a stale phone 'welcome' state
-    // cannot overwrite a real cross-device progress state.
     if (window.S && typeof window.S === "object") {
       Object.keys(window.S).forEach(function (k) { delete window.S[k]; });
       Object.keys(remote).forEach(function (k) { window.S[k] = remote[k]; });
@@ -167,11 +164,6 @@
     }, { onConflict: "user_id" }).select("data").single();
     if (r.error) throw r.error;
 
-    touch({
-      current_view: cleaned.view || "welcome",
-      completed_steps: Object.keys(cleaned.done || {}).length
-    }).catch(function () {});
-
     return { ok: true, data: r.data && r.data.data };
   }
 
@@ -222,7 +214,17 @@
   };
   window.MKCloud = api;
 
+  function loadEngagement(){
+    if(!/simulator\.html$/i.test(location.pathname) || document.getElementById('mk-engagement-script')) return;
+    var s=document.createElement('script');
+    s.id='mk-engagement-script';
+    s.src='engagement.js?v=20261004-1';
+    s.defer=true;
+    document.head.appendChild(s);
+  }
+
   api.ready.then(function () {
+    loadEngagement();
     return track("simulator_opened", { path: location.pathname, source: context().source });
   }).catch(function () {});
 })();
