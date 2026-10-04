@@ -29,7 +29,7 @@
 <link rel="stylesheet" href="story-v15.css?v=16">
 <style>html{visibility:hidden}</style>
 <script src="config.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
 <script src="cloud.js"></script>
 </head>
 <body>
@@ -571,8 +571,8 @@ function normKey(k){ return String(k||"").trim().toLowerCase().replace(/^@+/,"")
 function syncOn(){ return !TESTMODE && !!AUTH_UID && !!window.MKCloud; }
 function setSync(st){ SYNC.state=st; var el=document.getElementById("syncst"); if(el) el.textContent = st==="saving"?"зберігаю…":st==="ok"?"збережено в хмарі ✓":st==="err"?"немає зв'язку — збережу пізніше":""; }
 function schedulePush(){ if(!syncOn()||!S.key||!SYNC.ready||!SYNC.dirty) return; clearTimeout(SYNC.t); SYNC.t=setTimeout(push,1200); }
-function payload(){ var f={}; Object.keys(DF).forEach(function(k){ if(S.f[k]!==undefined) f[k]=S.f[k]; });
-  return {k:S.key, data:{name:S.name||"", track:S.track||"", about:S.about||"", done:S.done||{}, f:f, ft:S.ft||{}, updated:S.updated||0, view:S.view}}; }
+function payload(){ var f={}, ft={}; Object.keys(DF).forEach(function(k){ if(S.f[k]!==undefined) f[k]=S.f[k]; if(S.ft&&S.ft[k]!==undefined) ft[k]=S.ft[k]; });
+  return {k:S.key, data:{name:S.name||"", track:S.track||"", about:S.about||"", done:S.done||{}, f:f, ft:ft, updated:S.updated||0, view:S.view}}; }
 function push(){ if(!syncOn()||!S.key) return Promise.resolve();
   if(SYNC.busy){ clearTimeout(SYNC.t); SYNC.t=setTimeout(push,1500); return Promise.resolve(); }
   SYNC.busy=true; setSync("saving");
@@ -596,7 +596,7 @@ function pull(key){ return window.MKCloud.load().then(function(data){
   if(!URLKEY||!CONFIG.LEGACY_SYNC_URL) return null;
   var legacy=/^\d{3,}$/.test(URLKEY)?"tg"+URLKEY:"id_"+URLKEY.toLowerCase();
   return fetch(CONFIG.LEGACY_SYNC_URL+"?k="+encodeURIComponent(legacy)+"&t="+Date.now())
-    .then(function(r){return r.json();}).then(function(j){ var old=j&&j.ok?clean(j.data):null; if(old) return window.MKCloud.save(old).then(function(){return old;}); return null; })
+    .then(function(r){return r.json();}).then(function(j){ var old=j&&j.ok?clean(j.data):null; if(old) return window.MKCloud.save(old).then(function(){ try{ history.replaceState(null,"",location.pathname); }catch(e){} return old;}); return null; })
     .catch(function(){return null;});
 }); }
 function doneOf(x){ var c=0; for(var i=0;i<6;i++) if(x&&x.done&&x.done[i]) c++; return c; }
