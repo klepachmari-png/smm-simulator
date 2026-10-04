@@ -36,7 +36,7 @@
       <button class="link" id="change" type="button">Змінити email</button>
     </form>
     <p id="status" class="muted" role="status"></p>
-    <p class="note">Прогрес зберігатиметься у твоєму акаунті й відкриється на телефоні або комп’ютері після входу з тим самим email.</p>
+    <p class="note">Email — твій ключ до прогресу. Після входу відповіді зберігаються в хмарі й відкриваються на телефоні або комп’ютері.</p>
   </main>
   <script src="config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
@@ -46,8 +46,18 @@
     var ready=cfg.SUPABASE_URL&&cfg.SUPABASE_ANON_KEY&&cfg.SUPABASE_URL.indexOf("__")!==0&&cfg.SUPABASE_ANON_KEY.indexOf("__")!==0;
     if(!ready){ status.className="error"; status.textContent="Вхід ще налаштовується. Спробуй трохи пізніше."; document.getElementById("send").disabled=true; return; }
     var sb=window.supabase.createClient(cfg.SUPABASE_URL,cfg.SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true}}), currentEmail="";
-    var params=new URLSearchParams(location.search), next=/^[A-Za-z0-9._-]+$/.test(params.get("next")||"")?params.get("next"):"simulator.html", legacy=params.get("u")||"";
-    function destination(){ var url=next; if(legacy) url+=(url.indexOf("?")>=0?"&":"?")+"u="+encodeURIComponent(legacy); return url; }
+    var params=new URLSearchParams(location.search);
+    var next=/^[A-Za-z0-9._-]+$/.test(params.get("next")||"")?params.get("next"):"simulator.html";
+    var legacy=(params.get("u")||"").slice(0,80);
+    var sp=(params.get("sp_contact")||"").slice(0,160);
+    var tg=(params.get("tg")||"").slice(0,80);
+    var source=(params.get("source")||"").slice(0,80);
+    function destination(){
+      var url=next, sep=url.indexOf("?")>=0?"&":"?";
+      function add(k,v){ if(!v) return; url+=sep+k+"="+encodeURIComponent(v); sep="&"; }
+      add("u",legacy); add("sp_contact",sp); add("tg",tg); add("source",source);
+      return url;
+    }
     sb.auth.getSession().then(function(r){ if(r.data&&r.data.session){ localStorage.setItem("mk_auth_uid",r.data.session.user.id); localStorage.setItem("mk_auth_email",r.data.session.user.email||""); location.replace(destination()); }});
     document.getElementById("emailForm").onsubmit=async function(e){ e.preventDefault(); currentEmail=document.getElementById("email").value.trim().toLowerCase(); var b=document.getElementById("send"); b.disabled=true; status.className="muted"; status.textContent="Надсилаю код…";
       var r=await sb.auth.signInWithOtp({email:currentEmail,options:{shouldCreateUser:true}}); b.disabled=false;
