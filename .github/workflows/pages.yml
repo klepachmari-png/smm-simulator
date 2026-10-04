@@ -37,6 +37,9 @@ jobs:
               p = Path(name)
               s = p.read_text(encoding='utf-8')
               s = s.replace(old, new)
+              if name.endswith('index.html'):
+                  # One canonical entry point: landing -> Telegram bot -> login -> simulator.
+                  s = s.replace('a.href = "login.html?next=simulator.html";', 'a.href = "https://t.me/smm_ai_mariia_klepach_bot?start=sim_landing";')
               if name.endswith('simulator.html'):
                   s = re.sub(r'src="cloud\.js(?:\?v=[^"]*)?"', f'src="cloud.js?v={sha}"', s)
                   if 'sync-fix.js' not in s:
