@@ -25,9 +25,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-      - name: Cache-bust simulator assets
+      - name: Prepare cache-safe build
         run: |
-          sed -i "s#src=\"cloud.js\"#src=\"cloud.js?v=${GITHUB_SHA}\"#g" public/simulator.html
+          python - <<'PY'
+          import os, re
+          from pathlib import Path
+          sha = os.environ.get('GITHUB_SHA','dev')[:12]
+          p = Path('public/simulator.html')
+          s = p.read_text(encoding='utf-8')
+          s = re.sub(r'src="cloud\.js(?:\?v=[^"]*)?"', f'src="cloud.js?v={sha}"', s)
+          p.write_text(s, encoding='utf-8')
+          p = Path('public/cloud.js')
+          s = p.read_text(encoding='utf-8')
+          s = re.sub(r"s\.src='engagement\.js(?:\?v=[^']*)?'", f"s.src='engagement.js?v={sha}'", s)
+          p.write_text(s, encoding='utf-8')
+          PY
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
