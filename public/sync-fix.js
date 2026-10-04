@@ -11,12 +11,10 @@
       var user = await window.MKCloud.ready;
       if(!user || !user.id || !window.S) return;
 
-      // The authenticated Supabase user is the only sync identity.
-      // New participants previously had an empty S.key, which blocked every cloud push.
       if(!window.S.key) window.S.key = "user_" + user.id;
 
-      // Load cloud first. If cloud is empty, MKCloud.load() migrates the
-      // meaningful local progress from this browser into Supabase.
+      // Cloud is authoritative on startup. Load it first and never immediately
+      // write the pre-load local state back over it.
       var remote = await window.MKCloud.load();
 
       if(window.SYNC){
@@ -24,15 +22,14 @@
         window.SYNC.dirty = false;
       }
 
-      if(typeof window.save === "function"){
-        try{ window.save(true); }catch(e){}
-      }
-      if(typeof window.render === "function" && remote && meaningful(remote)){
-        try{ window.render(); }catch(e){}
+      if(remote && meaningful(remote)){
+        if(typeof window.render === "function"){
+          try{ window.render(); }catch(e){}
+        }
+        return;
       }
 
-      // If this browser has meaningful local state and cloud load returned
-      // nothing, persist the full current state immediately.
+      // Only if cloud is truly empty do we persist this user's local state.
       if(!remote && meaningful(window.S)){
         await window.MKCloud.save({
           name: window.S.name || "",
