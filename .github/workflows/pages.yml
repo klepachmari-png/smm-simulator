@@ -41,6 +41,12 @@ jobs:
                   s = s.replace('a.href = "login.html?next=simulator.html";', 'a.href = "https://t.me/smm_ai_mariia_klepach_bot?start=sim_landing";')
               if name.endswith('simulator.html'):
                   s = re.sub(r'src="cloud\.js(?:\?v=[^"]*)?"', f'src="cloud.js?v={sha}"', s)
+                  # Capture the authenticated user's full local state before the inline simulator runtime starts.
+                  # This prevents cloud restore from keeping the current day while dropping unsynced field answers.
+                  if 'state-integrity.js' not in s:
+                      s = re.sub(r'(<script src="cloud\.js\?v=[^"]+"></script>)', r'\1\n<script src="state-integrity.js?v='+sha+r'"></script>', s, count=1)
+                  else:
+                      s = re.sub(r'src="state-integrity\.js(?:\?v=[^"]*)?"', f'src="state-integrity.js?v={sha}"', s)
                   s = re.sub(r'src="sync-fix\.js(?:\?v=[^"]*)?"', f'src="sync-fix.js?v={sha}"', s)
                   s = re.sub(r'src="auth-ui\.js(?:\?v=[^"]*)?"', f'src="auth-ui.js?v={sha}"', s)
                   # Remove the old emergency wrapper. Its load override conflicted with the real cloud loader.
