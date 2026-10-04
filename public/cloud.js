@@ -10,12 +10,56 @@
       })
     : null;
 
+  function safeParam(name, max) {
+    try {
+      var v = (new URLSearchParams(location.search).get(name) || "").trim();
+      return v.slice(0, max || 200);
+    } catch (e) { return ""; }
+  }
+
+  function context() {
+    return {
+      sendpulse_contact_id: safeParam("sp_contact", 160),
+      telegram_id: safeParam("tg", 80),
+      source: safeParam("source", 80) || "web"
+    };
+  }
+
+  function appendContext(url) {
+    var c = context();
+    var sep = url.indexOf("?") >= 0 ? "&" : "?";
+    if (c.sendpulse_contact_id) { url += sep + "sp_contact=" + encodeURIComponent(c.sendpulse_contact_id); sep = "&"; }
+    if (c.telegram_id) { url += sep + "tg=" + encodeURIComponent(c.telegram_id); sep = "&"; }
+    if (c.source) { url += sep + "source=" + encodeURIComponent(c.source); }
+    return url;
+  }
+
   function loginUrl() {
     var next = location.pathname.split("/").pop() || "simulator.html";
     var params = new URLSearchParams(location.search);
     var url = "login.html?next=" + encodeURIComponent(next);
     if (params.get("u")) url += "&u=" + encodeURIComponent(params.get("u"));
+    var c = context();
+    if (c.sendpulse_contact_id) url += "&sp_contact=" + encodeURIComponent(c.sendpulse_contact_id);
+    if (c.telegram_id) url += "&tg=" + encodeURIComponent(c.telegram_id);
+    if (c.source) url += "&source=" + encodeURIComponent(c.source);
     return url;
+  }
+
+  async function touch(extra) {
+    if (!client) return null;
+    var c = context();
+    extra = extra || {};
+    var result = await client.rpc("touch_participant", {
+      p_sendpulse_contact_id: extra.sendpulse_contact_id || c.sendpulse_contact_id || null,
+      p_telegram_id: extra.telegram_id || c.telegram_id || null,
+      p_source: extra.source || c.source || null,
+      p_current_view: extra.current_view || null,
+      p_completed_steps: Number.isFinite(extra.completed_steps) ? extra.completed_steps : null,
+      p_metadata: extra.metadata || null
+    });
+    if (result.error) throw result.error;
+    return result.data;
   }
 
   async function requireUser() {
@@ -30,6 +74,9 @@
     }
     localStorage.setItem("mk_auth_uid", session.user.id);
     localStorage.setItem("mk_auth_email", session.user.email || "");
+    touch({ metadata: { user_agent: navigator.userAgent.slice(0, 300) } }).catch(function (e) {
+      console.warn("MKCloud touch failed", e);
+    });
     document.documentElement.style.visibility = "visible";
     return session.user;
   }
@@ -54,11 +101,14 @@
     ready: requireUser(),
     load: load,
     save: save,
+    touch: touch,
+    context: context,
+    appendContext: appendContext,
     signOut: async function () {
       if (client) await client.auth.signOut();
       localStorage.removeItem("mk_auth_uid");
       localStorage.removeItem("mk_auth_email");
-      location.replace("login.html");
+      location.replace(appendContext("login.html"));
     }
   };
   window.MKCloud = api;
