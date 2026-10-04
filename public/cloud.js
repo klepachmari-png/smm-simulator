@@ -64,19 +64,6 @@
     return !!(s && (s.name || s.track || s.about || Object.keys(s.f || {}).length || Object.keys(s.done || {}).length || (s.view && s.view !== "welcome")));
   }
 
-  function readState(key) {
-    try {
-      var raw = localStorage.getItem(key);
-      return raw ? compactState(JSON.parse(raw)) : null;
-    } catch (e) { return null; }
-  }
-
-  function localStateForUser(userId) {
-    // Never read another participant's legacy/unscoped localStorage.
-    // Authenticated Supabase user id is the only local progress identity.
-    return readState("smm-ai-week0-v3-" + userId);
-  }
-
   function mergeState(existing, incoming) {
     var e = compactState(existing) || { name:"", track:"", about:"", f:{}, ft:{}, done:{}, updated:0, view:"welcome" };
     var n = compactState(incoming) || { name:"", track:"", about:"", f:{}, ft:{}, done:{}, updated:0, view:"welcome" };
@@ -195,17 +182,10 @@
       return applyRemoteToRuntime(user.id, r.data.data);
     }
 
-    var local = localStateForUser(user.id);
-    if (meaningfulState(local)) {
-      var migrated = await directSave(user, local);
-      var saved = compactState((migrated && migrated.data) || local);
-      applyRemoteToRuntime(user.id, saved);
-      track("local_progress_migrated", {
-        view: saved.view || "welcome",
-        completed_steps: Object.keys(saved.done || {}).length
-      }).catch(function () {});
-      return saved;
-    }
+    // For an authenticated account, cloud is the startup authority.
+    // If this user has no cloud progress, start fresh. Do NOT import any
+    // browser-local state automatically: that can belong to another account
+    // or to an old test session in the same Chrome profile.
     return null;
   }
 
