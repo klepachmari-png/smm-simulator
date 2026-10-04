@@ -48,7 +48,7 @@
 
   function compactState(raw) {
     if (!raw || typeof raw !== "object") return null;
-    var out = {
+    return {
       name: typeof raw.name === "string" ? raw.name : "",
       track: typeof raw.track === "string" ? raw.track : "",
       about: typeof raw.about === "string" ? raw.about : "",
@@ -58,31 +58,59 @@
       updated: Number(raw.updated || 0),
       view: typeof raw.view === "string" ? raw.view : "welcome"
     };
-    return out;
   }
 
   function meaningfulState(state) {
     if (!state) return false;
-    return !!(
-      state.name ||
-      state.track ||
-      state.about ||
-      Object.keys(state.f || {}).length ||
-      Object.keys(state.done || {}).length ||
-      (state.view && state.view !== "welcome")
-    );
+    return !!(state.name || state.track || state.about ||
+      Object.keys(state.f || {}).length || Object.keys(state.done || {}).length ||
+      (state.view && state.view !== "welcome"));
+  }
+
+  function scoreState(s) {
+    if (!meaningfulState(s)) return -1;
+    return (Object.keys(s.done || {}).length * 1000000) +
+      (Object.keys(s.f || {}).length * 1000) +
+      (Number(s.updated || 0));
+  }
+
+  function readState(key) {
+    try {
+      var raw = localStorage.getItem(key);
+      return raw ? compactState(JSON.parse(raw)) : null;
+    } catch (e) { return null; }
   }
 
   function localStateForUser(userId) {
+    var candidates = [];
+    var exactKey = "smm-ai-week0-v3-" + userId;
+    candidates.push({ key: exactKey, state: readState(exactKey), priority: 100 });
+
+    // Known legacy keys used by earlier simulator builds before Supabase auth.
+    ["smm-ai-week0-v2", "smm-ai-week0-v3", "smm-ai-week0-v3-", "smm-ai-week0-v1"].forEach(function (key) {
+      candidates.push({ key: key, state: readState(key), priority: 50 });
+    });
+
+    // Safe fallback: only generic simulator keys, never another user's UUID-specific key.
     try {
-      var exactKey = "smm-ai-week0-v3-" + userId;
-      var raw = localStorage.getItem(exactKey);
-      if (!raw) return null;
-      return compactState(JSON.parse(raw));
-    } catch (e) {
-      console.warn("MKCloud local migration read failed", e);
-      return null;
-    }
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i) || "";
+        if (/^smm-ai-week0-v[12]$/.test(k) || /^smm-ai-week0-v3$/.test(k)) {
+          if (!candidates.some(function (x) { return x.key === k; })) {
+            candidates.push({ key: k, state: readState(k), priority: 40 });
+          }
+        }
+      }
+    } catch (e) {}
+
+    var best = null;
+    candidates.forEach(function (c) {
+      if (!meaningfulState(c.state)) return;
+      var rank = c.priority * 10000000000000 + scoreState(c.state);
+      if (!best || rank > best.rank) best = { key: c.key, state: c.state, rank: rank };
+    });
+    if (best) console.info("MKCloud: legacy progress found in", best.key);
+    return best ? best.state : null;
   }
 
   async function touch(extra) {
@@ -154,20 +182,14 @@
     if (result.error) throw result.error;
     if (result.data && result.data.data) return compactState(result.data.data);
 
-    // One-time safe migration: if this device already has real progress for
-    // the same authenticated Supabase user, upload it before returning.
     var local = localStateForUser(user.id);
     if (meaningfulState(local)) {
-      try {
-        var migrated = await save(local);
-        await track("local_progress_migrated", {
-          view: local.view || "welcome",
-          completed_steps: Object.keys(local.done || {}).length
-        }).catch(function () {});
-        return compactState((migrated && migrated.data) || local);
-      } catch (e) {
-        console.warn("MKCloud local migration failed", e);
-      }
+      var migrated = await save(local);
+      await track("local_progress_migrated", {
+        view: local.view || "welcome",
+        completed_steps: Object.keys(local.done || {}).length
+      }).catch(function () {});
+      return compactState((migrated && migrated.data) || local);
     }
     return null;
   }
