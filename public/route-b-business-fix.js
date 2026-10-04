@@ -7,6 +7,18 @@
   var BOT_LINK = "https://t.me/smm_ai_mariia_klepach_bot";
   var PROGRAM_LINK = "index.html#program";
 
+  function doneCountSafe(){ return typeof window.doneCount === "function" ? window.doneCount() : Object.keys((window.S&&window.S.done)||{}).length; }
+  function canOpenFinal(){ return doneCountSafe() >= 6; }
+  function patchLegacyFinal(html){
+    html = String(html || "");
+    html = html.replace(/https:\/\/t\.me\/smm_ai_mariia_klepach_bot\?start=6abfc3a54f310df5b2040566/g, ZOOM_CHANNEL);
+    html = html.replace(/https:\/\/t\.me\/smm_ai_mariia_klepach_bot\?start=6abfc4bbb2d1a4a7430d1931/g, BOT_LINK);
+    html = html.replace(/>Отримати доступ до Zoom 10 жовтня</g, '>Приєднатися до Zoom-каналу<');
+    html = html.replace(/>Доєднатися до Zoom 10 жовтня</g, '>Приєднатися до Zoom-каналу<');
+    html = html.replace(/href="index\.html#price"/g, 'href="'+PROGRAM_LINK+'"');
+    return html;
+  }
+
   function isB(){ return window.S && window.S.track === "B"; }
   function E(s){ return typeof window.esc === "function" ? window.esc(s) : String(s==null?"":s).replace(/[&<>\"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
   function val(k){ return typeof window.v === "function" ? window.v(k) : ((window.S&&window.S.f&&window.S.f[k])||""); }
@@ -50,13 +62,20 @@
   function allBContext(){
     var keys = [
       ["Проєкт","b0_project"],["Тип","b0_type"],["Країна/місто","b0_city"],["Що продає","b0_sell"],["Пріоритетний продукт","b0_first_product"],["Ціна","b0_price"],["Звідки зараз клієнти","b0_clients_now"],["Соцмережі","b0_socials"],["Що не працює","b0_not_working"],["Бажаний результат","b0_result"],
-      ["Бізнес-ціль","b1_business_goal"],["Маркетингова ціль","b1_marketing_goal"],["Контентна задача","b1_content_task"],["Картка продукту","b1_product_card"],["Формула задачі","b1_formula"],
+      ["Бізнес-ціль","b1_business_goal"],["Маркетингова ціль","b1_marketing_goal"],["Контентна задача","b1_content_task"],["Картка продукту","b1_product_card"],["Конкурентоспроможність","b1_compete"],["Формула задачі","b1_formula"],
       ["Хто вже купує","b2_buyers"],["Сегмент 1","b2_seg1"],["Сегмент 2","b2_seg2"],["Сегмент 3","b2_seg3"],
       ["Позиціонування","b3_positioning"],["Офер","b3_offer"],["Докази","b3_proofs"],
       ["Аудит профілю","b4_audit"],["Контент 1","b4_content1"],["Контент 2","b4_content2"],["Контент 3","b4_content3"],
       ["30-денний план","b5_plan"],["AI-задачі","b5_ai_tasks"],["Що перевірити додатково","b5_check_more"]
     ];
-    return keys.map(function(x){return contextLine(x[0],x[1]);}).join("\n");
+    var out = keys.map(function(x){return contextLine(x[0],x[1]);});
+    for(var n=1;n<=3;n++){
+      out.push("Таблиця пропозиції · сегмент "+n+": "+[
+        val("b3_t"+n+"_seg"), val("b3_t"+n+"_sit"), val("b3_t"+n+"_prop"),
+        val("b3_t"+n+"_why"), val("b3_t"+n+"_proof"), val("b3_t"+n+"_action")
+      ].join(" | "));
+    }
+    return out.join("\n");
   }
 
   function bWork(i){
@@ -141,7 +160,7 @@
     }
     if(i===5){
       h += sec("5","30 днів системи + AI","work");
-      h += benefit("щоб не створювати контент хаотично й не починати кожен день з питання «що викласти?».","ти побачиш, які функції має виконувати контент і що можна автоматизувати.","план на 30 днів, список задач для AI і фінальний промпт без повторного збору даних.","AI може зробити таблицю і чернетки, але не має вигадувати відгуки, ціни, гарантії чи результати. ");
+      h += benefit("щоб не створювати контент хаотично й не починати кожен день з питання «що викласти?». ","ти побачиш, які функції має виконувати контент і що можна автоматизувати.","план на 30 днів, список задач для AI і фінальний промпт без повторного збору даних.","AI може зробити таблицю і чернетки, але не має вигадувати відгуки, ціни, гарантії чи результати. ");
       h += card("Пояснення",
         '<p>Контент має виконувати функції: продавати, пояснювати, доводити, будувати довіру, навігувати, залучати і повертати людину до дії.</p>'+ 
         '<p>AI можна дати рутину: структурувати бриф, зібрати таблицю конкурентів, групувати питання клієнтів, шукати повторювані теми, створювати чернетки сценаріїв, адаптувати одну ідею під кілька платформ, формувати контент-план, готувати звіт, створювати документи й таблиці, контролювати повторювані задачі.</p>'+ 
@@ -151,7 +170,7 @@
         f("b5_ai_tasks","Що автоматизувати через AI","таблиці, сценарії, адаптації, звіти, контроль повторюваних задач",{h:110})+
         f("b5_check_more","Що треба додатково перевірити","факти, ціни, конкурентів, попит, відгуки, процес продажу, аналітику",{h:110})+
       '</div>';
-      h += prompt("Фінальний AI-промпт на основі всіх твоїх відповідей",function(){return "Ти — мій навчальний AI-асистент із маркетингу. Пиши українською, просто, через конкретні приклади. Не вигадуй фактів, цитат, доходів, гарантій, властивостей або відгуків. Чітко розділяй: дані з моїх відповідей, висновки, гіпотези, що потрібно перевірити.\n\nОсь усі мої дані зі старту і п’яти днів:\n\n"+allBContext()+"\n\nЗадача: склади для мого проєкту основу системи просування на 30 днів. Дай структуру: 1) коротка суть проєкту; 2) продукт і задача просування; 3) 2–3 сегменти; 4) пропозиція для пріоритетного сегмента; 5) шлях клієнта; 6) що виправити в профілі; 7) три контентні напрямки; 8) план на 30 днів; 9) що автоматизувати через AI; 10) що треба перевірити додатково. Якщо даних не вистачає — не вигадуй, а постав до 5 конкретних питань.";});
+      h += prompt("Фінальний AI-промпт на основі всіх твоїх відповідей",function(){return "Ти — мій навчальний AI-асистент із маркетингу. Пиши українською, просто, через конкретні приклади. Не вигадуй фактів, цитат, доходів, гарантій, властивостей або відгуків. Чітко розділяй: дані з моїх відповідей, висновки, гіпотези, що потрібно перевірити.\n\nОсь усі мої дані зі старту і п’яти днів:\n\n"+allBContext()+"\n\nЗадача: склади для мого проєкту основу системи просування на 30 днів. Дай структуру: 1) коротка суть проєкту; 2) продукт і задача просування; 3) 2–3 сегменти; 4) пропозиція для пріоритетного сегмента; 5) шлях клієнта; 6) що виправити в профілі; 7) три контентні напрямки; 8) план на 30 днів; 9) що автоматизувати через AI; 10) що треба перевірити додатково. Не проси мене повторювати дані, які вже є вище. Якщо чогось не вистачає — не вигадуй і не став повторних запитань: познач «НЕМАЄ ДАНИХ» та винеси це в пункт «Що потрібно додатково перевірити / дозібрати».";});
     }
     return h;
   }
@@ -190,13 +209,16 @@
       '<section class="grid2"><div class="card stack"><h3>Що вже зібрано</h3><p>✓ основа стратегії</p><p>✓ 2–3 сегменти</p><p>✓ пропозиція</p><p>✓ шлях клієнта</p><p>✓ аудит профілю</p><p>✓ три контентні напрямки</p><p>✓ план на 30 днів</p><p>✓ задачі для AI і список перевірок</p></div><div class="card stack"><h3>Фінальний AI-контекст</h3><p class="small">У фінальному промпті Дня 5 уже зібрані відповіді зі старту та всіх днів. ChatGPT не має просити ці дані повторно.</p><button type="button" class="btn ghost" data-copyall="1">Скопіювати всі мої відповіді</button></div></section>'+ 
       '<section class="row"><button type="button" class="btn lime" id="mk-submit-system">Здати систему Марії</button><a class="btn ghost" href="'+PROGRAM_LINK+'">Подивитися програму</a><a class="btn" href="'+ZOOM_CHANNEL+'" target="_blank" rel="noopener">Приєднатися до Zoom-каналу</a></section>';
     }
-    return '<section class="dayhead"><div class="row"><button type="button" class="btn ghost sm" data-go="dash">← Усі дні</button></div><span class="pill">★ Фінал</span><h1>Позаду <span class="gt">увесь тиждень</span></h1><p class="muted" style="max-width:62ch">За 5 днів у тебе з\'явилися відповіді, практичні завдання і перша система дій. Марія бачить твою роботу в архіві й може дати особистий фідбек.</p></section>'+ 
-      '<section class="grid2"><div class="card stack"><h3>Твій тиждень</h3><p>Трек: <b>'+(window.S.track==="A"?"А · «Ранкова Лапка»":"Б · власна справа")+'</b></p>'+((window.DAYS||[]).map(function(d,i){return '<p class="small">'+(i===0?"Старт":"День "+i)+' · '+d.title+': <b style="color:var(--mint)">'+(window.S.done&&window.S.done[i]?"здано "+E(window.S.done[i]):"—")+'</b></p>';}).join(""))+'</div>'+ 
-      '<div class="card stack"><h3>Наступний крок</h3><p>Приєднуйся до Zoom-каналу, дивись програму або напиши Марії в бот.</p></div></section>'+ 
-      '<section class="row"><button type="button" class="btn ghost" data-copyall="1">Скопіювати всі мої відповіді</button><a class="btn ghost" href="'+PROGRAM_LINK+'">Подивитися програму</a><a class="btn" href="'+ZOOM_CHANNEL+'" target="_blank" rel="noopener">Приєднатися до Zoom-каналу</a><a class="btn ghost" href="'+BOT_LINK+'" target="_blank" rel="noopener">Написати Марії</a></section>';
+    return patchLegacyFinal(oldFinal ? oldFinal() : "");
   };
 
   document.addEventListener("click", function(e){
+    var finalBtn = e.target.closest && e.target.closest("[data-final],[data-v8final],[data-v9final]");
+    if(finalBtn && !canOpenFinal()){
+      e.preventDefault(); e.stopPropagation(); if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+      toast("Фінал відкриється після завершення всіх 6 кроків");
+      return false;
+    }
     var submit = e.target.closest && e.target.closest("[data-submit]");
     if(submit && isB()){
       e.preventDefault(); e.stopPropagation(); if(e.stopImmediatePropagation) e.stopImmediatePropagation();
@@ -240,6 +262,25 @@
     }catch(e){ btn.disabled=false; toast("Не вдалося здати систему. Спробуй ще раз."); }
   }
 
+  var renderBeforeGuard = window.render;
+  if(typeof renderBeforeGuard === "function"){
+    window.render = function(){
+      if(window.S && window.S.view === "final" && !canOpenFinal()){
+        window.S.view = "dash";
+        try{ if(typeof window.save === "function") window.save(true); }catch(e){}
+      }
+      var out = renderBeforeGuard.apply(this, arguments);
+      if(!canOpenFinal()){
+        document.querySelectorAll("[data-final],[data-v8final],[data-v9final]").forEach(function(b){
+          b.setAttribute("aria-disabled","true");
+          b.classList.add("locked");
+          var st=b.querySelector&&b.querySelector(".st"); if(st) st.textContent="Після Дня 5";
+        });
+      }
+      return out;
+    };
+  }
+
   if(window.CONFIG){
     window.CONFIG.ZOOM_TEXT = "Фінальний Zoom — у Zoom-каналі.";
     window.CONFIG.CALL_URL = ZOOM_CHANNEL;
@@ -248,6 +289,10 @@
   }
 
   setTimeout(function(){
+    if(window.S && window.S.view === "final" && !canOpenFinal()){
+      window.S.view = "dash";
+      try{ if(typeof window.save === "function") window.save(true); }catch(e){}
+    }
     if((isB() || (window.S && window.S.view === "final")) && typeof window.render === "function") noJumpRender();
   },0);
 })();
