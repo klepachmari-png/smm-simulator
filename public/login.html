@@ -43,19 +43,25 @@
   <script>
   (function(){
     var cfg=window.MK_CONFIG||{}, status=document.getElementById("status");
-    var ready=cfg.SUPABASE_URL&&cfg.SUPABASE_ANON_KEY&&cfg.SUPABASE_URL.indexOf("__")!==0&&cfg.SUPABASE_ANON_KEY.indexOf("__")!==0;
-    if(!ready){ status.className="error"; status.textContent="Вхід ще налаштовується. Спробуй трохи пізніше."; document.getElementById("send").disabled=true; return; }
-    var sb=window.supabase.createClient(cfg.SUPABASE_URL,cfg.SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true}}), currentEmail="";
     var params=new URLSearchParams(location.search);
     var next=/^[A-Za-z0-9._-]+$/.test(params.get("next")||"")?params.get("next"):"simulator.html";
     var legacy=(params.get("u")||"").slice(0,80);
     var sp=(params.get("sp_contact")||"").slice(0,160);
     var tg=(params.get("tg")||"").slice(0,80);
     var source=(params.get("source")||"").slice(0,80);
+
+    if(!source && !sp && !tg){
+      location.replace("https://tg.pulse.is/smm_ai_mariia_klepach_bot?start=sim_landing&utm_source=landing&utm_medium=site&utm_campaign=free_simulator");
+      return;
+    }
+
+    var ready=cfg.SUPABASE_URL&&cfg.SUPABASE_ANON_KEY&&cfg.SUPABASE_URL.indexOf("__")!==0&&cfg.SUPABASE_ANON_KEY.indexOf("__")!==0;
+    if(!ready){ status.className="error"; status.textContent="Вхід ще налаштовується. Спробуй трохи пізніше."; document.getElementById("send").disabled=true; return; }
+    var sb=window.supabase.createClient(cfg.SUPABASE_URL,cfg.SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true}}), currentEmail="";
     function destination(){
       var url=next, sep=url.indexOf("?")>=0?"&":"?";
       function add(k,v){ if(!v) return; url+=sep+k+"="+encodeURIComponent(v); sep="&"; }
-      add("u",legacy); add("sp_contact",sp); add("tg",tg); add("source",source);
+      add("u",legacy); add("sp_contact",sp); add("tg",tg); add("source",source||"direct");
       return url;
     }
     sb.auth.getSession().then(function(r){ if(r.data&&r.data.session){ localStorage.setItem("mk_auth_uid",r.data.session.user.id); localStorage.setItem("mk_auth_email",r.data.session.user.email||""); location.replace(destination()); }});
