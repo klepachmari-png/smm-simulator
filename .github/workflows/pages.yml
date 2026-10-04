@@ -65,13 +65,12 @@ jobs:
                   else:
                       s = re.sub(r'src="challenge-workflow-v2\.js(?:\?v=[^"]*)?"', f'src="challenge-workflow-v2.js?v={sha}"', s)
 
-                  # Remove obsolete AI workflow versions. Their capture listeners could intercept clicks
-                  # before the newest workflow and copy an older prompt.
-                  s = re.sub(r'\s*<script src="ai-workflow-v[234]\.js(?:\?v=[^"]*)?"></script>', '', s)
-                  if 'ai-workflow-v5.js' not in s:
-                      s = re.sub(r'(<script src="challenge-workflow-v2\.js(?:\?v=[^"]*)?"></script>)', r'\1\n<script src="ai-workflow-v5.js?v='+sha+r'"></script>', s, count=1)
+                  # One AI prompt owner only. Older capture listeners must never ship.
+                  s = re.sub(r'\s*<script src="ai-workflow-v[2345]\.js(?:\?v=[^"]*)?"></script>', '', s)
+                  if 'ai-workflow-v6.js' not in s:
+                      s = re.sub(r'(<script src="challenge-workflow-v2\.js(?:\?v=[^"]*)?"></script>)', r'\1\n<script src="ai-workflow-v6.js?v='+sha+r'"></script>', s, count=1)
                   else:
-                      s = re.sub(r'src="ai-workflow-v5\.js(?:\?v=[^"]*)?"', f'src="ai-workflow-v5.js?v={sha}"', s)
+                      s = re.sub(r'src="ai-workflow-v6\.js(?:\?v=[^"]*)?"', f'src="ai-workflow-v6.js?v={sha}"', s)
               if name.endswith('admin.html') and 'submissions.html' not in s:
                   s = s.replace('<div class="row"><button id="refresh" hidden>', '<div class="row"><button class="alt" type="button" onclick="location.href=\'submissions.html\'">Здачі</button><button id="refresh" hidden>')
               p.write_text(s, encoding='utf-8')
