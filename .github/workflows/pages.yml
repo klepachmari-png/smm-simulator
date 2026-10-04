@@ -60,9 +60,12 @@ jobs:
                       s = s.replace('</body>', f'<script src="final-funnel-fix.js?v={sha}"></script>\n</body>')
                   if 'route-state-guard.js' not in s:
                       s = s.replace('</body>', f'<script src="route-state-guard.js?v={sha}"></script>\n</body>')
-                  # The AI workflow must load after story-course.js so it can replace the generic prompt/button logic.
+                  if 'challenge-workflow-v2.js' not in s:
+                      s = re.sub(r'(<script src="story-course\.js(?:\?v=[^"]*)?"></script>)', r'\1\n<script src="challenge-workflow-v2.js?v='+sha+r'"></script>', s, count=1)
+                  else:
+                      s = re.sub(r'src="challenge-workflow-v2\.js(?:\?v=[^"]*)?"', f'src="challenge-workflow-v2.js?v={sha}"', s)
                   if 'ai-workflow-v2.js' not in s:
-                      s = re.sub(r'(<script src="story-course\.js(?:\?v=[^"]*)?"></script>)', r'\1\n<script src="ai-workflow-v2.js?v='+sha+r'"></script>', s, count=1)
+                      s = re.sub(r'(<script src="challenge-workflow-v2\.js(?:\?v=[^"]*)?"></script>)', r'\1\n<script src="ai-workflow-v2.js?v='+sha+r'"></script>', s, count=1)
                   else:
                       s = re.sub(r'src="ai-workflow-v2\.js(?:\?v=[^"]*)?"', f'src="ai-workflow-v2.js?v={sha}"', s)
               if name.endswith('admin.html') and 'submissions.html' not in s:
