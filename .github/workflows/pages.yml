@@ -3,6 +3,7 @@ name: Deploy MK SMM to GitHub Pages
 on:
   push:
     branches:
+      - main
       - rebuild-email-login
   workflow_dispatch:
 
