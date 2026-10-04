@@ -43,14 +43,10 @@
   }
 
   async function save(data) {
-    var user = await api.ready;
-    var result = await client.from("simulator_progress").upsert({
-      user_id: user.id,
-      data: data,
-      updated_at: new Date().toISOString()
-    }, { onConflict: "user_id" });
+    await api.ready;
+    var result = await client.rpc("save_simulator_progress", { p_data: data });
     if (result.error) throw result.error;
-    return { ok: true };
+    return { ok: true, data: result.data };
   }
 
   var api = {
